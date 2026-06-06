@@ -1,0 +1,33 @@
+<section class="products">
+    <h2>// Products</h2>
+    <div class="product-grid">
+        {{ range .Site.RegularPages }}
+            {{ if .Params.product }}
+            <div class="product-card">
+                {{ if .Params.icon }}
+                <div class="product-icon">
+                    {{ if .Params.icon_emoji }}
+                    <span class="icon-emoji">{{ .Params.icon_emoji }}</span>
+                    {{ else if .Params.icon_image }}
+                    <img src="{{ relURL (printf "images/%s" .Params.icon_image) }}" alt="{{ .Title }}">
+                    {{ end }}
+                </div>
+                {{ end }}
+                <h3>{{ .Title }}</h3>
+                <p>{{ .Params.description }}</p>
+                <div class="product-links">
+                    {{ if .Params.github }}
+                    <a href="{{ .Params.github }}" target="_blank" rel="noopener">[GitHub]</a>
+                    {{ end }}
+                    {{ if .Params.download }}
+                    <a href="{{ .Params.download }}" target="_blank" rel="noopener">[Download]</a>
+                    {{ end }}
+                    {{ if .Params.coming_soon }}
+                    <span class="coming-soon">[Coming Soon]</span>
+                    {{ end }}
+                </div>
+            </div>
+            {{ end }}
+        {{ end }}
+    </div>
+</section>

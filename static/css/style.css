@@ -1,0 +1,221 @@
+/* Terminal-inspired CSS for SHUKE Labs */
+
+:root {
+    --bg-color: #0a0a0a;
+    --text-color: #00ff00;
+    --text-dim: #008800;
+    --border-color: #00ff00;
+    --accent-color: #ffb000;
+    --link-color: #00cc00;
+    --link-hover: #00ff00;
+    --card-bg: #111;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'JetBrains Mono', 'Fira Code', 'Consolas', 'Monaco', 'Courier New', monospace;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    line-height: 1.6;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.container {
+    flex: 1;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem 1rem;
+    width: 100%;
+}
+
+/* Hero Section */
+.hero {
+    text-align: center;
+    padding: 3rem 1rem;
+    margin-bottom: 2rem;
+}
+
+.ascii-border {
+    display: inline-block;
+    text-align: left;
+    font-size: clamp(0.7rem, 2vw, 1rem);
+    line-height: 1.4;
+    color: var(--text-color);
+    white-space: pre;
+    overflow-x: auto;
+}
+
+.logo {
+    font-size: 1.2em;
+    font-weight: bold;
+    color: var(--accent-color);
+}
+
+.tagline {
+    color: var(--text-dim);
+}
+
+/* Products Section */
+.products {
+    margin-bottom: 3rem;
+}
+
+.products h2 {
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
+    color: var(--accent-color);
+    border-bottom: 1px dashed var(--border-color);
+    padding-bottom: 0.5rem;
+}
+
+.product-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+}
+
+.product-card {
+    background: var(--card-bg);
+    border: 1px solid var(--text-dim);
+    padding: 1.5rem;
+    transition: border-color 0.2s;
+}
+
+.product-card:hover {
+    border-color: var(--border-color);
+}
+
+.product-icon {
+    text-align: center;
+    margin-bottom: 1rem;
+}
+
+.product-icon img {
+    max-width: 64px;
+    max-height: 64px;
+    image-rendering: pixelated;
+}
+
+.icon-emoji {
+    font-size: 3rem;
+    display: block;
+}
+
+.product-card h3 {
+    font-size: 1.1rem;
+    margin-bottom: 0.75rem;
+    color: var(--text-color);
+}
+
+.product-card p {
+    font-size: 0.9rem;
+    color: var(--text-dim);
+    margin-bottom: 1rem;
+    line-height: 1.5;
+}
+
+.product-links {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.product-links a {
+    color: var(--link-color);
+    text-decoration: none;
+    font-size: 0.85rem;
+}
+
+.product-links a:hover {
+    color: var(--link-hover);
+    text-decoration: underline;
+}
+
+.coming-soon {
+    color: var(--text-dim);
+    font-style: italic;
+}
+
+/* Learn Section */
+.learn {
+    margin-bottom: 3rem;
+}
+
+.learn h2 {
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
+    color: var(--accent-color);
+    border-bottom: 1px dashed var(--border-color);
+    padding-bottom: 0.5rem;
+}
+
+.learn-content {
+    text-align: center;
+}
+
+.coming-soon-box {
+    display: inline-block;
+    text-align: left;
+    font-size: clamp(0.6rem, 1.5vw, 0.8rem);
+    line-height: 1.4;
+    color: var(--text-dim);
+    white-space: pre;
+    margin-top: 1rem;
+}
+
+.blink {
+    animation: blink 1s step-end infinite;
+}
+
+@keyframes blink {
+    50% { opacity: 0; }
+}
+
+/* Footer */
+footer {
+    text-align: center;
+    padding: 2rem 1rem;
+    margin-top: auto;
+}
+
+.footer-border {
+    display: inline-block;
+    text-align: left;
+    font-size: clamp(0.6rem, 1.5vw, 0.75rem);
+    line-height: 1.4;
+    color: var(--text-dim);
+    white-space: pre;
+    overflow-x: auto;
+}
+
+footer a {
+    color: var(--link-color);
+    text-decoration: none;
+}
+
+footer a:hover {
+    color: var(--link-hover);
+    text-decoration: underline;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+    .container {
+        padding: 1rem;
+    }
+
+    .hero {
+        padding: 2rem 0;
+    }
+
+    .product-grid {
+        grid-template-columns: 1fr;
+    }
+}

@@ -1,0 +1,12 @@
+baseURL = 'https://github.com/SHUKE-LABS/shuke-labs'
+languageCode = 'en-us'
+title = 'SHUKE Labs Ltd'
+theme = ''
+
+[minify]
+  disableCSS = false
+  disableHTML = false
+  disableJS = false
+  disableJSON = false
+  disableXML = false
+  minifyOutput = true
