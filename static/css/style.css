@@ -182,13 +182,9 @@ body {
     text-align: center;
 }
 
-.coming-soon-box {
-    display: inline-block;
-    text-align: left;
+.coming-soon-ascii-box {
     font-size: clamp(0.6rem, 1.5vw, 0.8rem);
-    line-height: 1.4;
     color: var(--text-dim);
-    white-space: pre;
     margin-top: 1rem;
 }
 
