@@ -5,11 +5,40 @@ tagline: "You never forget it."
 product: true
 weight: 6
 icon_image: "newwords.png"
+github: "https://github.com/shukebeta/new_words"
 coming_soon: true
 ---
 
-一个不一样的记生词的app。
+**NewWords** lets you capture words as you encounter them, review them through spaced repetition, and reinforce them with AI-generated stories — all from a single cross-platform app.
 
-A different approach to learning and remembering new vocabulary. Designed for language learners who want a fresh way to track and master vocabulary.
+## The problem
 
-Coming soon to app stores.
+Generic flashcard apps get three things wrong:
+
+- **Context loss** — words are saved with bare definitions, not with the sentence you first heard them in
+- **Passive review** — fixed schedules drill you on words whether you're about to forget them or not
+- **Isolated drilling** — flash cards don't help a word stick in real language; stories do
+
+## Features
+
+```
+Vocabulary
+ ├─ add word ──────────→ AI explanation + examples saved immediately
+ ├─ word list ─────────→ paginated list, delete, mark for review
+ └─ word detail ───────→ full explanation, TTS pronunciation
+
+Memory (spaced repetition)
+ ├─ daily practice ────→ due words surfaced automatically
+ └─ review session ────→ mark known/unknown, reschedule accordingly
+
+Stories
+ ├─ generate ──────────→ AI writes a short story using your recent words
+ ├─ library ───────────→ browse and re-read generated stories
+ └─ reading progress ──→ track position across sessions
+```
+
+## Platforms
+
+Android · iOS · Web
+
+Available on Android now. iOS and Web coming soon.
