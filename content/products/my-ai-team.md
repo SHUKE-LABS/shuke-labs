@@ -1,5 +1,5 @@
 ---
-title: "my-ai-team"
+title: "My AI Team"
 description: "You open a ticket. Agents handle the rest."
 tagline: "Claim → implement → PR → notify. No babysitting required."
 product: true

@@ -1,5 +1,5 @@
 ---
-title: "agent-quota-gateway"
+title: "Agent Quota Gateway"
 description: "One agent burnout shouldn't stop the pipeline."
 tagline: "Auto-rotate accounts. Keep shipping."
 product: true

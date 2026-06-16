@@ -1,5 +1,5 @@
 ---
-title: "credential-gateway"
+title: "Credential Gateway"
 description: "No .env files. Ever."
 tagline: "Credentials live outside your worktree, injected at runtime."
 product: true
