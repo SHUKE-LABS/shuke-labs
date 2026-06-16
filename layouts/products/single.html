@@ -1,0 +1,26 @@
+{{ define "main" }}
+<div class="container">
+    <a href="{{ "/" | relURL }}" class="back-link">← shuke.labs</a>
+    <article class="product-page">
+        <header class="product-page-header">
+            {{ if .Params.icon_emoji }}
+            <span class="product-page-icon">{{ .Params.icon_emoji }}</span>
+            {{ else if .Params.icon_image }}
+            <img class="product-page-icon-img" src="{{ relURL (printf "images/%s" .Params.icon_image) }}" alt="{{ .Title }}">
+            {{ end }}
+            <h1>{{ .Title }}</h1>
+            {{ if .Params.description }}<p class="product-page-desc">{{ .Params.description }}</p>{{ end }}
+            {{ if .Params.tagline }}<p class="product-page-tagline">{{ .Params.tagline }}</p>{{ end }}
+            <div class="product-page-links">
+                {{ if .Params.github }}<a href="{{ .Params.github }}" target="_blank" rel="noopener">[GitHub]</a>{{ end }}
+                {{ if .Params.download }}<a href="{{ .Params.download }}" target="_blank" rel="noopener">[Download]</a>{{ end }}
+                {{ if .Params.coming_soon }}<span class="coming-soon">[Coming Soon]</span>{{ end }}
+                {{ if .Params.free }}<span class="coming-soon">[Free / Open Source]</span>{{ end }}
+            </div>
+        </header>
+        <div class="product-content">
+            {{ .Content }}
+        </div>
+    </article>
+</div>
+{{ end }}
