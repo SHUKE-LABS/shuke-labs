@@ -1,7 +1,9 @@
 ---
 title: "NewWords"
-description: "A different kind of vocabulary learning app."
+description: "You save the word. A story appears."
+tagline: "You never forget it."
 product: true
+weight: 3
 icon_image: "newwords.png"
 coming_soon: true
 ---

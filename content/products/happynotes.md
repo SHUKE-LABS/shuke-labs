@@ -1,7 +1,9 @@
 ---
 title: "HappyNotes"
-description: "A simple yet powerful note-taking app that supports all platforms. Take notes as easily as tweeting."
+description: "Your memories deserve better than a platform that can delete them."
+tagline: "17 years of notes. Yours forever."
 product: true
+weight: 1
 icon_image: "happynotes.png"
 coming_soon: true
 ---

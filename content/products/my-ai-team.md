@@ -1,7 +1,9 @@
 ---
 title: "my-ai-team"
-description: "Structured AI agent sessions in your terminal. Turn a GitHub issue backlog into an async delivery pipeline."
+description: "You open a ticket. Agents handle the rest."
+tagline: "Claim → implement → PR → notify. No babysitting required."
 product: true
+weight: 2
 icon_emoji: "🤖"
 github: "https://github.com/shukebeta/my-ai-team"
 download: "https://github.com/shukebeta/my-ai-team#install"

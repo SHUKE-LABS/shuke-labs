@@ -1,7 +1,9 @@
 ---
 title: "Rewind"
-description: "Navigate and explore your AI coding sessions. Browse, copy, and revisit Claude Code & Copilot conversation history."
+description: "Your AI did something clever yesterday. You can't find it in the terminal."
+tagline: "Now you can."
 product: true
+weight: 4
 icon_emoji: "⏪"
 github: "https://github.com/shukebeta/ccode_viewer"
 download: "https://github.com/shukebeta/ccode_viewer/releases"
