@@ -5,8 +5,6 @@ tagline: "Claim → implement → PR → notify. No babysitting required."
 product: true
 weight: 1
 icon_emoji: "🤖"
-github: "https://github.com/shukebeta/my-ai-team"
-download: "https://github.com/shukebeta/my-ai-team#install"
 ---
 
 **My AI Team** turns a GitHub issue backlog into an async delivery pipeline: agents claim tickets, implement changes, open PRs, and notify you — without you watching the terminal.

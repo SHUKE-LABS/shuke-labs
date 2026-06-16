@@ -6,7 +6,6 @@ product: true
 weight: 6
 icon_image: "newwords.svg"
 github: "https://github.com/shukebeta/new_words"
-coming_soon: true
 ---
 
 **NewWords** lets you capture words as you encounter them, review them through spaced repetition, and reinforce them with AI-generated stories — all from a single cross-platform app.

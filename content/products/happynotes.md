@@ -5,7 +5,7 @@ tagline: "17 years of notes. Yours forever."
 product: true
 weight: 5
 icon_image: "happynotes.svg"
-coming_soon: true
+github: "https://github.com/shukebeta/HappyNotes"
 ---
 
 **HappyNotes** is a note-taking app built around one constraint: write as fast as you think. No folders to file into, no formatting to fuss over — just a thought, a timestamp, and a place it will never disappear from.

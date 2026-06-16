@@ -5,8 +5,6 @@ tagline: "Now you can."
 product: true
 weight: 3
 icon_emoji: "⏪"
-github: "https://github.com/shukebeta/ccode_viewer"
-download: "https://github.com/shukebeta/ccode_viewer/releases"
 ---
 
 **Rewind** turns your local AI session files into a browsable, scrollable interface — two-column layout, real-time updates, clean markdown copy. Everything the terminal can't give you.
