@@ -3,7 +3,7 @@ title: "my-ai-team"
 description: "You open a ticket. Agents handle the rest."
 tagline: "Claim → implement → PR → notify. No babysitting required."
 product: true
-weight: 2
+weight: 1
 icon_emoji: "🤖"
 github: "https://github.com/shukebeta/my-ai-team"
 download: "https://github.com/shukebeta/my-ai-team#install"

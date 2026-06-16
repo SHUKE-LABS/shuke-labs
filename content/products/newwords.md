@@ -3,7 +3,7 @@ title: "NewWords"
 description: "You save the word. A story appears."
 tagline: "You never forget it."
 product: true
-weight: 3
+weight: 6
 icon_image: "newwords.png"
 coming_soon: true
 ---

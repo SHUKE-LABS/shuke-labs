@@ -3,7 +3,7 @@ title: "Rewind"
 description: "Your AI did something clever yesterday. You can't find it in the terminal."
 tagline: "Now you can."
 product: true
-weight: 4
+weight: 3
 icon_emoji: "⏪"
 github: "https://github.com/shukebeta/ccode_viewer"
 download: "https://github.com/shukebeta/ccode_viewer/releases"

@@ -3,7 +3,7 @@ title: "HappyNotes"
 description: "Your memories deserve better than a platform that can delete them."
 tagline: "17 years of notes. Yours forever."
 product: true
-weight: 1
+weight: 5
 icon_image: "happynotes.png"
 coming_soon: true
 ---
