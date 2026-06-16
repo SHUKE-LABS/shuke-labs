@@ -122,7 +122,6 @@ body {
 .product-icon img {
     max-width: 64px;
     max-height: 64px;
-    image-rendering: pixelated;
 }
 
 .icon-emoji {

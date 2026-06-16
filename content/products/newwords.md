@@ -4,7 +4,7 @@ description: "You save the word. A story appears."
 tagline: "You never forget it."
 product: true
 weight: 6
-icon_image: "newwords.png"
+icon_image: "newwords.svg"
 github: "https://github.com/shukebeta/new_words"
 coming_soon: true
 ---

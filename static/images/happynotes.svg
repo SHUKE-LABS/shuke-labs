@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <!-- notebook body -->
+  <rect x="10" y="6" width="44" height="52" rx="3" fill="none" stroke="#00ff00" stroke-width="2"/>
+  <!-- margin line -->
+  <line x1="22" y1="6" x2="22" y2="58" stroke="#00ff00" stroke-width="1.5" opacity="0.35"/>
+  <!-- heart (amber accent) -->
+  <path d="M32 17 C32 17 28.5 13 26 14.2 C23 15.8 23 19.5 26.5 22.5 L32 27 L37.5 22.5 C41 19.5 41 15.8 38 14.2 C35.5 13 32 17 32 17Z" fill="#ffb000"/>
+  <!-- ruled lines -->
+  <line x1="26" y1="35" x2="47" y2="35" stroke="#00ff00" stroke-width="1.5" opacity="0.55"/>
+  <line x1="26" y1="43" x2="47" y2="43" stroke="#00ff00" stroke-width="1.5" opacity="0.55"/>
+  <line x1="26" y1="51" x2="40" y2="51" stroke="#00ff00" stroke-width="1.5" opacity="0.4"/>
+</svg>
