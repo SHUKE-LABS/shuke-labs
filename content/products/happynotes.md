@@ -8,14 +8,35 @@ icon_image: "happynotes.png"
 coming_soon: true
 ---
 
-A simple yet powerful note-taking app that supports all platforms. Take notes as easily as tweeting.
+**HappyNotes** is a note-taking app built around one constraint: write as fast as you think. No folders to file into, no formatting to fuss over — just a thought, a timestamp, and a place it will never disappear from.
 
-**Features:**
-- Upload photos — images become Markdown text in your notes
-- Private and public notes — choose visibility per note
-- Browse notes by day — flip through like a paper notebook
-- Organize by tags — create tags with `#example_tag`
-- Sync to Telegram channels — backup all notes or filter by visibility/tags
-- Sync to Mastodon — publish notes with long images for posts over 500 characters
+## Why not just use [existing app]?
 
-Happy notes, recording your happy life. Available on Android, iOS, and Web.
+The free versions have too many limits. The paid versions lock your notes behind a platform that can sunset, raise prices, or simply decide your export format is no longer a priority. HappyNotes keeps your notes in a format you can always read.
+
+## Features
+
+**Write fast**
+- One tap to a new note, anywhere in the app
+- Markdown supported — turn it on per note or as a default
+- Photos upload as Markdown image links; the text is yours even if the image host changes
+
+**Browse naturally**
+- Flip through notes by day, like a paper notebook — go back to any date, forward or back
+- Organize with `#tags` inline; tap a tag to see everything under it
+- Long-press any page title for a tag cloud
+
+**Private by default, public when you want**
+- Each note is private or public, your choice
+- Public notes are discoverable; private notes stay private
+- Photos are always public URLs — don't upload what you wouldn't share
+
+**Sync as backup**
+- Telegram: sync all notes, or filter by visibility or tag, to any channel you own
+- Mastodon: publish public notes as toots; notes over 500 characters become long images automatically
+
+## Platforms
+
+Android · iOS · Web
+
+[Join the Telegram support group](https://t.me/happynotes_support)
