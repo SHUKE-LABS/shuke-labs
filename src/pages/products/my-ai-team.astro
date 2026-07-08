@@ -1,0 +1,217 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Nav from '../../components/Nav.astro';
+import Footer from '../../components/Footer.astro';
+
+const title = 'My AI Team';
+const description = 'AI teammates, not AI tools. You decide. AI delivers.';
+const contactEmail = 'weizhong2004@gmail.com';
+
+// One line per mode, condensed verbatim from the framework's docs/session-modes.md.
+const modes = [
+  {
+    name: 'team',
+    line: 'Three-agent relay: planner writes the plan, reviewer gates it, developer implements, reviewer reviews and merges.',
+  },
+  {
+    name: 'duo',
+    line: "Two agents: dev owns planning + implementation, an independent reviewer authored neither the plan nor the code.",
+  },
+  {
+    name: 'adhoc',
+    line: 'Single agent owns the full cycle — planning, implementation, review, merge, and notification.',
+  },
+  {
+    name: 'explore',
+    line: 'Open-ended investigation; no repo required, no delivery code — crystallises tickets that hand off to delivery.',
+  },
+  {
+    name: 'audit',
+    line: 'Quality auditor for the repo; files structured triage tickets about merged work, never writes delivery code.',
+  },
+  {
+    name: 'caucus',
+    line: 'Two peer agents deliberate — a proposer opens a position, a challenger stress-tests it — converging on tickets.',
+  },
+  {
+    name: 'live',
+    line: 'Bare-bones single agent in the current directory with the native REPL — no relay, issue queue, or PR workflow.',
+  },
+];
+
+const flow = [
+  { step: 'Idea', note: 'A rough thought — explore refines it before a ticket even exists.' },
+  { step: 'Refined ticket', note: 'A self-standing spec: problem, approach, acceptance criteria.' },
+  { step: 'Delivered PR', note: 'Implemented, reviewed, CI-green — with an approval gate where it matters.' },
+];
+
+const pipeline = ['explore', 'audit', 'plan', 'implement', 'review', 'CI', 'merge'];
+
+const differentiators = [
+  {
+    heading: 'Custom protocols, per repo',
+    body: 'Layer repo-specific rules on top of the standard agent constitutions. Each project teaches the team its own conventions, verification steps, and boundaries.',
+    diagram: ['standard constitution', '+ CLAUDE.md', '+ agents/*.md', '= this repo’s rules'],
+  },
+  {
+    heading: 'Fresh context per ticket',
+    body: 'Context is cleared between tickets. A reviewer re-reads the next diff cold, with none of the implementer’s heavy state carried over — so review stays independent.',
+    diagram: ['ticket #1 → done', '── context cleared ──', 'ticket #2 → fresh start'],
+  },
+  {
+    heading: 'Autonomous conflict resolution',
+    body: 'When agents disagree on design or direction, caucus convenes two peers to deliberate to a concrete conclusion — resolving locally instead of escalating to you.',
+    diagram: ['proposer  ⇄  challenger', 'deliberate', 'conclusion → ticket'],
+  },
+  {
+    heading: 'Auto-pickup of the next ticket',
+    body: 'After a merge the system re-arms itself: it resolves the next ready ticket and starts again — finishing one thing and picking up the next without being re-invoked.',
+    diagram: ['merge #142', '→ next-work', '→ implement #143'],
+  },
+];
+---
+
+<BaseLayout title={title} description={description}>
+  <Nav />
+  <main class="flex-1">
+    <!-- Hero -->
+    <section class="mx-auto max-w-5xl px-6 pt-20 pb-16 sm:pt-28 sm:pb-20">
+      <a href="/" class="text-sm text-muted hover:text-ink transition-colors">&larr; SHUKE Labs</a>
+      <h1 class="mt-6 text-4xl sm:text-5xl font-bold tracking-tight text-ink">
+        AI teammates, not AI tools.
+      </h1>
+      <p class="mt-4 text-xl sm:text-2xl font-medium text-accent">You decide. AI delivers.</p>
+      <div class="mt-8 flex flex-col items-start gap-3">
+        <a
+          href={`mailto:${contactEmail}`}
+          class="inline-flex items-center rounded-lg bg-accent px-5 py-2.5 text-sm font-medium text-white transition-colors hover:bg-accent-hover"
+        >
+          Commercially licensed — get in touch: {contactEmail}
+        </a>
+        {/* Placeholder: future idea-submission form (#14). Intentionally renders nothing to visitors yet. */}
+      </div>
+    </section>
+
+    <!-- What it is -->
+    <section class="mx-auto max-w-5xl px-6 pb-16">
+      <h2 class="text-sm font-semibold uppercase tracking-wider text-muted">What it is</h2>
+      <p class="mt-4 max-w-3xl text-lg text-ink leading-relaxed">
+        My AI Team is a multi-agent framework that runs in your terminal — tmux plus Claude Code —
+        and turns an idea into shipped, reviewed code. Agents plan, implement, review, and merge
+        through a real delivery pipeline, with a human approval gate only where it matters.
+      </p>
+    </section>
+
+    <!-- How it works -->
+    <section class="mx-auto max-w-5xl px-6 pb-16">
+      <h2 class="text-sm font-semibold uppercase tracking-wider text-muted">How it works</h2>
+      <div class="mt-6 grid gap-4 sm:grid-cols-3">
+        {
+          flow.map((f, i) => (
+            <div class="rounded-xl border border-line bg-surface p-5">
+              <div class="flex items-center gap-2 text-accent">
+                <span class="font-mono text-sm">{`0${i + 1}`}</span>
+                <span class="font-semibold text-ink">{f.step}</span>
+              </div>
+              <p class="mt-2 text-sm text-muted leading-relaxed">{f.note}</p>
+            </div>
+          ))
+        }
+      </div>
+
+      <details class="mt-6 rounded-xl border border-line bg-surface-soft p-5">
+        <summary class="cursor-pointer text-sm font-medium text-muted hover:text-ink">
+          For engineers: the full pipeline
+        </summary>
+        <div class="mt-4 flex flex-wrap items-center gap-x-2 gap-y-2 font-mono text-sm text-ink">
+          {
+            pipeline.map((stage, i) => (
+              <>
+                <span class="rounded-md border border-line bg-surface px-2.5 py-1">{stage}</span>
+                {i < pipeline.length - 1 && (
+                  <span class="text-muted" aria-hidden="true">
+                    &rarr;
+                  </span>
+                )}
+              </>
+            ))
+          }
+        </div>
+      </details>
+    </section>
+
+    <!-- Modes -->
+    <section class="mx-auto max-w-5xl px-6 pb-16">
+      <h2 class="text-sm font-semibold uppercase tracking-wider text-muted">Seven session modes</h2>
+      <div class="mt-6 grid gap-4 sm:grid-cols-2">
+        {
+          modes.map((mode) => (
+            <div class="rounded-xl border border-line bg-surface p-5">
+              <span class="font-mono text-sm font-semibold text-accent">{mode.name}</span>
+              <p class="mt-2 text-sm text-muted leading-relaxed">{mode.line}</p>
+            </div>
+          ))
+        }
+      </div>
+    </section>
+
+    <!-- Why teammates, not tools -->
+    <section class="mx-auto max-w-5xl px-6 pb-16">
+      <h2 class="text-sm font-semibold uppercase tracking-wider text-muted">
+        Why teammates, not tools
+      </h2>
+      <div class="mt-8 space-y-10">
+        {
+          differentiators.map((d, i) => (
+            <div class="grid items-center gap-6 sm:grid-cols-2">
+              <div class={i % 2 === 1 ? 'sm:order-2' : ''}>
+                <h3 class="text-xl font-semibold text-ink">{d.heading}</h3>
+                <p class="mt-2 text-muted leading-relaxed">{d.body}</p>
+              </div>
+              <div class={i % 2 === 1 ? 'sm:order-1' : ''}>
+                <div class="rounded-xl border border-line bg-surface-soft p-5">
+                  <div class="flex flex-col gap-1.5 font-mono text-sm text-muted">
+                    {d.diagram.map((row) => (
+                      <span>{row}</span>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
+          ))
+        }
+      </div>
+    </section>
+
+    <!-- Terminal snippet: the single real command excerpt -->
+    <section class="mx-auto max-w-5xl px-6 pb-16">
+      <h2 class="text-sm font-semibold uppercase tracking-wider text-muted">See it run</h2>
+      <div class="prose mt-6 max-w-none">
+        <pre><code>{`$ cd ~/projects/acme-api
+$ adhoc                       # one agent: claim → implement → PR → notify
+
+[mux] session acme-api_adhoc_claude ready
+[mux] next-work → implement #142
+      … plans, edits, runs the tests …
+[mux] opened PR #143 · notified you`}</code></pre>
+      </div>
+    </section>
+
+    <!-- Closing CTA -->
+    <section class="mx-auto max-w-5xl px-6 pb-24">
+      <div class="rounded-2xl border border-line bg-surface-soft p-8 sm:p-10">
+        <h2 class="text-2xl font-bold text-ink">Ready to hand off the busywork?</h2>
+        <p class="mt-2 max-w-2xl text-muted">
+          My AI Team is commercially licensed. Get in touch to talk access.
+        </p>
+        <a
+          href={`mailto:${contactEmail}`}
+          class="mt-6 inline-flex items-center rounded-lg bg-accent px-5 py-2.5 text-sm font-medium text-white transition-colors hover:bg-accent-hover"
+        >
+          Get in touch: {contactEmail}
+        </a>
+      </div>
+    </section>
+  </main>
+  <Footer />
+</BaseLayout>
