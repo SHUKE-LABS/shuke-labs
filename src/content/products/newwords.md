@@ -2,8 +2,8 @@
 title: "NewWords"
 description: "You save the word. A story appears."
 tagline: "You never forget it."
-product: true
 weight: 6
+group: "app"
 icon_image: "newwords.svg"
 github: "https://github.com/SHUKE-LABS/new_words"
 ---

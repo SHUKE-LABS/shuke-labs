@@ -1,0 +1,42 @@
+---
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+  product: CollectionEntry<'products'>;
+}
+
+const { product } = Astro.props;
+const { title, description, commercial, icon_emoji, icon_image } = product.data;
+const href = `/products/${product.id}`;
+---
+
+<a
+  href={href}
+  class="group flex flex-col gap-3 rounded-xl border border-line bg-surface p-5 transition-all hover:border-accent hover:shadow-sm"
+>
+  <div class="flex items-center gap-3">
+    {
+      icon_emoji && (
+        <span class="text-2xl leading-none" aria-hidden="true">
+          {icon_emoji}
+        </span>
+      )
+    }
+    {
+      icon_image && (
+        <img src={`/images/${icon_image}`} alt="" width="28" height="28" class="h-7 w-7" />
+      )
+    }
+    <h3 class="font-semibold text-ink group-hover:text-accent transition-colors">
+      {title}
+    </h3>
+    {
+      commercial && (
+        <span class="ml-auto rounded-full bg-accent-soft px-2.5 py-0.5 text-xs font-medium text-accent">
+          Commercial
+        </span>
+      )
+    }
+  </div>
+  <p class="text-sm text-muted leading-relaxed">{description}</p>
+</a>

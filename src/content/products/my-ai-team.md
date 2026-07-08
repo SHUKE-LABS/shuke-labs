@@ -2,8 +2,9 @@
 title: "My AI Team"
 description: "You open a ticket. Agents handle the rest."
 tagline: "Claim → implement → PR → notify. No babysitting required."
-product: true
 weight: 1
+group: "dev"
+commercial: true
 icon_emoji: "🤖"
 ---
 

@@ -2,8 +2,9 @@
 title: "Rewind"
 description: "Your AI did something clever yesterday. You can't find it in the terminal."
 tagline: "Now you can."
-product: true
 weight: 3
+group: "dev"
+commercial: true
 icon_emoji: "⏪"
 ---
 

@@ -2,31 +2,38 @@
 
 Official website of SHUKE Labs Ltd — **Build more, struggle less**
 
+Live at [shukelabs.com](https://shukelabs.com).
+
 ## Products
 
 - My AI Team — Structured AI agent sessions in your terminal (commercial; contact weizhong2004@gmail.com)
 - Rewind — Navigate and explore your AI coding sessions (commercial; contact weizhong2004@gmail.com)
+- [Agent Quota Gateway](https://github.com/SHUKE-LABS/agent-quota-gateway) — Auto-rotate accounts, keep shipping
+- [Credential Gateway](https://github.com/SHUKE-LABS/credential-gateway) — Credentials outside your worktree, injected at runtime
 - [HappyNotes](https://happynotes.shukebeta.com) — Fast, durable note-taking
 - [NewWords](https://newwords.shukebeta.com) — Capture vocabulary, reinforce it with AI-generated stories
 
 ## Development
 
-This site is built with [Hugo](https://gohugo.io/).
+This site is built with [Astro](https://astro.build/) and [Tailwind CSS](https://tailwindcss.com/).
 
 ```bash
-# Install Hugo
-sudo apt install hugo
+# Install dependencies
+npm install
 
-# Build locally
-hugo --minify
+# Serve locally (http://localhost:4321)
+npm run dev
 
-# Serve locally (http://localhost:1313)
-hugo server
+# Build to ./dist
+npm run build
+
+# Preview the production build
+npm run preview
 ```
 
 ## Deployment
 
-Automatically deployed to GitHub Pages on push to `main` via `.github/workflows/hugo.yml`.
+Automatically deployed to GitHub Pages on push to `main` via `.github/workflows/deploy.yml`. The custom domain `shukelabs.com` is set in `public/CNAME`.
 
 ## License
 

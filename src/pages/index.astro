@@ -1,0 +1,86 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+import ProductCard from '../components/ProductCard.astro';
+
+const products = (await getCollection('products')).sort(
+  (a, b) => a.data.weight - b.data.weight,
+);
+const devTools = products.filter((p) => p.data.group === 'dev');
+const apps = products.filter((p) => p.data.group === 'app');
+
+const myAiTeam = products.find((p) => p.id === 'my-ai-team');
+const featuredBullets = [
+  'Agents claim tickets, implement changes, open PRs, and notify you — no terminal babysitting.',
+  'Five session modes, from a read-only explore to a pipelined three-agent relay.',
+  'Turns your GitHub issue backlog into an async delivery pipeline.',
+];
+---
+
+<BaseLayout>
+  <Nav />
+  <main class="flex-1">
+    <!-- Hero -->
+    <section class="mx-auto max-w-5xl px-6 pt-20 pb-16 sm:pt-28 sm:pb-20">
+      <h1 class="text-4xl sm:text-5xl font-bold tracking-tight text-ink">SHUKE Labs</h1>
+      <p class="mt-4 text-xl sm:text-2xl font-medium text-accent">Build more, struggle less</p>
+      <p class="mt-4 max-w-xl text-lg text-muted">
+        We build practical tools for developers and language learners.
+      </p>
+      <a
+        href="#products"
+        class="mt-8 inline-flex items-center rounded-lg bg-accent px-5 py-2.5 text-sm font-medium text-white transition-colors hover:bg-accent-hover"
+      >
+        Explore the products
+      </a>
+    </section>
+
+    <!-- Product grid -->
+    <section id="products" class="mx-auto max-w-5xl px-6 pb-16 scroll-mt-20">
+      <div>
+        <h2 class="text-sm font-semibold uppercase tracking-wider text-muted">Developer tools</h2>
+        <div class="mt-4 grid gap-4 sm:grid-cols-2">
+          {devTools.map((product) => <ProductCard product={product} />)}
+        </div>
+      </div>
+      <div class="mt-12">
+        <h2 class="text-sm font-semibold uppercase tracking-wider text-muted">Apps</h2>
+        <div class="mt-4 grid gap-4 sm:grid-cols-2">
+          {apps.map((product) => <ProductCard product={product} />)}
+        </div>
+      </div>
+    </section>
+
+    <!-- Featured: My AI Team -->
+    {
+      myAiTeam && (
+        <section class="mx-auto max-w-5xl px-6 pb-24">
+          <div class="rounded-2xl border border-line bg-surface-soft p-8 sm:p-10">
+            <p class="text-sm font-semibold uppercase tracking-wider text-accent">Featured</p>
+            <h2 class="mt-2 text-2xl font-bold text-ink">My AI Team</h2>
+            <p class="mt-2 max-w-2xl text-muted">{myAiTeam.data.description}</p>
+            <ul class="mt-6 space-y-2">
+              {featuredBullets.map((bullet) => (
+                <li class="flex gap-3 text-ink">
+                  <span class="mt-1 text-accent" aria-hidden="true">
+                    &rarr;
+                  </span>
+                  <span>{bullet}</span>
+                </li>
+              ))}
+            </ul>
+            <a
+              href="/products/my-ai-team"
+              class="mt-6 inline-flex items-center gap-1 text-sm font-medium text-accent hover:text-accent-hover"
+            >
+              Read more about My AI Team &rarr;
+            </a>
+          </div>
+        </section>
+      )
+    }
+  </main>
+  <Footer />
+</BaseLayout>

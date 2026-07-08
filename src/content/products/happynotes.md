@@ -2,8 +2,8 @@
 title: "HappyNotes"
 description: "Your memories deserve better than a platform that can delete them."
 tagline: "17 years of notes. Yours forever."
-product: true
 weight: 5
+group: "app"
 icon_image: "happynotes.svg"
 github: "https://github.com/SHUKE-LABS/HappyNotes"
 ---

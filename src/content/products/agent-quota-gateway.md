@@ -2,8 +2,8 @@
 title: "Agent Quota Gateway"
 description: "One agent burnout shouldn't stop the pipeline."
 tagline: "Auto-rotate accounts. Keep shipping."
-product: true
 weight: 2
+group: "dev"
 icon_emoji: "🔄"
 github: "https://github.com/SHUKE-LABS/agent-quota-gateway"
 ---
