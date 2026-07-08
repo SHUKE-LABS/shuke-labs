@@ -1,0 +1,105 @@
+@import "tailwindcss";
+
+/* Design tokens — single accent, neutral ink, light only (no dark mode). */
+@theme {
+  --color-accent: #4f46e5;
+  --color-accent-hover: #4338ca;
+  --color-accent-soft: #eef2ff;
+  --color-ink: #111827;
+  --color-muted: #4b5563;
+  --color-line: #e5e7eb;
+  --color-surface: #ffffff;
+  --color-surface-soft: #f9fafb;
+
+  --font-sans: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial,
+    sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas,
+    "Liberation Mono", monospace;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    font-family: var(--font-sans);
+    color: var(--color-ink);
+    background: var(--color-surface);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* Monospace lives only in code contexts. */
+  code,
+  pre,
+  kbd,
+  samp {
+    font-family: var(--font-mono);
+  }
+
+  /* Product-page prose: readable defaults for migrated markdown bodies. */
+  .prose {
+    color: var(--color-ink);
+    line-height: 1.7;
+  }
+  .prose h2 {
+    font-size: 1.35rem;
+    font-weight: 600;
+    margin-top: 2.25rem;
+    margin-bottom: 0.75rem;
+  }
+  .prose h3 {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-top: 1.5rem;
+    margin-bottom: 0.5rem;
+  }
+  .prose p,
+  .prose ul,
+  .prose ol {
+    margin-bottom: 1rem;
+  }
+  .prose ul {
+    list-style: disc;
+    padding-left: 1.4rem;
+  }
+  .prose ol {
+    list-style: decimal;
+    padding-left: 1.4rem;
+  }
+  .prose li {
+    margin-bottom: 0.35rem;
+  }
+  .prose a {
+    color: var(--color-accent);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+  .prose a:hover {
+    color: var(--color-accent-hover);
+  }
+  .prose code {
+    background: var(--color-surface-soft);
+    border: 1px solid var(--color-line);
+    border-radius: 0.25rem;
+    padding: 0.1rem 0.35rem;
+    font-size: 0.875em;
+  }
+  .prose pre {
+    background: #0f172a;
+    color: #e2e8f0;
+    border-radius: 0.5rem;
+    padding: 1rem 1.25rem;
+    overflow-x: auto;
+    margin-bottom: 1.25rem;
+    font-size: 0.85rem;
+    line-height: 1.5;
+  }
+  .prose pre code {
+    background: transparent;
+    border: 0;
+    padding: 0;
+    font-size: inherit;
+    color: inherit;
+  }
+}

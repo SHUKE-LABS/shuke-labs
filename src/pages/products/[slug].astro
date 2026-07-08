@@ -1,0 +1,61 @@
+---
+import { getCollection, render } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Nav from '../../components/Nav.astro';
+import Footer from '../../components/Footer.astro';
+
+export async function getStaticPaths() {
+  const products = await getCollection('products');
+  return products.map((product) => ({
+    params: { slug: product.id },
+    props: { product },
+  }));
+}
+
+const { product } = Astro.props;
+const { title, description, tagline, commercial, github, free, icon_emoji, icon_image } =
+  product.data;
+const { Content } = await render(product);
+---
+
+<BaseLayout title={title} description={description}>
+  <Nav />
+  <main class="flex-1">
+    <article class="mx-auto max-w-3xl px-6 py-12">
+      <a href="/" class="text-sm text-muted hover:text-ink transition-colors">&larr; SHUKE Labs</a>
+
+      <header class="mt-6 border-b border-line pb-8">
+        <div class="flex items-center gap-3">
+          {icon_emoji && <span class="text-3xl leading-none" aria-hidden="true">{icon_emoji}</span>}
+          {icon_image && <img src={`/images/${icon_image}`} alt="" width="36" height="36" class="h-9 w-9" />}
+          <h1 class="text-3xl font-bold tracking-tight text-ink">{title}</h1>
+        </div>
+        <p class="mt-3 text-lg text-muted">{description}</p>
+        {tagline && <p class="mt-1 text-accent font-medium">{tagline}</p>}
+
+        <div class="mt-5 flex flex-wrap items-center gap-3 text-sm">
+          {commercial && (
+            <span class="rounded-full bg-accent-soft px-3 py-1 font-medium text-accent">Commercial license</span>
+          )}
+          {free && (
+            <span class="rounded-full bg-accent-soft px-3 py-1 font-medium text-accent">Open source</span>
+          )}
+          {github && (
+            <a
+              href={github}
+              target="_blank"
+              rel="noopener"
+              class="inline-flex items-center rounded-lg border border-line px-3 py-1 text-ink hover:border-accent hover:text-accent transition-colors"
+              >View on GitHub</a
+            >
+          )}
+        </div>
+      </header>
+
+      <div class="prose mt-8">
+        <Content />
+      </div>
+    </article>
+  </main>
+  <Footer />
+</BaseLayout>

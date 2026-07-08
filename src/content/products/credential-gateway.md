@@ -2,8 +2,8 @@
 title: "Credential Gateway"
 description: "No .env files. Ever."
 tagline: "Credentials live outside your worktree, injected at runtime."
-product: true
 weight: 4
+group: "dev"
 icon_emoji: "🔐"
 github: "https://github.com/SHUKE-LABS/credential-gateway"
 free: true
