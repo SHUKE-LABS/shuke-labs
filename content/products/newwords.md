@@ -5,7 +5,7 @@ tagline: "You never forget it."
 product: true
 weight: 6
 icon_image: "newwords.svg"
-github: "https://github.com/shukebeta/new_words"
+github: "https://github.com/SHUKE-LABS/new_words"
 ---
 
 **NewWords** lets you capture words as you encounter them, review them through spaced repetition, and reinforce them with AI-generated stories — all from a single cross-platform app.
@@ -38,6 +38,8 @@ Stories
 
 ## Platforms
 
-Android · iOS · Web
+Android (APK) · Web
 
-Available on Android now. iOS and Web coming soon.
+- [Open the web app](https://newwords.shukebeta.com)
+- [Download the Android APK](https://github.com/SHUKE-LABS/new_words/releases)
+- [Source on GitHub](https://github.com/SHUKE-LABS/new_words)

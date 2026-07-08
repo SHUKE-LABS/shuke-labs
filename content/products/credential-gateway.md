@@ -5,7 +5,7 @@ tagline: "Credentials live outside your worktree, injected at runtime."
 product: true
 weight: 4
 icon_emoji: "🔐"
-github: "https://github.com/shukebeta/credential-gateway"
+github: "https://github.com/SHUKE-LABS/credential-gateway"
 free: true
 ---
 
@@ -79,7 +79,7 @@ All five proxy types are optional — include only what you need. Multiple entri
 Requires Go 1.22+. No heavy dependencies.
 
 ```bash
-git clone https://github.com/shukebeta/credential-gateway
+git clone https://github.com/SHUKE-LABS/credential-gateway
 cd credential-gateway
 go build -o credential-gateway .
 

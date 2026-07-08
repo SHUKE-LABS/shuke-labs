@@ -38,26 +38,6 @@ Once you run AI agents regularly, three friction points emerge:
                   └─ 3 agents · pipelined · higher throughput
 ```
 
-## Quick start
+## Access
 
-```bash
-git clone https://github.com/shukebeta/my-ai-team ~/src/my-ai-team
-~/src/my-ai-team/install.sh --with-systemd
-```
-
-Then in any git repo:
-
-```bash
-adhoc          # claim a ticket, implement, open PR, notify
-team           # 3-agent relay for higher throughput
-explore        # investigate a question, no delivery code
-qa             # audit merged work
-live           # direct edit, zero ceremony
-```
-
-## Prerequisites
-
-- **tmux**
-- **gh** (GitHub CLI)
-- A backend CLI: `claude` (Claude Code), `codex`, or `copilot`
-- Telegram bot token (optional, for notifications)
+My AI Team is commercially licensed. Get in touch for access: weizhong2004@gmail.com
