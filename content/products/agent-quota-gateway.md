@@ -5,6 +5,7 @@ tagline: "Auto-rotate accounts. Keep shipping."
 product: true
 weight: 2
 icon_emoji: "🔄"
+github: "https://github.com/SHUKE-LABS/agent-quota-gateway"
 ---
 
 A lightweight proxy that sits between your Claude Code sessions and the Anthropic API. It owns your credentials, auto-rotates between accounts when one hits its quota limit, and exposes a single local endpoint your tools point at.
@@ -49,7 +50,7 @@ claude
 Requires Go. No Docker image — `go build` is the deliverable.
 
 ```bash
-git clone https://github.com/shukebeta/agent-quota-gateway
+git clone https://github.com/SHUKE-LABS/agent-quota-gateway
 cd agent-quota-gateway
 go build -o agent-quota-gateway ./cmd/agent-quota-gateway
 ```

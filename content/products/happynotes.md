@@ -5,7 +5,7 @@ tagline: "17 years of notes. Yours forever."
 product: true
 weight: 5
 icon_image: "happynotes.svg"
-github: "https://github.com/shukebeta/HappyNotes"
+github: "https://github.com/SHUKE-LABS/HappyNotes"
 ---
 
 **HappyNotes** is a note-taking app built around one constraint: write as fast as you think. No folders to file into, no formatting to fuss over — just a thought, a timestamp, and a place it will never disappear from.
@@ -37,6 +37,10 @@ The free versions have too many limits. The paid versions lock your notes behind
 
 ## Platforms
 
-Android · iOS · Web
+Android (APK) · Web
+
+- [Open the web app](https://happynotes.shukebeta.com)
+- [Download the Android APK](https://github.com/SHUKE-LABS/HappyNotes/releases)
+- [Source on GitHub](https://github.com/SHUKE-LABS/HappyNotes)
 
 [Join the Telegram support group](https://t.me/happynotes_support)

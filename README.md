@@ -4,14 +4,10 @@ Official website of SHUKE Labs Ltd — **Build more, struggle less**
 
 ## Products
 
-- [my-ai-team](https://github.com/shukebeta/my-ai-team) — Structured AI agent sessions in your terminal
-- [Rewind](https://github.com/shukebeta/ccode_viewer) — Navigate and explore your AI coding sessions
-- HappyNotes — (Coming soon)
-- NewWords — (Coming soon)
-
-## Learn
-
-Free Linux and programming tutorials. (Coming soon)
+- My AI Team — Structured AI agent sessions in your terminal (commercial; contact weizhong2004@gmail.com)
+- Rewind — Navigate and explore your AI coding sessions (commercial; contact weizhong2004@gmail.com)
+- [HappyNotes](https://happynotes.shukebeta.com) — Fast, durable note-taking
+- [NewWords](https://newwords.shukebeta.com) — Capture vocabulary, reinforce it with AI-generated stories
 
 ## Development
 

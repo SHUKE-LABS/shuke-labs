@@ -15,25 +15,9 @@ icon_emoji: "⏪"
 - GitHub Copilot CLI (`~/.copilot/session-state`)
 - VS Code Copilot Chat
 
-## Download
+## Access
 
-| Platform | Package |
-|---|---|
-| Windows | Single-file EXE — no install required |
-| Linux | AppImage or .deb |
-| macOS | .dmg or .app.zip |
-
-Get the latest release from [GitHub → Releases](https://github.com/shukebeta/ccode_viewer/releases).
-
-The Windows EXE extracts itself on first launch and opens a native desktop window with the viewer inside. Closing the window stops the bundled server.
-
-## Self-host / develop
-
-```bash
-npm run install:all
-npm run dev
-# → http://localhost:6174
-```
+Rewind is commercially licensed. Get in touch for access: weizhong2004@gmail.com
 
 ## Features
 
