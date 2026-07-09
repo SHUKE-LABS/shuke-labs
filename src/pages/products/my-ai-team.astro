@@ -39,18 +39,23 @@ const modes = [
   },
 ];
 
-// Idea is the human's input ("You decide"); every stage after it is agent-automated
-// ("Agent delivers"), flagged with `agent: true` to render an agent badge.
+// Three numbered stages mirror the real pipeline: (01) idea → refined ticket,
+// (02) plan + plan review, (03) implement → PR → review → CI → merge, then an
+// optional Deploy branch. Stage 01 is the human's entry point ("You decide");
+// the `agent: true` stages are the agent-automated delivery ("Agent delivers").
 const flow = [
-  { step: 'Idea', note: 'A rough thought — explore refines it before a ticket even exists.' },
   {
-    step: 'Refined ticket',
-    note: 'A self-standing spec: problem, approach, acceptance criteria.',
+    step: 'Idea → ticket',
+    note: 'You bring a rough thought; explore refines it into a self-standing ticket — problem, approach, acceptance criteria.',
+  },
+  {
+    step: 'Plan + review',
+    note: 'A planner drafts the approach; an independent reviewer gates it before a line of code is written.',
     agent: true,
   },
   {
     step: 'Delivered PR',
-    note: 'Implemented, reviewed, CI-green — with an approval gate where it matters.',
+    note: 'Implement, open the PR, review, CI-green, then merge — with an approval gate where it matters.',
     agent: true,
   },
   {
