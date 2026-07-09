@@ -4,7 +4,7 @@ import Nav from '../../components/Nav.astro';
 import Footer from '../../components/Footer.astro';
 
 const title = 'My AI Team';
-const description = 'AI teammates, not AI tools. You decide. AI delivers.';
+const description = 'AI teammates, not AI tools. You decide. Agent delivers.';
 const contactEmail = 'weizhong2004@gmail.com';
 
 // One line per mode, condensed verbatim from the framework's docs/session-modes.md.
@@ -39,14 +39,25 @@ const modes = [
   },
 ];
 
+// Idea is the human's input ("You decide"); every stage after it is agent-automated
+// ("Agent delivers"), flagged with `agent: true` to render an agent badge.
 const flow = [
   { step: 'Idea', note: 'A rough thought — explore refines it before a ticket even exists.' },
-  { step: 'Refined ticket', note: 'A self-standing spec: problem, approach, acceptance criteria.' },
-  { step: 'Delivered PR', note: 'Implemented, reviewed, CI-green — with an approval gate where it matters.' },
+  {
+    step: 'Refined ticket',
+    note: 'A self-standing spec: problem, approach, acceptance criteria.',
+    agent: true,
+  },
+  {
+    step: 'Delivered PR',
+    note: 'Implemented, reviewed, CI-green — with an approval gate where it matters.',
+    agent: true,
+  },
   {
     step: 'Deploy',
     note: 'Optionally ship the merged change to staging or production.',
     optional: true,
+    agent: true,
   },
 ];
 
@@ -87,40 +98,19 @@ const differentiators = [
       <h1 class="mt-6 text-4xl sm:text-5xl font-bold tracking-tight text-ink">
         AI teammates, not AI tools.
       </h1>
-      <p class="mt-4 text-xl sm:text-2xl font-medium text-accent">You decide. AI delivers.</p>
-      <div class="mt-8 flex flex-col items-start gap-3">
-        <a
-          href={`mailto:${contactEmail}`}
-          class="inline-flex items-center rounded-lg bg-accent px-5 py-2.5 text-sm font-medium text-white transition-colors hover:bg-accent-hover"
-        >
-          Commercially licensed — get in touch: {contactEmail}
-        </a>
-        {/* Placeholder: future idea-submission form (#14). Intentionally renders nothing to visitors yet. */}
-      </div>
+      <p class="mt-4 text-xl sm:text-2xl font-medium text-accent">You decide. Agent delivers.</p>
     </section>
 
-    <!-- What it is -->
+    <!-- The pipeline — the page's focal element -->
     <section class="mx-auto max-w-5xl px-6 pb-16">
-      <h2 class="text-sm font-semibold uppercase tracking-wider text-muted">What it is</h2>
-      <p class="mt-4 max-w-3xl text-lg text-ink leading-relaxed">
-        My AI Team is a multi-agent framework that runs in your terminal — tmux plus Claude Code —
-        and turns an idea into shipped, reviewed code. Agents plan, implement, review, and merge
-        through a real delivery pipeline, with a human approval gate only where it matters.
-      </p>
-    </section>
-
-    <!-- How it works -->
-    <section class="mx-auto max-w-5xl px-6 pb-16">
-      <h2 class="text-sm font-semibold uppercase tracking-wider text-muted">How it works</h2>
-
       {/* High-level stages, connected as one flow. Deploy is an optional branch. */}
-      <div class="mt-6 flex flex-col sm:flex-row sm:items-stretch">
+      <div class="flex flex-col sm:flex-row sm:items-stretch">
         {
           flow.map((f, i) => (
             <>
               {i > 0 && (
                 <div
-                  class="flex items-center justify-center py-2 text-lg text-muted sm:px-2 sm:py-0"
+                  class="flex items-center justify-center py-2 text-2xl text-muted sm:px-3 sm:py-0"
                   aria-hidden="true"
                 >
                   <span class="sm:hidden">{f.optional ? '⇣' : '↓'}</span>
@@ -128,19 +118,24 @@ const differentiators = [
                 </div>
               )}
               <div
-                class={`flex-1 rounded-xl border bg-surface p-5 ${f.optional ? 'border-dashed border-line' : 'border-line'}`}
+                class={`flex-1 rounded-2xl border bg-surface p-7 sm:p-8 ${f.optional ? 'border-dashed border-line' : 'border-line'}`}
               >
-                <div class="flex items-center gap-2 text-accent">
+                <div class="flex flex-wrap items-center gap-2 text-accent">
                   {f.optional ? (
-                    <span class="rounded-full bg-accent-soft px-2 py-0.5 font-mono text-xs font-medium text-accent">
+                    <span class="rounded-full bg-accent-soft px-2.5 py-0.5 font-mono text-xs font-medium text-accent">
                       optional
                     </span>
                   ) : (
-                    <span class="font-mono text-sm">{`0${i + 1}`}</span>
+                    <span class="font-mono text-base">{`0${i + 1}`}</span>
                   )}
-                  <span class="font-semibold text-ink">{f.step}</span>
+                  {f.agent && (
+                    <span class="rounded-full bg-accent-soft px-2.5 py-0.5 font-mono text-xs font-medium text-accent">
+                      agent
+                    </span>
+                  )}
                 </div>
-                <p class="mt-2 text-sm text-muted leading-relaxed">{f.note}</p>
+                <span class="mt-3 block text-2xl font-bold text-ink">{f.step}</span>
+                <p class="mt-2 text-base text-muted leading-relaxed">{f.note}</p>
               </div>
             </>
           ))
