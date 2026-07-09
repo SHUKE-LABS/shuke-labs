@@ -1,0 +1,47 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+
+const title = 'About';
+const description = 'SHUKE Labs Ltd — a New Zealand software company building practical tools for developers and language learners.';
+const contactEmail = 'weizhong2004@gmail.com';
+const lastUpdated = '10 July 2026';
+---
+
+<BaseLayout title={title} description={description}>
+  <Nav />
+  <main class="flex-1">
+    <article class="mx-auto max-w-3xl px-6 pt-6 pb-12">
+      <h1 class="text-3xl sm:text-4xl font-bold tracking-tight text-ink">About SHUKE Labs</h1>
+      <p class="mt-2 text-sm text-muted">Last updated: {lastUpdated}</p>
+      <div class="prose mt-8">
+        <p>
+          SHUKE Labs Ltd is a New Zealand software company. We build practical tools that
+          help people get real work done — with a bias for shipping over ceremony.
+        </p>
+
+        <h2>Developer tools</h2>
+        <p>
+          Software for the people who build software: automation and workflow tools that cut
+          the busywork out of everyday development, so more of your time goes to the work that
+          actually matters.
+        </p>
+
+        <h2>Apps</h2>
+        <p>
+          Everyday apps for learning and productivity, including tools for language learners.
+          Small, focused products designed to be genuinely useful rather than merely feature-rich.
+        </p>
+
+        <h2>Contact</h2>
+        <p>
+          Questions, feedback, or just want to say hello? Email us at
+          <a href={`mailto:${contactEmail}`}>{contactEmail}</a>, or find our work on
+          <a href="https://github.com/SHUKE-LABS" target="_blank" rel="noopener">GitHub</a>.
+        </p>
+      </div>
+    </article>
+  </main>
+  <Footer />
+</BaseLayout>

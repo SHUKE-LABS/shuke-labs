@@ -1,0 +1,71 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+
+const title = 'Terms of Use';
+const description = 'The terms that apply when you use the SHUKE Labs website.';
+const contactEmail = 'weizhong2004@gmail.com';
+const lastUpdated = '10 July 2026';
+---
+
+<BaseLayout title={title} description={description}>
+  <Nav />
+  <main class="flex-1">
+    <article class="mx-auto max-w-3xl px-6 pt-6 pb-12">
+      <h1 class="text-3xl sm:text-4xl font-bold tracking-tight text-ink">Terms of Use</h1>
+      <p class="mt-2 text-sm text-muted">Last updated: {lastUpdated}</p>
+      <div class="prose mt-8">
+        <p>
+          These terms apply when you use the SHUKE Labs website. By using the site, you agree
+          to them.
+        </p>
+
+        <h2>Content and ownership</h2>
+        <p>
+          The content on this site — text, design, logos, and code — belongs to SHUKE Labs Ltd
+          unless stated otherwise, and is protected by copyright. You are welcome to read and
+          share links to it; please don't republish it as your own.
+        </p>
+
+        <h2>Acceptable use</h2>
+        <p>
+          Please don't use this site for anything unlawful or attempt to disrupt, damage, or
+          gain unauthorised access to it.
+        </p>
+
+        <h2>No warranty</h2>
+        <p>
+          This site is provided "as is", without warranties of any kind. We do our best to keep
+          it accurate and available, but we don't guarantee it is error-free or continuously
+          available.
+        </p>
+
+        <h2>Limitation of liability</h2>
+        <p>
+          To the extent permitted by law, SHUKE Labs Ltd is not liable for any loss or damage
+          arising from your use of, or inability to use, this site.
+        </p>
+
+        <h2>External links</h2>
+        <p>
+          This site links to other places — such as GitHub, our blog, and product repositories.
+          We are not responsible for the content or practices of third-party sites we link to.
+        </p>
+
+        <h2>Governing law</h2>
+        <p>
+          These terms are governed by the laws of New Zealand.
+        </p>
+
+        <h2>Changes to these terms</h2>
+        <p>
+          We may update these terms from time to time. When we do, we will revise the
+          "Last updated" date above. Questions? Email us at
+          <a href={`mailto:${contactEmail}`}>{contactEmail}</a>.
+        </p>
+      </div>
+    </article>
+  </main>
+  <Footer />
+</BaseLayout>
