@@ -1,0 +1,56 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+
+const title = 'Privacy Policy';
+const description = 'How SHUKE Labs handles information on this website — in short, we collect nothing.';
+const contactEmail = 'weizhong2004@gmail.com';
+const lastUpdated = '10 July 2026';
+---
+
+<BaseLayout title={title} description={description}>
+  <Nav />
+  <main class="flex-1">
+    <article class="mx-auto max-w-3xl px-6 pt-6 pb-12">
+      <h1 class="text-3xl sm:text-4xl font-bold tracking-tight text-ink">Privacy Policy</h1>
+      <p class="mt-2 text-sm text-muted">Last updated: {lastUpdated}</p>
+      <div class="prose mt-8">
+        <p>
+          This policy covers the SHUKE Labs website. The short version: this site collects no
+          personal information about you.
+        </p>
+
+        <h2>What we collect</h2>
+        <p>
+          Nothing. This website has no analytics, no cookies, and no forms. We do not track you,
+          build a profile of you, or store any personal information about your visit.
+        </p>
+
+        <h2>Hosting</h2>
+        <p>
+          This site is hosted on GitHub Pages. Like any web host, GitHub may process standard
+          technical request data — such as your IP address — in its own server logs, under
+          <a href="https://docs.github.com/en/site-policy/privacy-policies/github-privacy-statement"
+            target="_blank" rel="noopener">GitHub's own privacy practices</a>.
+          SHUKE Labs does not access those logs.
+        </p>
+
+        <h2>Your privacy rights (New Zealand)</h2>
+        <p>
+          SHUKE Labs Ltd is a New Zealand company, and we respect the principles of the
+          Privacy Act 2020. Because this site holds no personal data about you, there is nothing
+          for us to access, correct, or delete. If you have any question about privacy, email us
+          at <a href={`mailto:${contactEmail}`}>{contactEmail}</a>.
+        </p>
+
+        <h2>Changes to this policy</h2>
+        <p>
+          We may update this policy as the site changes. When we do, we will revise the
+          "Last updated" date above.
+        </p>
+      </div>
+    </article>
+  </main>
+  <Footer />
+</BaseLayout>
