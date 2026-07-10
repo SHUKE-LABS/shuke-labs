@@ -16,10 +16,6 @@ icon_emoji: "⏪"
 - GitHub Copilot CLI (`~/.copilot/session-state`)
 - VS Code Copilot Chat
 
-## Access
-
-Rewind is commercially licensed. Get in touch for access: weizhong2004@gmail.com
-
 ## Features
 
 - Two-column layout: your messages on the left, assistant responses on the right
