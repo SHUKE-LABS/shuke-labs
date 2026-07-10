@@ -21,9 +21,6 @@ Agent Quota Gateway handles the rotation transparently.
 You declare named **pools** — groups of interchangeable accounts. Your tools point at the gateway and send a pool name instead of a real token. The gateway picks a backend, swaps in the real credential, and forwards the request. On a 429, it switches to the next healthy account and tells your client to retry — no session lost.
 
 ```bash
-# Build
-go build -o agent-quota-gateway ./cmd/agent-quota-gateway
-
 # Two accounts in one pool
 AQG_POOL_AUTO_BACKEND_A=sk-ant-oat... \
 AQG_POOL_AUTO_BACKEND_B=sk-ant-oat... \
@@ -41,13 +38,15 @@ claude
 - **Sticky routing** — stays on one account per pool to preserve prompt cache
 - **Pool health API** — inspect quota and member status at `/_gateway/quota` and `/_gateway/pool`
 - **Multi-vendor** — native Claude subscriptions, API keys, and compatible vendors (Z.ai, MiniMaxi, Volcengine Ark)
-- **Priority pools** — declare a preference order; the gateway drains your preferred account first
-- **Shared mode** — optional Tailscale binding lets multiple machines share one gateway instance
 - **Zero probing** — no synthetic test requests; quota state is read from real response headers
 
-## Install
+## Source-available & self-hostable
 
-Requires Go. No Docker image — `go build` is the deliverable.
+The free core is **source-available under the Business Source License 1.1 (BSL 1.1)**. You can read the source, build it, and self-host it. This is **not** permissive open source (not MIT/Apache) — the BSL sets the terms under which you may use it.
+
+Additional commercial capabilities ship as part of the paid [My AI Team bundle](/pricing).
+
+Requires Go. No Docker image — `go build` is the deliverable:
 
 ```bash
 git clone https://github.com/SHUKE-LABS/agent-quota-gateway
