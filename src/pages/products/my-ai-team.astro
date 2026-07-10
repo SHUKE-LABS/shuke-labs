@@ -5,7 +5,6 @@ import Footer from '../../components/Footer.astro';
 
 const title = 'My AI Team';
 const description = 'AI teammates, not AI tools. You decide. Agent delivers.';
-const contactEmail = 'weizhong2004@gmail.com';
 
 // One line per mode, condensed verbatim from the framework's docs/session-modes.md.
 const modes = [
@@ -247,13 +246,13 @@ $ adhoc                       # one agent: claim → implement → PR → notify
       <div class="rounded-2xl border border-line bg-surface-soft p-8 sm:p-10">
         <h2 class="text-2xl font-bold text-ink">Ready to hand off the busywork?</h2>
         <p class="mt-2 max-w-2xl text-muted">
-          My AI Team is commercially licensed. Get in touch to talk access.
+          My AI Team ships as part of the bundle — $5/mo or $49.99/yr (USD).
         </p>
         <a
-          href={`mailto:${contactEmail}`}
+          href="/pricing"
           class="mt-6 inline-flex items-center rounded-lg bg-accent px-5 py-2.5 text-sm font-medium text-white transition-colors hover:bg-accent-hover"
         >
-          Get in touch: {contactEmail}
+          See pricing &amp; get the bundle
         </a>
       </div>
     </section>

@@ -56,6 +56,23 @@ const { Content } = await render(product);
       <div class="prose mt-8">
         <Content />
       </div>
+
+      {
+        commercial && (
+          <div class="mt-10 rounded-2xl border border-line bg-surface-soft p-6 sm:p-8">
+            <h2 class="text-xl font-bold text-ink">Get {title}</h2>
+            <p class="mt-2 text-muted">
+              Included in the bundle — $5/mo or $49.99/yr (USD).
+            </p>
+            <a
+              href="/pricing"
+              class="mt-5 inline-flex items-center rounded-lg bg-accent px-5 py-2.5 text-sm font-medium text-white transition-colors hover:bg-accent-hover"
+            >
+              See pricing &amp; get the bundle
+            </a>
+          </div>
+        )
+      }
     </article>
   </main>
   <Footer />

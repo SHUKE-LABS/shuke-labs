@@ -1,0 +1,76 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+import { bundleName, plans, bundleItems } from '../config/pricing';
+
+const title = 'Pricing';
+const description = 'One subscription for the My AI Team bundle — $5/mo or $49.99/yr.';
+---
+
+<BaseLayout title={title} description={description}>
+  <Nav />
+  <main class="flex-1">
+    <!-- Hero -->
+    <section class="mx-auto max-w-5xl px-6 pt-10 pb-10 sm:pt-14">
+      <a href="/" aria-label="Back to home" class="text-sm text-muted hover:text-ink transition-colors">&larr;</a>
+      <h1 class="mt-6 text-4xl sm:text-5xl font-bold tracking-tight text-ink">
+        One subscription. The whole team.
+      </h1>
+      <p class="mt-4 max-w-2xl text-lg text-muted">
+        The {bundleName} is one price for everything below — pick monthly or save with annual.
+      </p>
+    </section>
+
+    <!-- Bundle contents -->
+    <section class="mx-auto max-w-5xl px-6 pb-12">
+      <h2 class="text-sm font-semibold uppercase tracking-wider text-muted">What's included</h2>
+      <ul class="mt-4 grid gap-4 sm:grid-cols-3">
+        {
+          bundleItems.map((item) => (
+            <li class="rounded-xl border border-line bg-surface p-5">
+              <span class="block font-semibold text-ink">{item.name}</span>
+              <p class="mt-1 text-sm text-muted leading-relaxed">{item.note}</p>
+            </li>
+          ))
+        }
+      </ul>
+    </section>
+
+    <!-- Plans -->
+    <section class="mx-auto max-w-5xl px-6 pb-12">
+      <div class="grid gap-4 sm:grid-cols-2">
+        {
+          plans.map((plan) => (
+            <div class="flex flex-col rounded-2xl border border-line bg-surface-soft p-8">
+              <span class="text-sm font-semibold uppercase tracking-wider text-accent">
+                {plan.label}
+              </span>
+              <p class="mt-3">
+                <span class="text-4xl font-bold text-ink">{plan.price}</span>
+                <span class="ml-1 text-muted">{plan.period}</span>
+              </p>
+              <a
+                href={plan.checkoutUrl}
+                class="mt-6 inline-flex items-center justify-center rounded-lg bg-accent px-5 py-2.5 text-sm font-medium text-white transition-colors hover:bg-accent-hover"
+              >
+                Get the {plan.label.toLowerCase()} plan
+              </a>
+            </div>
+          ))
+        }
+      </div>
+    </section>
+
+    <!-- Merchant of record + terms -->
+    <section class="mx-auto max-w-5xl px-6 pb-24">
+      <p class="max-w-2xl text-sm text-muted leading-relaxed">
+        Payments are handled by <strong class="font-medium text-ink">LemonSqueezy</strong>, our
+        merchant of record. Your purchase is subject to LemonSqueezy's buyer terms and refund
+        policy, shown at checkout, and to our
+        <a href="/terms" class="text-accent underline underline-offset-2 hover:text-accent-hover">Terms</a>.
+      </p>
+    </section>
+  </main>
+  <Footer />
+</BaseLayout>
