@@ -2,10 +2,10 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
-import { bundleName, plans, bundleItems } from '../config/pricing';
+import { bundleName, plans, bundleItems, bundlePriceSummary } from '../config/pricing';
 
 const title = 'Pricing';
-const description = 'One subscription for the My AI Team bundle — $5/mo or $49.99/yr.';
+const description = `One subscription for the ${bundleName} — ${bundlePriceSummary}.`;
 ---
 
 <BaseLayout title={title} description={description}>

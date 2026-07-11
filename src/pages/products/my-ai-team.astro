@@ -2,6 +2,7 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Nav from '../../components/Nav.astro';
 import Footer from '../../components/Footer.astro';
+import { bundlePriceSummary } from '../../config/pricing';
 
 const title = 'My AI Team';
 const description = 'AI teammates, not AI tools. You decide. Agent delivers.';
@@ -238,7 +239,7 @@ $ adhoc                       # one agent: claim → implement → PR → notify
       <div class="rounded-2xl border border-line bg-surface-soft p-8 sm:p-10">
         <h2 class="text-2xl font-bold text-ink">Ready to hand off the busywork?</h2>
         <p class="mt-2 max-w-2xl text-muted">
-          My AI Team ships as part of the bundle — $5/mo or $49.99/yr (USD).
+          My AI Team ships as part of the bundle — {bundlePriceSummary} (USD).
         </p>
         <a
           href="/pricing"

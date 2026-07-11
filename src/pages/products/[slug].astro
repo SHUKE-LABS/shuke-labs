@@ -3,6 +3,7 @@ import { getCollection, render } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Nav from '../../components/Nav.astro';
 import Footer from '../../components/Footer.astro';
+import { bundlePriceSummary } from '../../config/pricing';
 
 export async function getStaticPaths() {
   // my-ai-team has a dedicated hand-composed page at products/my-ai-team.astro.
@@ -62,7 +63,7 @@ const { Content } = await render(product);
           <div class="mt-10 rounded-2xl border border-line bg-surface-soft p-6 sm:p-8">
             <h2 class="text-xl font-bold text-ink">Get {title}</h2>
             <p class="mt-2 text-muted">
-              Included in the bundle — $5/mo or $49.99/yr (USD).
+              Included in the bundle — {bundlePriceSummary} (USD).
             </p>
             <a
               href="/pricing"
