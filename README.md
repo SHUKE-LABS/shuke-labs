@@ -33,7 +33,12 @@ npm run preview
 
 ## Deployment
 
-Automatically deployed to GitHub Pages on push to `main` via `.github/workflows/deploy.yml`. The custom domain `shukelabs.com` is set in `public/CNAME`.
+Deployment is two-tier:
+
+- **Beta** (`beta.shukelabs.com`, Cloudflare Pages Git integration) auto-deploys on every merge to `main`.
+- **Production** (`shukelabs.com`, GitHub Pages via `.github/workflows/deploy.yml`) is a manual promotion: it runs on `workflow_dispatch` only, after beta is verified — nothing ships to production automatically on push.
+
+The production custom domain `shukelabs.com` is set in `public/CNAME`.
 
 ## License
 
