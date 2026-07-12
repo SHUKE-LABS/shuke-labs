@@ -1,6 +1,6 @@
 ---
 title: "My AI Team"
-description: "AI teammates, not AI tools."
+description: "Agents as teammates, not tools."
 tagline: "You decide. AI delivers."
 weight: 1
 group: "dev"
