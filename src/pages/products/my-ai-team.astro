@@ -5,78 +5,65 @@ import Footer from '../../components/Footer.astro';
 import { bundlePriceSummary } from '../../config/pricing';
 
 const title = 'My AI Team';
-const description = 'Agents as teammates, not tools. You decide. Agent delivers.';
+const description =
+  'Your backlog, delivered — while you sleep. A fleet of AI agents that plan, build, review, and merge real code.';
 
-// One line per mode, condensed verbatim from the framework's docs/session-modes.md.
-const modes = [
+// The three frictions the deck opens on — the reason a single-operator workflow
+// stalls before this product exists.
+const frictions = [
   {
-    name: 'team',
-    line: 'Three-agent relay: planner writes the plan, reviewer gates it, developer implements, reviewer reviews and merges.',
+    heading: 'Terminal babysitting',
+    body: 'You watch an agent work, approve each step, and can’t walk away without it stalling.',
   },
   {
-    name: 'duo',
-    line: "Two agents: dev owns planning + implementation, an independent reviewer authored neither the plan nor the code.",
+    heading: 'Manual handoff between stages',
+    body: 'Plan, build, review, merge — every transition is a copy-paste you drive by hand.',
   },
   {
-    name: 'adhoc',
-    line: 'Single agent owns the full cycle — planning, implementation, review, merge, and notification.',
-  },
-  {
-    name: 'explore',
-    line: 'Open-ended investigation; no repo required, no delivery code — crystallises tickets that hand off to delivery.',
-  },
-  {
-    name: 'audit',
-    line: 'Quality auditor for the repo; files structured triage tickets about merged work, never writes delivery code.',
-  },
-  {
-    name: 'caucus',
-    line: 'Two peer agents deliberate — a proposer opens a position, a challenger stress-tests it — converging on tickets.',
-  },
-  {
-    name: 'live',
-    line: 'Bare-bones single agent in the current directory with the native REPL — no relay, issue queue, or PR workflow.',
+    heading: 'Single-agent bottleneck',
+    body: 'One agent, one ticket at a time. The queue moves only as fast as you can feed it.',
   },
 ];
 
-// The autonomous loop — the page's single diagram. Forward path runs
-// Human → Explorer → Planner → [plan review] → Developer → [review] → [CI] →
-// Merge; merge re-arms the cycle, the Auditor files new tickets that feed back
-// to the Planner, and Deploy branches off as optional. `gate`/`ci` nodes are
-// the trust checkpoints that separate guarded teammates from unguarded
-// automation; `agent: true` stages are the automated delivery.
+// The autonomous loop, compressed to the five buyer-facing stages. The full
+// topology (gates, CI, Auditor, Deploy) lives on the how-it-works detail page.
 const loop = [
-  { kind: 'stage', who: 'Human', tag: 'kickoff', note: 'You bring the goal — a rough idea, a bug, a feature.' },
-  { kind: 'stage', who: 'Explorer', agent: true, note: 'Refines the idea into a self-standing ticket.' },
-  { kind: 'stage', who: 'Planner', agent: true, note: 'Drafts the approach; the plan names real files and steps.' },
-  { kind: 'gate', who: 'Plan review', note: 'A reviewer signs off before a line of code is written.' },
-  { kind: 'stage', who: 'Developer', agent: true, note: 'Implements on a branch and opens the PR.' },
-  { kind: 'gate', who: 'Review', note: 'A reviewer signs off again before merge.' },
-  { kind: 'ci', note: 'CI runs the suite — green merges, red reopens the Developer.' },
-  { kind: 'stage', who: 'Merge', agent: true, note: 'Squashed to main; the cycle re-arms for the next ticket.' },
-  { kind: 'deploy', who: 'Deploy', note: 'Optional — ship the merged change to staging or production.' },
+  { who: 'Ticket', note: 'A goal enters the queue.' },
+  { who: 'Plan', note: 'An agent drafts the approach.' },
+  { who: 'Build', note: 'An agent implements on a branch.' },
+  { who: 'Review', note: 'An independent agent signs off.' },
+  { who: 'Merge', note: 'The change lands; the queue re-arms.' },
 ];
 
-const differentiators = [
+// Capability map — the deck's Deliverers vs Producers split. Each mode deep-links
+// to its anchor on the session-modes detail page.
+const deliverers = [
+  { name: 'team', line: 'Three agents — plan, build, and an independent reviewer. Highest assurance.' },
+  { name: 'duo', line: 'Two agents; the reviewer authored neither plan nor code. A genuine second pair of eyes, lighter.' },
+  { name: 'adhoc', line: 'One agent owns the full cycle. Fastest path for small, low-risk changes.' },
+];
+
+const producers = [
+  { name: 'explore', line: 'Open-ended investigation that crystallises fuzzy ideas into ready tickets.' },
+  { name: 'audit', line: 'A quality auditor that files structured tickets about merged work.' },
+  { name: 'caucus', line: 'Two peers deliberate a hard question and converge — resolving locally, not escalating.' },
+  { name: 'live', line: 'A bare single agent in the current directory — the hands-on outlier, no queue or PR flow.' },
+];
+
+// The differentiators that survive from the old page, folded in as short support
+// bullets under the capability map.
+const supportBullets = [
   {
-    heading: 'Custom protocols, per repo',
-    body: 'Layer repo-specific rules on top of the standard agent constitutions. Each project teaches the team its own conventions, verification steps, and boundaries.',
-    diagram: ['standard constitution', '+ CLAUDE.md', '+ agents/*.md', '= this repo’s rules'],
+    heading: 'Repo-specific protocols',
+    body: 'Layer your project’s conventions and boundaries on top of the standard agent constitutions.',
   },
   {
     heading: 'Fresh context per ticket',
-    body: 'Context is cleared between tickets. A reviewer re-reads the next diff cold, with none of the implementer’s heavy state carried over — so review stays independent.',
-    diagram: ['ticket #1 → done', '── context cleared ──', 'ticket #2 → fresh start'],
+    body: 'Context clears between tickets, so a reviewer reads the next diff cold and review stays honest.',
   },
   {
-    heading: 'Autonomous conflict resolution',
-    body: 'When agents disagree on design or direction, caucus convenes two peers to deliberate to a concrete conclusion — resolving locally instead of escalating to you.',
-    diagram: ['proposer  ⇄  challenger', 'deliberate', 'conclusion → ticket'],
-  },
-  {
-    heading: 'Auto-pickup of the next ticket',
-    body: 'After a merge the system re-arms itself: it resolves the next ready ticket and starts again — finishing one thing and picking up the next without being re-invoked.',
-    diagram: ['merge #142', '→ next-work', '→ implement #143'],
+    heading: 'Async queue flow',
+    body: 'Finish one ticket, pick up the next — the queue re-arms itself without being re-invoked.',
   },
 ];
 ---
@@ -84,153 +71,132 @@ const differentiators = [
 <BaseLayout title={title} description={description}>
   <Nav />
   <main class="flex-1">
-    <!-- Hero -->
+    <!-- Hero: the value promise -->
     <section class="mx-auto max-w-5xl px-6 pt-6 pb-16 sm:pt-8 sm:pb-20">
       <a href="/" aria-label="Back to home" class="text-sm text-muted hover:text-ink transition-colors">&larr;</a>
       <h1 class="mt-3 text-4xl sm:text-5xl font-bold tracking-tight text-ink">
-        Agents as teammates, not tools.
+        Your backlog, delivered — while you sleep.
       </h1>
-      <p class="mt-4 text-xl sm:text-2xl font-medium text-accent">You decide. Agent delivers.</p>
+      <p class="mt-4 max-w-2xl text-xl sm:text-2xl font-medium text-accent">
+        A fleet of AI agents that plan, build, review, and merge real code. You set the direction. They run the pipeline.
+      </p>
     </section>
 
-    <!-- The autonomous loop — the page's focal element -->
+    <!-- Friction: why single-operator workflow stalls -->
+    <section class="mx-auto max-w-5xl px-6 pb-16">
+      <h2 class="text-sm font-semibold uppercase tracking-wider text-muted">The bottleneck today</h2>
+      <div class="mt-6 grid gap-4 sm:grid-cols-3">
+        {
+          frictions.map((f) => (
+            <div class="rounded-xl border border-line bg-surface p-5">
+              <h3 class="text-base font-semibold text-ink">{f.heading}</h3>
+              <p class="mt-2 text-sm text-muted leading-relaxed">{f.body}</p>
+            </div>
+          ))
+        }
+      </div>
+      <p class="mt-6 text-lg font-medium text-ink">The work waits on you. That doesn’t scale.</p>
+    </section>
+
+    <!-- The autonomous loop — compressed concept row -->
     <section class="mx-auto max-w-5xl px-6 pb-16">
       <h2 class="text-sm font-semibold uppercase tracking-wider text-muted">The autonomous loop</h2>
-
-      {/* Forward path: stages + trust gates, connected as one flow. */}
       <div class="mt-6 flex flex-col sm:flex-row sm:flex-wrap sm:items-stretch sm:gap-y-3">
         {
-          loop.map((node, i) => (
+          loop.map((stage, i) => (
             <>
               {i > 0 && (
                 <div
                   class="flex items-center justify-center py-2 text-2xl text-muted sm:px-3 sm:py-0"
                   aria-hidden="true"
                 >
-                  <span class="sm:hidden">{node.kind === 'deploy' ? '⇣' : '↓'}</span>
-                  <span class="hidden sm:inline">{node.kind === 'deploy' ? '⇢' : '→'}</span>
+                  <span class="sm:hidden">↓</span>
+                  <span class="hidden sm:inline">→</span>
                 </div>
               )}
-
-              {/* stage */}
-              {node.kind === 'stage' && (
-                <div class="rounded-2xl border border-line bg-surface p-6 sm:min-w-[12rem] sm:flex-1">
-                  <div class="flex flex-wrap items-center gap-2">
-                    <span class="text-lg font-semibold text-ink">{node.who}</span>
-                    {node.tag && (
-                      <span class="rounded-full bg-accent-soft px-2.5 py-0.5 font-mono text-xs font-medium text-accent">
-                        {node.tag}
-                      </span>
-                    )}
-                    {node.agent && (
-                      <span class="rounded-full bg-accent-soft px-2.5 py-0.5 font-mono text-xs font-medium text-accent">
-                        agent
-                      </span>
-                    )}
-                  </div>
-                  <p class="mt-2 text-sm text-muted leading-relaxed">{node.note}</p>
-                </div>
-              )}
-
-              {/* trust gate — accent checkpoint, ✓ marks the sign-off */}
-              {node.kind === 'gate' && (
-                <div class="rounded-xl border border-accent bg-accent-soft px-5 py-4 sm:min-w-[12rem]">
-                  <div class="font-mono text-sm font-semibold text-accent">✓ {node.who}</div>
-                  <p class="mt-1 text-sm text-muted leading-relaxed">{node.note}</p>
-                </div>
-              )}
-
-              {/* CI decision — green/red fork, stacked inline so it reads on mobile */}
-              {node.kind === 'ci' && (
-                <div class="rounded-xl border border-line bg-surface p-5 sm:min-w-[12rem]">
-                  <span class="font-mono text-base font-semibold text-ink">CI</span>
-                  <div class="mt-2 space-y-1 font-mono text-xs">
-                    <div class="text-accent">✓ green → merge</div>
-                    <div class="text-muted">✗ red → Developer</div>
-                  </div>
-                </div>
-              )}
-
-              {/* deploy — optional dashed branch off merge */}
-              {node.kind === 'deploy' && (
-                <div class="rounded-2xl border border-dashed border-line bg-surface p-6 sm:min-w-[12rem] sm:flex-1">
-                  <div class="flex flex-wrap items-center gap-2">
-                    <span class="text-lg font-semibold text-ink">{node.who}</span>
-                    <span class="rounded-full bg-accent-soft px-2.5 py-0.5 font-mono text-xs font-medium text-accent">
-                      optional
-                    </span>
-                  </div>
-                  <p class="mt-2 text-sm text-muted leading-relaxed">{node.note}</p>
-                </div>
-              )}
+              <div class="rounded-2xl border border-line bg-surface p-6 sm:min-w-[9rem] sm:flex-1">
+                <span class="text-lg font-semibold text-ink">{stage.who}</span>
+                <p class="mt-2 text-sm text-muted leading-relaxed">{stage.note}</p>
+              </div>
             </>
           ))
         }
       </div>
-
-      {/* Loop closure: merge re-arms the cycle; the Auditor feeds new tickets back to the Planner. */}
-      <div class="mt-6 flex items-center gap-3 rounded-xl border border-dashed border-line bg-surface-soft p-5">
-        <span class="text-2xl text-accent" aria-hidden="true">↻</span>
-        <p class="font-mono text-sm text-muted leading-relaxed">
-          <span class="text-ink">Auditor</span> files new tickets → back to <span class="text-ink">Planner</span> — the loop closes and the next cycle re-arms.
-        </p>
-      </div>
+      <p class="mt-6 text-muted leading-relaxed">
+        You step in only at genuine decisions.
+        <a href="/products/my-ai-team/how-it-works" class="text-accent hover:underline">See how it works &rarr;</a>
+      </p>
     </section>
 
-    <!-- Modes -->
+    <!-- Capability map: Deliverers vs Producers -->
     <section class="mx-auto max-w-5xl px-6 pb-16">
-      <h2 class="text-sm font-semibold uppercase tracking-wider text-muted">Seven session modes</h2>
-      <div class="mt-6 grid gap-4 sm:grid-cols-2">
+      <h2 class="text-sm font-semibold uppercase tracking-wider text-muted">What the team can do</h2>
+
+      <div class="mt-6">
+        <h3 class="text-base font-semibold text-ink">Deliverers <span class="font-normal text-muted">— output is a merged PR</span></h3>
+        <div class="mt-4 grid gap-4 sm:grid-cols-3">
+          {
+            deliverers.map((mode) => (
+              <a
+                href={`/products/my-ai-team/session-modes#${mode.name}`}
+                class="block rounded-xl border border-line bg-surface p-5 transition-colors hover:border-accent"
+              >
+                <span class="font-mono text-sm font-semibold text-accent">{mode.name}</span>
+                <p class="mt-2 text-sm text-muted leading-relaxed">{mode.line}</p>
+              </a>
+            ))
+          }
+        </div>
+      </div>
+
+      <div class="mt-8">
+        <h3 class="text-base font-semibold text-ink">Producers <span class="font-normal text-muted">— keep the queue full</span></h3>
+        <div class="mt-4 grid gap-4 sm:grid-cols-2">
+          {
+            producers.map((mode) => (
+              <a
+                href={`/products/my-ai-team/session-modes#${mode.name}`}
+                class="block rounded-xl border border-line bg-surface p-5 transition-colors hover:border-accent"
+              >
+                <span class="font-mono text-sm font-semibold text-accent">{mode.name}</span>
+                <p class="mt-2 text-sm text-muted leading-relaxed">{mode.line}</p>
+              </a>
+            ))
+          }
+        </div>
+      </div>
+
+      <div class="mt-8 grid gap-4 sm:grid-cols-3">
         {
-          modes.map((mode) => (
-            <div class="rounded-xl border border-line bg-surface p-5">
-              <span class="font-mono text-sm font-semibold text-accent">{mode.name}</span>
-              <p class="mt-2 text-sm text-muted leading-relaxed">{mode.line}</p>
+          supportBullets.map((b) => (
+            <div class="rounded-xl border border-dashed border-line bg-surface-soft p-5">
+              <h4 class="text-sm font-semibold text-ink">{b.heading}</h4>
+              <p class="mt-2 text-sm text-muted leading-relaxed">{b.body}</p>
             </div>
           ))
         }
       </div>
     </section>
 
-    <!-- Why teammates, not tools -->
+    <!-- Stay in the loop: async by design -->
     <section class="mx-auto max-w-5xl px-6 pb-16">
-      <h2 class="text-sm font-semibold uppercase tracking-wider text-muted">
-        Why teammates, not tools
-      </h2>
-      <div class="mt-8 space-y-10">
-        {
-          differentiators.map((d, i) => (
-            <div class="grid items-center gap-6 sm:grid-cols-2">
-              <div class={i % 2 === 1 ? 'sm:order-2' : ''}>
-                <h3 class="text-xl font-semibold text-ink">{d.heading}</h3>
-                <p class="mt-2 text-muted leading-relaxed">{d.body}</p>
-              </div>
-              <div class={i % 2 === 1 ? 'sm:order-1' : ''}>
-                <div class="rounded-xl border border-line bg-surface-soft p-5">
-                  <div class="flex flex-col gap-1.5 font-mono text-sm text-muted">
-                    {d.diagram.map((row) => (
-                      <span>{row}</span>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            </div>
-          ))
-        }
-      </div>
-    </section>
-
-    <!-- Terminal snippet: the single real command excerpt -->
-    <section class="mx-auto max-w-5xl px-6 pb-16">
-      <h2 class="text-sm font-semibold uppercase tracking-wider text-muted">See it run</h2>
-      <div class="prose mt-6 max-w-none">
-        <pre><code>{`$ cd ~/projects/acme-api
-$ adhoc                       # one agent: claim → implement → PR → notify
-
-[mux] session acme-api_adhoc_claude ready
-[mux] next-work → implement #142
-      … plans, edits, runs the tests …
-[mux] opened PR #143 · notified you`}</code></pre>
+      <h2 class="text-sm font-semibold uppercase tracking-wider text-muted">Stay in the loop</h2>
+      <div class="mt-6 grid items-center gap-6 sm:grid-cols-2">
+        <div>
+          <h3 class="text-xl font-semibold text-ink">Decisions, not chores</h3>
+          <p class="mt-3 text-muted leading-relaxed">
+            The team reaches you on Telegram the moment it needs a real call — a scope question, a
+            tradeoff, a PR to look at. Everything else runs without you. You approve direction from
+            your phone; the pipeline keeps moving whether you’re at the desk or not.
+          </p>
+        </div>
+        <div class="rounded-xl border border-line bg-surface-soft p-5">
+          <div class="flex flex-col gap-1.5 font-mono text-sm text-muted">
+            <span>opened PR #143 · notified you</span>
+            <span>blocked #146 · awaiting your call</span>
+            <span class="text-accent">async by design — reply when you’re free</span>
+          </div>
+        </div>
       </div>
     </section>
 
