@@ -12,7 +12,6 @@ const products = (await getCollection('products')).sort(
 const devTools = products.filter((p) => p.data.group === 'dev' && p.id !== 'my-ai-team');
 const apps = products.filter((p) => p.data.group === 'app');
 
-const myAiTeam = products.find((p) => p.id === 'my-ai-team');
 const featuredBullets = [
   'Agents claim tickets, implement changes, open PRs, and notify you — no terminal babysitting.',
   'Seven session modes, from a read-only explore to a pipelined three-agent relay.',
@@ -23,53 +22,43 @@ const featuredBullets = [
 <BaseLayout>
   <Nav />
   <main class="flex-1">
-    <!-- Hero -->
+    <!-- Flagship: My AI Team owns the first screen -->
     <section class="mx-auto max-w-5xl px-6 pt-12 pb-16 sm:pb-20">
-      <p class="text-sm font-semibold uppercase tracking-wider text-muted">SHUKE LABS</p>
-      <h1 class="mt-3 text-4xl sm:text-5xl font-bold tracking-tight text-ink">
-        Practical tools for developers and language learners
-      </h1>
-      <p class="mt-4 text-xl sm:text-2xl font-medium text-accent">Build more, struggle less</p>
-      <p class="mt-4 max-w-xl text-lg text-muted">
-        Start with the flagship — an AI team that ships while you sleep — then explore the focused
-        tools and apps below.
-      </p>
-      <a
-        href="#products"
-        class="mt-8 inline-flex items-center rounded-lg bg-accent px-5 py-2.5 text-sm font-medium text-white transition-colors hover:bg-accent-hover"
-      >
-        Explore the products
-      </a>
+      <div class="grid gap-8 lg:grid-cols-2 lg:items-center">
+        <div>
+          <p class="text-sm font-semibold uppercase tracking-wider text-accent">MY AI TEAM</p>
+          <h1 class="mt-3 text-4xl sm:text-5xl font-bold tracking-tight text-ink">
+            AI teammates, not AI tools.
+          </h1>
+          <p class="mt-4 text-xl sm:text-2xl font-medium text-accent">You decide. Agent delivers.</p>
+          <ul class="mt-6 space-y-2">
+            {featuredBullets.map((bullet) => (
+              <li class="flex gap-3 text-ink">
+                <span class="mt-1 text-accent" aria-hidden="true">
+                  &rarr;
+                </span>
+                <span>{bullet}</span>
+              </li>
+            ))}
+          </ul>
+          <a
+            href="/products/my-ai-team"
+            class="mt-6 inline-flex items-center gap-1 text-sm font-medium text-accent hover:text-accent-hover"
+          >
+            Read more about My AI Team &rarr;
+          </a>
+        </div>
+        <div class="rounded-2xl border border-line bg-surface p-4 sm:p-6">
+          <img
+            src="/images/my-ai-team-loop.svg"
+            alt="Autonomous AI loop: a human kicks off with the Explorer agent; Planner, Reviewer, Developer and Auditor cycle tickets from plan to review to merge, then file new tickets that feed back to the Planner."
+            class="w-full h-auto"
+            width="740"
+            height="605"
+          />
+        </div>
+      </div>
     </section>
-
-    <!-- Featured: My AI Team -->
-    {
-      myAiTeam && (
-        <section class="mx-auto max-w-5xl px-6 pb-16">
-          <div class="rounded-2xl border border-line bg-surface-soft p-8 sm:p-10">
-            <p class="text-sm font-semibold uppercase tracking-wider text-accent">Featured</p>
-            <h2 class="mt-2 text-2xl font-bold text-ink">My AI Team</h2>
-            <p class="mt-2 max-w-2xl text-muted">{myAiTeam.data.description}</p>
-            <ul class="mt-6 space-y-2">
-              {featuredBullets.map((bullet) => (
-                <li class="flex gap-3 text-ink">
-                  <span class="mt-1 text-accent" aria-hidden="true">
-                    &rarr;
-                  </span>
-                  <span>{bullet}</span>
-                </li>
-              ))}
-            </ul>
-            <a
-              href="/products/my-ai-team"
-              class="mt-6 inline-flex items-center gap-1 text-sm font-medium text-accent hover:text-accent-hover"
-            >
-              Read more about My AI Team &rarr;
-            </a>
-          </div>
-        </section>
-      )
-    }
 
     <!-- Product grid -->
     <section id="products" class="mx-auto max-w-5xl px-6 pb-16 scroll-mt-20">
