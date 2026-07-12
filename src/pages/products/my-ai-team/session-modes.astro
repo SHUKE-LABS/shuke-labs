@@ -1,0 +1,130 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import Nav from '../../../components/Nav.astro';
+import Footer from '../../../components/Footer.astro';
+
+const title = 'My AI Team session modes';
+const description =
+  'Seven ways the team works — Deliverers that ship merged PRs, and Producers that keep the queue full.';
+
+// Two groups from the deck. Each mode carries a stable anchor id so the product
+// page and other surfaces can deep-link straight to it (e.g. #duo, #audit).
+// Public-facing summaries only — the model and the tradeoff, not launch commands
+// or per-role protocol.
+const deliverers = [
+  {
+    id: 'team',
+    name: 'team',
+    summary:
+      'Three agents split the work: one plans, one implements, and an independent reviewer gates the plan and the diff before merging. The highest-assurance path for changes that warrant it.',
+  },
+  {
+    id: 'duo',
+    name: 'duo',
+    summary:
+      'Two agents: one owns planning and implementation, the other reviews. The reviewer authored neither the plan nor the code, so the design still gets a genuine second pair of eyes — at a lighter cost than team.',
+  },
+  {
+    id: 'adhoc',
+    name: 'adhoc',
+    summary:
+      'A single agent owns the full cycle — plan, build, review, merge, and notify. The fastest, leanest path for small, low-risk changes.',
+  },
+];
+
+const producers = [
+  {
+    id: 'explore',
+    name: 'explore',
+    summary:
+      'Open-ended investigation with no code to deliver. It turns a fuzzy idea into concrete, self-standing tickets that the Deliverers can pick up.',
+  },
+  {
+    id: 'audit',
+    name: 'audit',
+    summary:
+      'A quality auditor for the repo. It reviews merged work and files structured tickets about what it finds — it never writes delivery code itself.',
+  },
+  {
+    id: 'caucus',
+    name: 'caucus',
+    summary:
+      'Two peer agents deliberate a hard question — one proposes a position, the other stress-tests it — and converge on a concrete conclusion, resolving disagreements without escalating to you.',
+  },
+  {
+    id: 'live',
+    name: 'live',
+    summary:
+      'A bare single agent working in the current directory, with no queue and no PR workflow. The hands-on outlier for when you want to drive directly.',
+  },
+];
+---
+
+<BaseLayout title={title} description={description}>
+  <Nav />
+  <main class="flex-1">
+    <!-- Hero -->
+    <section class="mx-auto max-w-5xl px-6 pt-6 pb-12">
+      <a
+        href="/products/my-ai-team"
+        class="text-sm text-muted hover:text-ink transition-colors">&larr; My AI Team</a
+      >
+      <h1 class="mt-3 text-4xl sm:text-5xl font-bold tracking-tight text-ink">Session modes</h1>
+      <p class="mt-4 max-w-2xl text-lg text-muted leading-relaxed">
+        The team works in seven modes, in two groups. <span class="text-ink font-medium"
+          >Deliverers</span
+        > ship merged code; you pick the cost-versus-assurance point per ticket.
+        <span class="text-ink font-medium">Producers</span> keep the queue full so the Deliverers always
+        have work to do.
+      </p>
+    </section>
+
+    <!-- Deliverers -->
+    <section class="mx-auto max-w-5xl px-6 pb-16">
+      <h2 class="text-sm font-semibold uppercase tracking-wider text-muted">
+        Deliverers — output is a merged PR
+      </h2>
+      <div class="mt-6 grid gap-4 sm:grid-cols-3">
+        {
+          deliverers.map((mode) => (
+            <div id={mode.id} class="scroll-mt-24 rounded-xl border border-line bg-surface p-5">
+              <span class="font-mono text-sm font-semibold text-accent">{mode.name}</span>
+              <p class="mt-2 text-sm text-muted leading-relaxed">{mode.summary}</p>
+            </div>
+          ))
+        }
+      </div>
+    </section>
+
+    <!-- Producers -->
+    <section class="mx-auto max-w-5xl px-6 pb-16">
+      <h2 class="text-sm font-semibold uppercase tracking-wider text-muted">
+        Producers — keep the queue full
+      </h2>
+      <div class="mt-6 grid gap-4 sm:grid-cols-2">
+        {
+          producers.map((mode) => (
+            <div id={mode.id} class="scroll-mt-24 rounded-xl border border-line bg-surface p-5">
+              <span class="font-mono text-sm font-semibold text-accent">{mode.name}</span>
+              <p class="mt-2 text-sm text-muted leading-relaxed">{mode.summary}</p>
+            </div>
+          ))
+        }
+      </div>
+    </section>
+
+    <!-- Cross-link -->
+    <section class="mx-auto max-w-5xl px-6 pb-24">
+      <div class="rounded-2xl border border-line bg-surface-soft p-8 sm:p-10">
+        <h2 class="text-2xl font-bold text-ink">See the pipeline behind the modes</h2>
+        <p class="mt-3 max-w-2xl text-muted leading-relaxed">
+          Every Deliverer runs the same underlying loop — plan, build, review, merge. Read
+          <a href="/products/my-ai-team/how-it-works" class="text-accent hover:underline"
+            >how it works</a
+          > for the guardrails that keep autonomous merges honest.
+        </p>
+      </div>
+    </section>
+  </main>
+  <Footer />
+</BaseLayout>
