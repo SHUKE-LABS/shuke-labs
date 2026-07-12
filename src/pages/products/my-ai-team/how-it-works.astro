@@ -1,0 +1,119 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import Nav from '../../../components/Nav.astro';
+import Footer from '../../../components/Footer.astro';
+
+const title = 'How My AI Team works';
+const description =
+  'A ticket becomes a plan, a build, a review, and a merge — automatically. You step in only at genuine decisions.';
+
+// The loop as a public concept row: the five stages a ticket passes through.
+// Buyer-facing framing — no relay topology, no launch commands, no per-role
+// protocol. The trust checkpoints are described in prose below, not as nodes.
+const stages = [
+  { who: 'Ticket', note: 'A goal enters the queue — a rough idea, a bug, a feature.' },
+  { who: 'Plan', note: 'An agent drafts the approach, naming the real files and steps.' },
+  { who: 'Build', note: 'An agent implements the change on its own branch and opens a PR.' },
+  { who: 'Review', note: 'An independent agent reads the diff cold and signs off — or sends it back.' },
+  { who: 'Merge', note: 'The change lands, and the queue re-arms for the next ticket.' },
+];
+---
+
+<BaseLayout title={title} description={description}>
+  <Nav />
+  <main class="flex-1">
+    <!-- Hero -->
+    <section class="mx-auto max-w-5xl px-6 pt-6 pb-12">
+      <a
+        href="/products/my-ai-team"
+        class="text-sm text-muted hover:text-ink transition-colors">&larr; My AI Team</a
+      >
+      <h1 class="mt-3 text-4xl sm:text-5xl font-bold tracking-tight text-ink">How it works</h1>
+      <p class="mt-4 max-w-2xl text-lg text-muted leading-relaxed">
+        My AI Team runs your backlog as a pipeline. A ticket becomes a plan, a build, a review, and
+        a merge — with humans stepping in only at genuine decisions.
+      </p>
+    </section>
+
+    <!-- The loop: five-stage concept row -->
+    <section class="mx-auto max-w-5xl px-6 pb-16">
+      <h2 class="text-sm font-semibold uppercase tracking-wider text-muted">The autonomous loop</h2>
+      <div class="mt-6 flex flex-col sm:flex-row sm:flex-wrap sm:items-stretch sm:gap-y-3">
+        {
+          stages.map((stage, i) => (
+            <>
+              {i > 0 && (
+                <div
+                  class="flex items-center justify-center py-2 text-2xl text-muted sm:px-3 sm:py-0"
+                  aria-hidden="true"
+                >
+                  <span class="sm:hidden">↓</span>
+                  <span class="hidden sm:inline">→</span>
+                </div>
+              )}
+              <div class="rounded-2xl border border-line bg-surface p-6 sm:min-w-[10rem] sm:flex-1">
+                <span class="text-lg font-semibold text-ink">{stage.who}</span>
+                <p class="mt-2 text-sm text-muted leading-relaxed">{stage.note}</p>
+              </div>
+            </>
+          ))
+        }
+      </div>
+      <div
+        class="mt-6 flex items-center gap-3 rounded-xl border border-dashed border-line bg-surface-soft p-5"
+      >
+        <span class="text-2xl text-accent" aria-hidden="true">↻</span>
+        <p class="text-sm text-muted leading-relaxed">
+          Each merge re-arms the cycle. The team finishes one ticket and picks up the next without
+          waiting to be re-invoked.
+        </p>
+      </div>
+    </section>
+
+    <!-- Trust checkpoints -->
+    <section class="mx-auto max-w-5xl px-6 pb-16">
+      <h2 class="text-sm font-semibold uppercase tracking-wider text-muted">
+        Where the guardrails are
+      </h2>
+      <div class="mt-6 grid gap-4 sm:grid-cols-3">
+        <div class="rounded-xl border border-line bg-surface p-5">
+          <h3 class="text-base font-semibold text-ink">A plan is approved first</h3>
+          <p class="mt-2 text-sm text-muted leading-relaxed">
+            An independent reviewer signs off on the approach before a line of code is written, so
+            the build starts from an agreed design — not a guess.
+          </p>
+        </div>
+        <div class="rounded-xl border border-line bg-surface p-5">
+          <h3 class="text-base font-semibold text-ink">Review is independent</h3>
+          <p class="mt-2 text-sm text-muted leading-relaxed">
+            The agent that reviews the diff is not the one that wrote it, and it re-reads the change
+            with fresh context — so review stays honest instead of rubber-stamping.
+          </p>
+        </div>
+        <div class="rounded-xl border border-line bg-surface p-5">
+          <h3 class="text-base font-semibold text-ink">Tests gate the merge</h3>
+          <p class="mt-2 text-sm text-muted leading-relaxed">
+            The suite runs on every change. Green merges; red sends the work back to the builder.
+            Nothing lands on a failing test.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- You stay in the loop -->
+    <section class="mx-auto max-w-5xl px-6 pb-24">
+      <div class="rounded-2xl border border-line bg-surface-soft p-8 sm:p-10">
+        <h2 class="text-2xl font-bold text-ink">You decide the direction</h2>
+        <p class="mt-3 max-w-2xl text-muted leading-relaxed">
+          The team resolves what it can on its own and only comes to you for real decisions —
+          product calls, scope, tradeoffs. When agents disagree on design, two of them deliberate to
+          a conclusion instead of escalating. See the
+          <a href="/products/my-ai-team/session-modes" class="text-accent hover:underline"
+            >session modes</a
+          > for the shapes that work runs in.
+        </p>
+      </div>
+    </section>
+  </main>
+  <Footer />
+</BaseLayout>
