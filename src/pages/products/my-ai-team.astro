@@ -8,20 +8,20 @@ const title = 'My AI Team';
 const description =
   'Your backlog, delivered — while you sleep. A fleet of AI agents that plan, build, review, and merge real code.';
 
-// The three frictions the deck opens on — the reason a single-operator workflow
-// stalls before this product exists.
+// The real bottleneck for a buyer who already trusts AI to auto-merge: decision
+// context evaporates once agents work autonomously at volume.
 const frictions = [
   {
-    heading: 'Terminal babysitting',
-    body: 'You watch an agent work, approve each step, and can’t walk away without it stalling.',
+    heading: 'Context dies with the session',
+    body: 'An agent plans, builds, and merges — then its reasoning evaporates. The why behind the change is gone the moment the session ends.',
   },
   {
-    heading: 'Manual handoff between stages',
-    body: 'Plan, build, review, merge — every transition is a copy-paste you drive by hand.',
+    heading: 'The next bug is archaeology',
+    body: 'When something breaks weeks later, the agent sent to fix it has no idea how the original was designed or why. It rebuilds understanding from scratch — or breaks something else.',
   },
   {
-    heading: 'Single-agent bottleneck',
-    body: 'One agent, one ticket at a time. The queue moves only as fast as you can feed it.',
+    heading: 'Autonomy without a record doesn’t scale',
+    body: 'The more AI ships on its own, the more untraceable decisions pile up. Volume you can’t trace is volume you can’t maintain.',
   },
 ];
 
@@ -82,9 +82,12 @@ const supportBullets = [
       </p>
     </section>
 
-    <!-- Friction: why single-operator workflow stalls -->
+    <!-- Bottleneck: decision context evaporates once AI works autonomously -->
     <section class="mx-auto max-w-5xl px-6 pb-16">
       <h2 class="text-sm font-semibold uppercase tracking-wider text-muted">The bottleneck today</h2>
+      <p class="mt-4 max-w-2xl text-lg text-ink leading-relaxed">
+        If you trust AI to write and merge your code, throughput was never the problem. What happens <em>after</em> is.
+      </p>
       <div class="mt-6 grid gap-4 sm:grid-cols-3">
         {
           frictions.map((f) => (
@@ -95,7 +98,32 @@ const supportBullets = [
           ))
         }
       </div>
-      <p class="mt-6 text-lg font-medium text-ink">The work waits on you. That doesn’t scale.</p>
+      <p class="mt-6 text-lg font-medium text-ink">Auto-merge was never the risk. Forgetting how you got here is.</p>
+    </section>
+
+    <!-- Payoff: the durable decision trail — first reader is the next agent -->
+    <section class="mx-auto max-w-5xl px-6 pb-16">
+      <h2 class="text-sm font-semibold uppercase tracking-wider text-muted">Every decision, on the record</h2>
+      <p class="mt-4 max-w-3xl text-lg text-ink leading-relaxed">
+        My AI Team binds every change to a durable trail. The plan, the design calls, the tradeoffs, the
+        sign-off — all recorded as issue comments, matched to a PR. When a later agent picks up a bug, it
+        reads exactly how the original was designed and built, and fixes it with full context — not guesswork.
+      </p>
+      <div class="mt-6 rounded-2xl border border-line bg-surface-soft p-6">
+        <div class="flex flex-col gap-2 font-mono text-sm text-muted">
+          <span><span class="text-accent">issue #142</span> · the goal and its constraints</span>
+          <span class="pl-4">↳ comment · the plan and approach</span>
+          <span class="pl-4">↳ comment · design calls and tradeoffs</span>
+          <span class="pl-4">↳ comment · review sign-off</span>
+          <span><span class="text-accent">PR #143</span> · matched to the trail, merged</span>
+          <span class="pt-1 text-ink">↑ months later, the next agent reads all of it</span>
+        </div>
+      </div>
+      <p class="mt-6 text-muted leading-relaxed">
+        The trail’s first reader is the next agent, not you.
+        <a href="/products/my-ai-team/how-it-works" class="text-accent hover:underline">See how the loop records it &rarr;</a>
+      </p>
+      <p class="mt-4 text-lg font-medium text-ink">Trust AI to run autonomously. Keep the trail that makes it debuggable.</p>
     </section>
 
     <!-- The autonomous loop — compressed concept row -->
@@ -186,7 +214,7 @@ const supportBullets = [
           <h3 class="text-xl font-semibold text-ink">Decisions, not chores</h3>
           <p class="mt-3 text-muted leading-relaxed">
             The team reaches you on Telegram the moment it needs a real call — a scope question, a
-            tradeoff, a PR to look at. Everything else runs without you. You approve direction from
+            tradeoff, a direction to confirm. Everything else runs without you. You approve direction from
             your phone; the pipeline keeps moving whether you’re at the desk or not.
           </p>
         </div>
