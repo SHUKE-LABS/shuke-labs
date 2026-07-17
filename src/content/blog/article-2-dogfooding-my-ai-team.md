@@ -2,7 +2,7 @@
 title: "我如何用 my-ai-team 开发 my-ai-team"
 description: "一条吃自己尾巴的蛇：my-ai-team 如何用它自己定义的 agent 队伍开发自己。"
 pubDate: 2026-07-16
-draft: true
+project: my-ai-team
 lang: zh
 ---
 

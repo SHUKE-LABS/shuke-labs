@@ -2,7 +2,7 @@
 title: "为什么一张票的「状态」，就是交付的闸门"
 description: "thesis 系列 · 第二篇 —— Ready / blocked / assigned_to。"
 pubDate: 2026-07-18
-draft: true
+project: my-ai-team
 lang: zh
 series: thesis
 order: 2

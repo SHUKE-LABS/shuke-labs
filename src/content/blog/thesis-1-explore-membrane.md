@@ -2,7 +2,7 @@
 title: "Why my-ai-team Has an Agent That Only Talks and Never Writes Code"
 description: "Thesis #1 — explore, and why the ticket is the membrane between a fuzzy idea and clean delivery."
 pubDate: 2026-07-18
-draft: true
+project: my-ai-team
 lang: en
 series: thesis
 order: 1

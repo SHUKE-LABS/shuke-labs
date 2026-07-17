@@ -2,7 +2,7 @@
 title: "Why a Ticket's \"State\" Is the Gate to Delivery"
 description: "Thesis #2 — how ready / blocked / assigned_to turn a ticket's state into the gate a delivery agent obeys."
 pubDate: 2026-07-18
-draft: true
+project: my-ai-team
 lang: en
 series: thesis
 order: 2
