@@ -20,4 +20,21 @@ const products = defineCollection({
   }),
 });
 
-export const collections = { products };
+const blog = defineCollection({
+  loader: glob({ pattern: '**/*.md', base: './src/content/blog' }),
+  schema: z.object({
+    title: z.string(),
+    description: z.string(),
+    pubDate: z.coerce.date(),
+    // Drafts render in `astro dev` but are excluded from the production build
+    // (see the PROD/DEV filter in src/pages/blog/[slug].astro).
+    draft: z.boolean().default(false),
+    lang: z.enum(['en', 'zh']).default('en'),
+    tags: z.array(z.string()).default([]),
+    // Ordered sequences (e.g. the thesis series); both optional.
+    series: z.string().optional(),
+    order: z.number().optional(),
+  }),
+});
+
+export const collections = { products, blog };
