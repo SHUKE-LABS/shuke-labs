@@ -1,16 +1,44 @@
 ---
-// Route reserved for future posts. No nav link and no placeholder copy
-// until a real post exists (per #15).
+import { getCollection } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Nav from '../../components/Nav.astro';
 import Footer from '../../components/Footer.astro';
+
+// Index lists only published posts, newest first. Drafts are reachable at their
+// own /blog/<slug> URL in `astro dev` but never surface here or in the prod build.
+const posts = (await getCollection('blog', ({ data }) => !data.draft)).sort(
+  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
+);
+
+const dateFmt = new Intl.DateTimeFormat('en', { dateStyle: 'medium' });
 ---
 
-<BaseLayout title="Blog">
+<BaseLayout title="Blog" description="Notes and essays from the my-ai-team project.">
   <Nav />
   <main class="flex-1">
     <section class="mx-auto max-w-3xl px-6 py-16">
       <h1 class="text-3xl font-bold tracking-tight text-ink">Blog</h1>
+      {
+        posts.length === 0 ? (
+          <p class="mt-6 text-muted">No posts yet.</p>
+        ) : (
+          <ul class="mt-8 divide-y divide-line border-t border-line">
+            {posts.map((post) => (
+              <li class="py-6">
+                <a href={`/blog/${post.id}`} class="group block">
+                  <h2 class="text-xl font-semibold text-ink group-hover:text-accent transition-colors">
+                    {post.data.title}
+                  </h2>
+                  <p class="mt-2 text-muted">{post.data.description}</p>
+                  <time datetime={post.data.pubDate.toISOString()} class="mt-2 block text-sm text-muted">
+                    {dateFmt.format(post.data.pubDate)}
+                  </time>
+                </a>
+              </li>
+            ))}
+          </ul>
+        )
+      }
     </section>
   </main>
   <Footer />
