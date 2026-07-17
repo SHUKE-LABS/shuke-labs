@@ -2,7 +2,7 @@
 title: "序幕 · 寄居在 dotfiles 里"
 description: "编年史前传：my-ai-team 独立之前，在 dotfiles 仓库里胎动的那一周。"
 pubDate: 2026-05-17
-draft: true
+project: my-ai-team
 lang: zh
 series: chronicle
 order: 0

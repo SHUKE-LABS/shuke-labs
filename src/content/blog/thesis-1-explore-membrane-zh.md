@@ -2,7 +2,7 @@
 title: "为什么 my-ai-team 里有一个「只聊天、不写代码」的 agent"
 description: "thesis 系列 · 第一篇 —— explore 与「票是分界膜」。"
 pubDate: 2026-07-18
-draft: true
+project: my-ai-team
 lang: zh
 series: thesis
 order: 1

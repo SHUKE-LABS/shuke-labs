@@ -2,7 +2,7 @@
 title: "my-ai-team 编年史 · 小青版"
 description: "一部由 shuke 与她的 agent 同事们共同写下的历史（2026-05-24 ~ 07-17），小青执笔。"
 pubDate: 2026-07-17
-draft: true
+project: my-ai-team
 lang: zh
 series: chronicle
 order: 1

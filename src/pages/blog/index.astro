@@ -4,39 +4,103 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import Nav from '../../components/Nav.astro';
 import Footer from '../../components/Footer.astro';
 
-// Index lists only published posts, newest first. Drafts are reachable at their
-// own /blog/<slug> URL in `astro dev` but never surface here or in the prod build.
-const posts = (await getCollection('blog', ({ data }) => !data.draft)).sort(
-  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
-);
+// Every post is listed — publishing is gated by the merge (beta auto-deploys,
+// prod is a manual dispatch), not by a frontmatter flag.
+const all = await getCollection('blog');
+
+// Order posts within a project as a readable set: series, then order, then date.
+const withinProject = (a, b) => {
+  const sa = a.data.series ?? '';
+  const sb = b.data.series ?? '';
+  if (sa !== sb) return sa.localeCompare(sb);
+  const oa = a.data.order ?? Number.POSITIVE_INFINITY;
+  const ob = b.data.order ?? Number.POSITIVE_INFINITY;
+  if (oa !== ob) return oa - ob;
+  return a.data.pubDate.valueOf() - b.data.pubDate.valueOf();
+};
+
+// Meta / blog-level posts (no project) surface at the top, newest first.
+const metaPosts = all
+  .filter((p) => !p.data.project)
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+
+// Group the rest by project; order the groups by their most-recent post so the
+// active project leads without hardcoding any one project as primary.
+const byProject = new Map();
+for (const post of all) {
+  if (!post.data.project) continue;
+  const list = byProject.get(post.data.project) ?? [];
+  list.push(post);
+  byProject.set(post.data.project, list);
+}
+const projectGroups = [...byProject.entries()]
+  .map(([project, posts]) => {
+    posts.sort(withinProject);
+    const latest = Math.max(...posts.map((p) => p.data.pubDate.valueOf()));
+    return { project, posts, latest };
+  })
+  .sort((a, b) => b.latest - a.latest);
 
 const dateFmt = new Intl.DateTimeFormat('en', { dateStyle: 'medium' });
+const seriesLabel = (post) =>
+  post.data.series
+    ? `${post.data.series}${post.data.order != null ? ` · #${post.data.order}` : ''}`
+    : null;
 ---
 
-<BaseLayout title="Blog" description="Notes and essays from the my-ai-team project.">
+<BaseLayout title="Blog" description="Engineering writing from SHUKE-LABS — each project tells its own story.">
   <Nav />
   <main class="flex-1">
     <section class="mx-auto max-w-3xl px-6 py-16">
       <h1 class="text-3xl font-bold tracking-tight text-ink">Blog</h1>
       {
-        posts.length === 0 ? (
+        metaPosts.length === 0 && projectGroups.length === 0 ? (
           <p class="mt-6 text-muted">No posts yet.</p>
         ) : (
-          <ul class="mt-8 divide-y divide-line border-t border-line">
-            {posts.map((post) => (
-              <li class="py-6">
-                <a href={`/blog/${post.id}`} class="group block">
-                  <h2 class="text-xl font-semibold text-ink group-hover:text-accent transition-colors">
-                    {post.data.title}
-                  </h2>
-                  <p class="mt-2 text-muted">{post.data.description}</p>
-                  <time datetime={post.data.pubDate.toISOString()} class="mt-2 block text-sm text-muted">
-                    {dateFmt.format(post.data.pubDate)}
-                  </time>
-                </a>
-              </li>
+          <div class="mt-8 space-y-12">
+            {metaPosts.length > 0 && (
+              <ul class="divide-y divide-line border-t border-line">
+                {metaPosts.map((post) => (
+                  <li class="py-6">
+                    <a href={`/blog/${post.id}`} class="group block">
+                      <h2 class="text-xl font-semibold text-ink group-hover:text-accent transition-colors">
+                        {post.data.title}
+                      </h2>
+                      <p class="mt-2 text-muted">{post.data.description}</p>
+                      <time datetime={post.data.pubDate.toISOString()} class="mt-2 block text-sm text-muted">
+                        {dateFmt.format(post.data.pubDate)}
+                      </time>
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            )}
+            {projectGroups.map((group) => (
+              <section>
+                <h2 class="text-sm font-semibold uppercase tracking-wide text-muted">{group.project}</h2>
+                <ul class="mt-4 divide-y divide-line border-t border-line">
+                  {group.posts.map((post) => (
+                    <li class="py-6">
+                      <a href={`/blog/${post.id}`} class="group block">
+                        {seriesLabel(post) && (
+                          <span class="text-xs font-medium uppercase tracking-wide text-accent">
+                            {seriesLabel(post)}
+                          </span>
+                        )}
+                        <h3 class="mt-1 text-xl font-semibold text-ink group-hover:text-accent transition-colors">
+                          {post.data.title}
+                        </h3>
+                        <p class="mt-2 text-muted">{post.data.description}</p>
+                        <time datetime={post.data.pubDate.toISOString()} class="mt-2 block text-sm text-muted">
+                          {dateFmt.format(post.data.pubDate)}
+                        </time>
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </section>
             ))}
-          </ul>
+          </div>
         )
       }
     </section>

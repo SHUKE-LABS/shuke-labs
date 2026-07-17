@@ -2,7 +2,7 @@
 title: "我为什么开发 my-ai-team"
 description: "从「不想当保姆」到一支有名字的 agent 队伍——my-ai-team 的动机与史前史。"
 pubDate: 2026-07-16
-draft: true
+project: my-ai-team
 lang: zh
 ---
 
