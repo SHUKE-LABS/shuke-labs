@@ -37,6 +37,10 @@ const blog = defineCollection({
     // Ordered sequences within a project (e.g. the thesis series); both optional.
     series: z.string().optional(),
     order: z.number().optional(),
+    // Chinese companion of this (English) post: a blog slug or an absolute URL.
+    // When set, the post renders a [中文版] link and the referenced companion is
+    // hidden from the listing, tag pages, and RSS (reachable only via this link).
+    zhVersion: z.string().optional(),
   }),
 });
 
