@@ -8,7 +8,7 @@ tags: [my-ai-team, workflow, tooling]
 zhVersion: article-2-dogfooding-my-ai-team-zh
 ---
 
-my-ai-team is a self-bootstrapping loop: the agents we defined wrote most of the code that defines them.
+my-ai-team is a self-bootstrapping loop: the agents I defined wrote most of the code that defines them.
 
 The repo’s origin shows the pattern. On May 24 I pulled relay code from dotfiles into a new repo that already contained agent role files. The project started with its crew assembled.
 
@@ -23,9 +23,9 @@ Modes evolved by use: adhoc (single-agent rapid mode), team (planner/reviewer/de
 
 Numbers tell the rest: over eight weeks (May 24–July 15) the main branch absorbed 657 merged PRs. The busiest single day: 72 PRs. Those figures aren’t me; they’re the team.
 
-Self-hosting has edge cases. Once we left out an "O" in an OAuth config and traffic quietly flowed over an alternate auth path—funny and scary. It reminded us why billing and auth deserve the same attention as correctness.
+Self-hosting has edge cases. Once I left out an "O" in an OAuth config and traffic quietly flowed over an alternate auth path. That was funny and a little scary. It reminded me why billing and auth deserve the same attention as correctness.
 
-Recursion is a feature. These posts were drafted using explore agents that collated my own 1,600+ messages and 657 PRs, then wrote the narrative. The tool that builds itself also tells its story.
+Recursion is a feature. These posts were drafted using explore agents that collated my own 1,600+ messages and 657 PRs, then wrote the narrative. So the same tool that builds the system also wrote this account of it.
 
 ---
 

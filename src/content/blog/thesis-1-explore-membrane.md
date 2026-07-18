@@ -15,11 +15,11 @@ zhVersion: thesis-1-explore-membrane-zh
 
 I had a thought in my head that wasn't a ticket yet: "relay seems to drop a message under some condition, but I can't say which one."
 
-Before explore, a half-formed idea like that left two paths.
+Before explore, a half-formed idea like that left me with two options.
 
-Road one: I write the ticket myself. What comes out reads roughly like: "Fix relay's occasional dropped messages." A delivery agent picks it up with no sense of how frequent "occasional" is, which step I suspect is failing, or which possibilities I already ruled out. So it either asks a pile of questions I could have answered quickly, or it invents its own definition of "dropped message" and fixes the wrong problem. When requirements are sloppy, even the best downstream model can end up solving the wrong thing.
+One was to write the ticket myself. What comes out reads roughly like: "Fix relay's occasional dropped messages." A delivery agent picks it up with no sense of how frequent "occasional" is, which step I suspect is failing, or which possibilities I already ruled out. So it either asks a pile of questions I could have answered quickly, or it invents its own definition of "dropped message" and fixes the wrong problem. When requirements are sloppy, even the best downstream model can end up solving the wrong thing.
 
-Road two: I grab an agent and just talk. That path seemed promising at first but turned out worse in a way I hadn't expected.
+The other was to grab an agent and just talk. That path seemed promising at first but turned out worse in a way I hadn't expected.
 
 ## 2. What explore is now
 
@@ -53,14 +53,14 @@ Compared to naive alternatives:
 - Letting an agent freely change code during exploration places early bets on unsettled approaches. The membrane defers that bet until the approach is settled.
 - Defining the mode by prohibitions leads to a thicker, brittle constitution. Defining it by entry condition lets the mode end naturally—produce a ticket, park a ticket, hand work to delivery, or simply end with no ticket.
 
-The membrane means delivery always sees a clean spec, not a two-hour chat log. Spec and process are separated, and both sides stay focused.
+The membrane means delivery always sees a clean spec, not the long conversation that produced it. Spec and process are separated, and both sides stay focused.
 
 ## 5. Byproduct (dug up while writing this)
 
-Writing this article surfaced gaps worth tickets:
+Writing this surfaced two gaps worth turning into tickets:
 
-- The concept "the ticket is the membrane" is spread across many rules but never named in the constitution. It may be worth making it an explicit line to simplify later rules.
-- "Act on it" means open the ticket in explore; caucus has the same close-by-ticket pattern. Consider sharing that boundary.
+- The idea that "the ticket is the membrane" runs through many rules but is never named in the agent's constitution. Naming it explicitly might simplify later rules.
+- "Act on it" means open the ticket in explore; caucus (the structured-debate mode) closes the same way. The two might share that boundary.
 
 ---
 
