@@ -7,6 +7,7 @@ lang: en
 tags: [philosophy, agents, workflow]
 series: thesis
 order: 1
+zhVersion: thesis-1-explore-membrane-zh
 ---
 
 

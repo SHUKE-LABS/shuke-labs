@@ -1,98 +1,32 @@
 ---
-title: "我如何用 my-ai-team 开发 my-ai-team"
-description: "一条吃自己尾巴的蛇：my-ai-team 如何用它自己定义的 agent 队伍开发自己。"
+title: "How my-ai-team Built Itself"
+description: "A self‑bootstrapping tale: how the agent roster defined the repo and then wrote most of the code that defines them."
 pubDate: 2026-07-16
 project: my-ai-team
-lang: zh
+lang: en
 tags: [my-ai-team, workflow, tooling]
+zhVersion: article-2-dogfooding-my-ai-team-zh
 ---
 
-## 从抽屉里抽出来的一条蛇
+my-ai-team is a self-bootstrapping loop: the agents we defined wrote most of the code that defines them.
 
-my-ai-team 是一个让多个 AI agent 协作干活的框架。而它本身，几乎全部是由它所定义的那支 agent 队伍写出来的。
+The repo’s origin shows the pattern. On May 24 I pulled relay code from dotfiles into a new repo that already contained agent role files. The project started with its crew assembled.
 
-它的出生就带着这股自举的味道。2026 年 5 月 24 日，我在 `~/dotfiles` 里做了一个提交——`feat: extract relay framework to my-ai-team`，把在那个抽屉里胎动了一周的 relay 框架抽出来，让它独立门户。当晚 20:41，my-ai-team 有了自己的第一个提交，而这第一个提交已经带着完整的班底：`agents/dev.md`、`plan.md`、`review.md` 三份角色，外加一份 `tmuxinator/relay.yml`——也就是那套「四个 pane 自动铺开」的配置。
+Daily flow is minimal: toss a request, go for a walk, come back when a Telegram "done" pings you. Agents normalize the request into issues, tag them, claim Ready work, run plan→dev→review cycles, and merge when CI is green.
 
-换句话说，这个仓库还没写下自己的第一行业务逻辑，就已经**背着一支队伍出生**了。一个半小时后，22:08，`adhoc protocol`（PR #4）合入——adhoc 是当晚的第二个模式，不是第一个。从此这条蛇就开始一口一口吃自己的尾巴：它定义的队伍，写着定义这支队伍的代码。
+Two practical primitives make that work:
 
-## 我的一天：发一句话，然后去散步
+- send-tmux — a small utility that sends keystrokes or messages between panes so agents can signal one another.
+- file-based handoffs (/tmp/*.md) for tasks, renewals, and wake signals—simple, debuggable, durable.
 
-用 my-ai-team 开发 my-ai-team，我的日常简单到有点不真实。
+Modes evolved by use: adhoc (single-agent rapid mode), team (planner/reviewer/developer split), duo (dev+review), explore (open-ended discovery), qa/live (monitoring matrices), caucus (structured debate), and audit (post-merge checks). Most modes were prototyped in explore sessions and then implemented by the delivery modes—tooling designing tooling.
 
-我远程扔一句需求——可能是「please fix issues/44」，也可能是一段中文吐槽。agent 自己把它整理成 issue、判断能不能立刻开工、打标签、认领，进入 develop→plan→review 的循环，CI 绿了 reviewer 直接合并。我要做的，是偶尔回来验收，以及享受空闲。
+Numbers tell the rest: over eight weeks (May 24–July 15) the main branch absorbed 657 merged PRs. The busiest single day: 72 PRs. Those figures aren’t me; they’re the team.
 
-队列空的时候，我会调侃对面：
+Self-hosting has edge cases. Once we left out an "O" in an OAuth config and traffic quietly flowed over an alternate auth path—funny and scary. It reminded us why billing and auth deserve the same attention as correctness.
 
-> 「do you enjoy the queue empty time, my dear teammate？」
-
-交代完就走人的时候，我会说：
-
-> 「sure, go for it. I am going for a walk, send me a tg message when you are done, thanks.」
-
-散完步回来，Telegram 上躺着一条「done」。这就是我说的、被还给我的那个下午。
-
-## 神经系统：递小纸条的艺术
-
-一支队伍要协作，得能互相说话。my-ai-team 的神经系统是两样东西拼起来的。
-
-一是 **send-tmux**——agent 之间「递小纸条」的技能。早期大家还在直接调 `tmux send-keys`，很不可靠；5 月 25 日我们就把它作为正式 skill 收进代码树（PR #36）。从此一个 agent 可以对另一个 agent、甚至对「下一世的自己」精准喊话。
-
-二是 **`/tmp/*.md` 文件握手**——任务、handover、唤醒信号，都以文件形式扔来扔去。这套机制朴素、可调试、跨 agent 通用。我一度坚持不用 hooks，理由很简单：「它不通用，各家 agent 实现方法不一，也不便于维护。」神经信号朴素，胜在人人都懂。
-
-## 分工的进化：每个模式，都是一次会议的产物
-
-从 dotfiles 里带出来的是 dev/plan/review 三角色。之后这支队伍的编制一路生长：
-
-- **adhoc**：一个 agent 一把梭，快糙猛。
-- **team**：developer / planner / reviewer 三分工，给 adhoc 加一道 review 防火墙。
-- **duo**：dev + review 的轻量小队。
-- **explore**：目标未定的 1:1 探索会议，只出票不落地（5 月 29 日诞生）。
-- **qa / live**：像监控墙一样，一排排 pane 各自巡检一个项目。
-- **caucus**：agent 们平等开会、辩论、出决议票。
-- **audit**：合并之后的复查关卡。
-
-有意思的是它们的诞生方式：几乎每一个模式，都是先在一次 explore 会议里被聊清楚、钉成一张详细的票，再交给 adhoc 或 team 去落地。**框架用自己的探索模式设计下一个模式，再用自己的交付模式把它实现**——工具在用自己迭代自己。
-
-## 数字会说话
-
-要给「用 my-ai-team 开发 my-ai-team」找个最直观的证据，就看合并曲线：
-
-- 从 5 月 24 日到 7 月 15 日，约八周，主分支合并了 **657 个 PR**。
-- 最疯狂的一天是 **7 月 4 日，一天合了 72 个 PR**。
-- 紧随其后：7 月 3 日 37 个，6 月 6 日和 6 月 13 日各 28 个，7 月 5 日 27 个。
-
-72 个 PR 是什么概念？全靠我一个人手写手审，一天连看都看不完。这条曲线不是我的产出，是这支队伍的产出——我只是那个定规则、把关质量、偶尔喊停的人。而我把关的重心，永远在最前面那一端：input quality 直接限制了 output quality 的天花板。
-
-## 会议民主：caucus 宪法
-
-队伍大了，就需要一种「开会」的方式。caucus 是 agent 之间平等辩论、产出决议的模式。我给它起草宪法时写得很郑重：讨论双方有平等的发言权，允许改变立场（只要对方更有道理），目标是达成有积极意义的共识、开出高质量的票；甚至「发现无米可炊或观点不可调和时，任何一方都可以 notify-user」。
-
-我是真把它当一场小组会议在设计，而不是把两个模型摆在一起互喷。
-
-## 一点鉴权的插曲
-
-自举也不全是顺风。有一次我们全面切到 OAuth token，却发现少写了一个字母 O，居然还能用——只是悄悄走了另一条 API 通道。我当时的反应很典型：
-
-> 「不加 O 肯定不对，但之前走了 ANTHROPIC_AUTH_TOKEN 通道居然也可以用，也是挺神奇的。就看老板会不会收到额外账单吧。」
-
-用一支 AI 队伍开发工具，省下的是人力，盯紧的是账单。这两件事得同时做。
-
-## 递归的浪漫
-
-说个最新鲜的例子。你现在读到的这两篇文章，素材是怎么来的？
-
-是我请一个跑在 **explore 模式**里的 agent，把散落在十几个 `~/.claude*` 后端目录、跨两台机器、总计 **1627 条我本人的发言**，按日期翻出来、去重、剥掉粘贴块，整理成素材；顺手又把 657 个 PR 的时间线拉成另一份材料。然后我对它说：根据这些，写两篇文章。它还顺路钻进 `~/dotfiles` 的提交历史，替我确认了那段我自己都记不太清的史前史。
-
-也就是说——**我正在用 my-ai-team 的 explore 模式，写一篇关于「我如何用 my-ai-team 开发 my-ai-team」的文章。** 蛇不但吃自己的尾巴，还顺便写了篇关于吃尾巴的观后感。
-
-## 结：工具成熟的标志，是它能造自己
-
-编译器成熟的标志，是它能编译自己（self-hosting）。我私心觉得，一个 AI 协作框架成熟的标志，也是它能开发自己。
-
-my-ai-team 做到了，而且我现在在别的工作项目上也开始用它了——「这就是 override system prompt 需求的来源。」它不再只是一个自己养自己的实验，它开始养活别的活儿。
-
-从它在 dotfiles 抽屉里胎动，到八周 657 个 PR，再到它替我翻出两个月的聊天记录、还替我核对自己的记忆来写这篇文章：这条自举的链条，就是我想讲的全部故事。
+Recursion is a feature. These posts were drafted using explore agents that collated my own 1,600+ messages and 657 PRs, then wrote the narrative. The tool that builds itself also tells its story.
 
 ---
 
-*本文数据取自 ~/dotfiles 与 my-ai-team 的真实提交历史（my-ai-team merged PR：2026-05-24 ~ 07-15，657 个），引用取自同期我与 agent 的对话原话。*
+*Source: original commits and conversations in ~/dotfiles and my-ai-team (May–July 2026).*
