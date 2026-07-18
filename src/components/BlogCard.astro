@@ -2,6 +2,14 @@
 // A blog listing card: title/description/date link plus tag chips.
 // Tag chips are <a> links kept OUTSIDE the card's title anchor — nesting <a>
 // inside <a> is invalid and browsers split the DOM, breaking chip clicks.
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+  post: CollectionEntry<'blog'>;
+  heading?: 'h2' | 'h3';
+  series?: string | null;
+}
+
 const { post, heading = 'h2', series = null } = Astro.props;
 const { title, description, pubDate, tags } = post.data;
 const Heading = heading;
