@@ -22,19 +22,19 @@ If that "state" lives only in my head, then I'm the bottleneck again — every t
 
 ## 2. What it is now
 
-A ticket's state is built as a **four-state flow**, plus **two ways of holding a ticket back**.
+A ticket's state is a four-state flow plus two ways to hold it back.
 
-**Four-state flow** (via labels):
+Four-state flow (via labels):
 
-- **backlog**: no label. An idea lying there; nobody will touch it.
-- **refining**: `mat issue refining`. Someone (Planner / Adhoc / Explore) is shaping it into a spec.
-- **ready**: `mat issue ready`. The quality gate passed. **This is the delivery gate — only `ready` tickets get auto-claimed for delivery.**
-- **blocked**: `mat issue blocked`. Needs a product / scope decision before it can move.
+- backlog: no label. An idea lying there; nobody will touch it.
+- refining: `mat issue refining` (label). Someone (planner, adhoc — single-agent rapid mode, or explore — discovery role) is shaping it into a spec.
+- ready: `mat issue ready` (label). The quality gate passed. Only `ready` tickets are auto-claimed for delivery.
+- blocked: `mat issue blocked` (label). Needs a product or scope decision before it can move.
 
-**Two ways to hold back** (this is the crux of the piece, and the part I only split correctly later):
+Two ways to hold back (this is the crux of the piece, and the part I only split correctly later):
 
-1. **Ticket blocks ticket — use GitHub's native dependency.** If A must wait for B to finish first, record a native `blocked_by` on A (`mat issue block A --by B`). It's **self-clearing**: the moment B closes, A automatically becomes claimable again — **nobody has to peel a label off by hand.**
-2. **A non-ticket gate — use the `blocked` label.** A placeholder, an external dependency, a human decision waiting on me — these aren't "some issue isn't done yet," they're "something outside GitHub isn't in place yet." *That* is what the `blocked` label is for, and it needs a human to **manually** remove it.
+1. Ticket blocks ticket — use GitHub's native dependency. If A must wait for B to finish first, record a native `blocked_by` on A (`mat issue block A --by B`). It's self-clearing: when B closes, A becomes claimable again without manual label changes.
+2. A non-ticket gate — use the `blocked` label. For external dependencies or human decisions (something outside GitHub), use the `blocked` label. Someone must remove the label when the condition is satisfied.
 
 One unified test seals both: **a ticket is claimable if and only if it has no `blocked` label and no open native blocker.**
 
@@ -46,24 +46,24 @@ First I stood up the **gate**. May 31 (`#209`, "require ready before delivery cl
 
 What really made me want to split things apart was one property of "ticket blocks ticket": **it should be able to decide itself.** A waits on B — whether B is closed or not, GitHub knows perfectly well, and it does not need me, a human, to stand watch and go peel the `blocked` label off A once B merges. But as long as it's still a label, *someone* has to peel it by hand. That job shouldn't be a human's.
 
-So on June 29 (`#699` / `#842`, "move issue-to-issue blocking onto GitHub native dependencies"), I moved ticket-blocks-ticket wholesale onto GitHub's native `blocked_by` dependency — it's self-clearing. The `blocked` label narrowed at the same time, reserved for "non-ticket gates" only. On July 12 (`#1298`) I added the `mat issue block / unblock` ergonomics on top, wrapping away the fiddly bits — parsing an issue's internal id, cycle prevention, idempotency.
+So on June 29 (`#699` / `#842`, "move issue-to-issue blocking onto GitHub native dependencies"), I moved ticket-blocks-ticket wholesale onto GitHub's native `blocked_by` dependency so those cases clear themselves. The `blocked` label was narrowed to mean only non-ticket gates. On July 12 (`#1298`) I added the `mat issue block / unblock` ergonomics on top to simplify the workflow.
 
-So today it's **two tracks side by side** — but not redundant. **They're two tools doing two fundamentally different jobs.**
+Today there are two tracks that do different jobs: native dependencies for ticket-to-ticket blocking, and the `blocked` label for external gates.
 
 ## 4. Why this is better
 
-The correctness of the split hides in a plain division-of-labor principle:
+The correctness of the split follows a simple division-of-labor principle:
 
-> **What a machine can decide, let the machine self-clear; only what a machine can't decide gets a signal that needs a human's hand.**
+> What a machine can decide, let the machine self-clear; only what a machine can't decide gets a signal that needs a human's hand.
 
-- "Is issue B closed or not" — **a machine can decide it**, so use the self-clearing native dependency; a human never has to step in.
-- "Have I made this product call or not" — **a machine can't decide it**, so leave a `blocked` label, and **the act of peeling that label off is itself the signal that the decision has been made.** Manual, here, isn't a burden — it's the semantics.
+- "Is issue B closed or not" — a machine can decide this, so use the self-clearing native dependency.
+- "Have I made this product call or not" — a machine can't, so leave a `blocked` label; removing that label is the signal the decision was made.
 
 With that, the claim logic across dozens of tickets collapses into one mechanically executable test (no `blocked` label ∧ no open native blocker), and I've stepped fully out of "which one can move." This is the same philosophy as last piece's membrane, seen from its other side: **pin the state on the object (the ticket) itself, not in a person's (my) head or at some temporary checkpoint in the process.** When the object carries enough state on its own, collaboration doesn't need a center to ask and answer.
 
 ## 5. Byproduct (dug up while writing this)
 
-- explore's constitution has a line: "`Use blocked only for a placeholder or a genuine external dependency`" — it correctly draws the boundary of the **label**, but it **never tells the explorer to switch to native `blocked_by` when it hits "ticket blocks ticket."** plan.md spells this out in full (`blocked_by` dependency + reserve the label for non-issue gates); explore.md only writes half of it. An explorer who has just sorted out two tickets with an ordering dependency will very likely reach for the `blocked` label out of habit — stepping straight into the pit I split open on June 29. Worth a ticket to add the native-dependency path into explore's constitution (and the other ticket-opening roles') — and, as usual, while adding this line, see whether that line can be squeezed shorter.
+- explore's constitution has a line: "`Use blocked only for a placeholder or a genuine external dependency`" — it correctly draws the boundary of the **label**, but it **never tells the explorer to switch to native `blocked_by` when it hits "ticket blocks ticket."** plan.md (planner guidance) spells this out in full (`blocked_by` dependency + reserve the label for non-issue gates); explore.md (exploration guidance) only covers half of it. An explorer who has just ordered two tickets may reach for the `blocked` label out of habit — stepping into the pit I fixed on June 29. It's worth adding the native-dependency path into explore's recipe (and other ticket-opening roles) and then trimming words elsewhere.
 
 ---
 
