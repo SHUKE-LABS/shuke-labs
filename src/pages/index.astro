@@ -4,6 +4,8 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
 import ProductCard from '../components/ProductCard.astro';
+import BlogCard from '../components/BlogCard.astro';
+import { visiblePosts } from '../lib/blog';
 
 const products = (await getCollection('products')).sort(
   (a, b) => a.data.weight - b.data.weight,
@@ -11,6 +13,11 @@ const products = (await getCollection('products')).sort(
 // My AI Team is the flagship — shown once in its own block above the grid.
 const devTools = products.filter((p) => p.data.group === 'dev' && p.id !== 'my-ai-team');
 const apps = products.filter((p) => p.data.group === 'app');
+
+// Latest-writing teaser: the 3 newest posts across all projects, newest first.
+const latestPosts = visiblePosts(await getCollection('blog'))
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
+  .slice(0, 3);
 
 const featuredBullets = [
   'Agents claim tickets, implement changes, open PRs, and notify you — no terminal babysitting.',
@@ -75,6 +82,26 @@ const featuredBullets = [
         </div>
       </div>
     </section>
+
+    <!-- Latest writing -->
+    {latestPosts.length > 0 && (
+      <section class="mx-auto max-w-5xl px-6 pb-16">
+        <div class="flex items-baseline justify-between gap-4">
+          <h2 class="text-sm font-semibold uppercase tracking-wider text-muted">Latest writing</h2>
+          <a
+            href="/blog"
+            class="inline-flex items-center gap-1 text-sm font-medium text-accent hover:text-accent-hover"
+          >
+            Read the blog &rarr;
+          </a>
+        </div>
+        <ul class="mt-4 divide-y divide-line border-t border-line">
+          {latestPosts.map((post) => (
+            <BlogCard post={post} heading="h3" />
+          ))}
+        </ul>
+      </section>
+    )}
 
     <!-- Closing CTA -->
     <section class="mx-auto max-w-5xl px-6 pb-24">
