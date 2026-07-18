@@ -4,21 +4,31 @@ import '../styles/global.css';
 interface Props {
   title?: string;
   description?: string;
+  lang?: 'en' | 'zh';
+  ogType?: string;
+  publishedTime?: string;
+  image?: string;
+  jsonLd?: Record<string, unknown>;
 }
 
 const {
   title,
   description = 'SHUKE Labs builds practical tools for developers and language learners.',
+  lang = 'en',
+  ogType = 'website',
+  publishedTime,
+  image,
+  jsonLd,
 } = Astro.props;
 
 const siteName = 'SHUKE Labs';
 const fullTitle = title ? `${title} | ${siteName}` : `${siteName} — Build more, struggle less`;
 const canonical = new URL(Astro.url.pathname, Astro.site).href;
-const ogImage = new URL('/logo.svg', Astro.site).href;
+const ogImage = new URL(image ?? '/logo.svg', Astro.site).href;
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang={lang}>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -29,15 +39,17 @@ const ogImage = new URL('/logo.svg', Astro.site).href;
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="alternate" type="application/rss+xml" title="SHUKE Labs Blog" href="/rss.xml" />
 
-    <meta property="og:type" content="website" />
+    <meta property="og:type" content={ogType} />
     <meta property="og:site_name" content={siteName} />
     <meta property="og:title" content={fullTitle} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
     <meta property="og:image" content={ogImage} />
+    {publishedTime && <meta property="article:published_time" content={publishedTime} />}
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={fullTitle} />
     <meta name="twitter:description" content={description} />
+    {jsonLd && <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />}
   </head>
   <body class="min-h-screen flex flex-col">
     <slot />

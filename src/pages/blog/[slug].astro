@@ -13,13 +13,37 @@ export async function getStaticPaths() {
 }
 
 const { post } = Astro.props;
-const { title, description, pubDate } = post.data;
+const { title, description, pubDate, lang, tags } = post.data;
 const { Content } = await render(post);
 
 const dateFmt = new Intl.DateTimeFormat('en', { dateStyle: 'medium' });
+
+const canonical = new URL(Astro.url.pathname, Astro.site).href;
+const publishedTime = pubDate.toISOString();
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'BlogPosting',
+  headline: title,
+  description,
+  datePublished: publishedTime,
+  inLanguage: lang,
+  mainEntityOfPage: { '@type': 'WebPage', '@id': canonical },
+  url: canonical,
+  author: { '@type': 'Organization', name: 'SHUKE Labs', url: Astro.site?.href },
+  publisher: { '@type': 'Organization', name: 'SHUKE Labs', url: Astro.site?.href },
+  ...(tags.length > 0 && { keywords: tags.join(', ') }),
+};
 ---
 
-<BaseLayout title={title} description={description}>
+<BaseLayout
+  title={title}
+  description={description}
+  lang={lang}
+  ogType="article"
+  publishedTime={publishedTime}
+  jsonLd={jsonLd}
+>
   <Nav />
   <main class="flex-1">
     <article class="mx-auto max-w-3xl px-6 pt-6 pb-12">
