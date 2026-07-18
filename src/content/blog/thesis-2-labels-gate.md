@@ -9,8 +9,6 @@ series: thesis
 order: 2
 ---
 
-> Thesis series · #2 · Ready / blocked / assigned_to
-> First person, shuke. Faithful, but allowed to be fun.
 
 ## 1. Where it hurt before it existed
 
@@ -42,7 +40,7 @@ One unified test seals both: **a ticket is claimable if and only if it has no `b
 
 ## 3. Why it's this way (stepped on the hard way, again)
 
-Early on, the `blocked` label was **carrying two jobs on one shoulder**: it marked both "waiting on another issue" and "waiting on an external condition." It worked, but it got awkward fast.
+Early on, the `blocked` label tried to perform two different jobs at once: it marked both "waiting on another issue" and "waiting on an external condition." It worked at first but quickly became awkward.
 
 First I stood up the **gate**. May 31 (`#209`, "require ready before delivery claims"), I moved "can this be claimed" out of my head and into the ticket's state: delivery only claims `ready`. From that moment, a ticket with no `blocked` and up to standard *is* a definite requirement, and a delivery agent can run all the way to merge without turning back to ask me. **The gate isn't an extra check I bolt on before the PR; it's the ticket's own state.**
 

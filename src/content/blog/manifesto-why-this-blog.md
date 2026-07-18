@@ -7,7 +7,6 @@ tags: [meta]
 ---
 
 > The engineering notebook of SHUKE-LABS — the reasoning behind what we build, wrong turns included.
-> First person, shuke. Draft — the core message is mine to reshape.
 
 The rest of shukelabs.com tells you *what* our tools do. This blog is for the other half: **why they're built the way they are.**
 
