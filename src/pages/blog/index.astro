@@ -1,10 +1,13 @@
 ---
 import { getCollection } from 'astro:content';
+import type { CollectionEntry } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Nav from '../../components/Nav.astro';
 import Footer from '../../components/Footer.astro';
 import BlogCard from '../../components/BlogCard.astro';
 import { visiblePosts } from '../../lib/blog';
+
+type Post = CollectionEntry<'blog'>;
 
 // Every post is listed except Chinese companions referenced via zhVersion (those
 // are reachable only from their English parent). Publishing is otherwise gated by
@@ -12,7 +15,7 @@ import { visiblePosts } from '../../lib/blog';
 const all = visiblePosts(await getCollection('blog'));
 
 // Order posts within a project as a readable set: series, then order, then date.
-const withinProject = (a, b) => {
+const withinProject = (a: Post, b: Post) => {
   const sa = a.data.series ?? '';
   const sb = b.data.series ?? '';
   if (sa !== sb) return sa.localeCompare(sb);
@@ -29,7 +32,7 @@ const metaPosts = all
 
 // Group the rest by project; order the groups by their most-recent post so the
 // active project leads without hardcoding any one project as primary.
-const byProject = new Map();
+const byProject = new Map<string, Post[]>();
 for (const post of all) {
   if (!post.data.project) continue;
   const list = byProject.get(post.data.project) ?? [];
@@ -44,7 +47,7 @@ const projectGroups = [...byProject.entries()]
   })
   .sort((a, b) => b.latest - a.latest);
 
-const seriesLabel = (post) =>
+const seriesLabel = (post: Post) =>
   post.data.series
     ? `${post.data.series}${post.data.order != null ? ` · #${post.data.order}` : ''}`
     : null;
