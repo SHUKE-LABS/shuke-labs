@@ -1,0 +1,39 @@
+---
+// A blog listing card: title/description/date link plus tag chips.
+// Tag chips are <a> links kept OUTSIDE the card's title anchor — nesting <a>
+// inside <a> is invalid and browsers split the DOM, breaking chip clicks.
+const { post, heading = 'h2', series = null } = Astro.props;
+const { title, description, pubDate, tags } = post.data;
+const Heading = heading;
+
+const dateFmt = new Intl.DateTimeFormat('en', { dateStyle: 'medium' });
+---
+
+<li class="py-6">
+  <a href={`/blog/${post.id}`} class="group block">
+    {series && (
+      <span class="text-xs font-medium uppercase tracking-wide text-accent">{series}</span>
+    )}
+    <Heading class:list={[series && 'mt-1', 'text-xl font-semibold text-ink group-hover:text-accent transition-colors']}>
+      {title}
+    </Heading>
+    <p class="mt-2 text-muted">{description}</p>
+    <time datetime={pubDate.toISOString()} class="mt-2 block text-sm text-muted">
+      {dateFmt.format(pubDate)}
+    </time>
+  </a>
+  {tags.length > 0 && (
+    <ul class="mt-3 flex flex-wrap gap-2">
+      {tags.map((tag) => (
+        <li>
+          <a
+            href={`/blog/tags/${tag}`}
+            class="inline-block rounded-full border border-line px-3 py-1 text-xs font-medium text-muted hover:border-accent hover:text-accent transition-colors"
+          >
+            {tag}
+          </a>
+        </li>
+      ))}
+    </ul>
+  )}
+</li>

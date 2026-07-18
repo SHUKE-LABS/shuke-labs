@@ -4,6 +4,7 @@ description: "thesis 系列 · 第二篇 —— Ready / blocked / assigned_to。
 pubDate: 2026-07-18
 project: my-ai-team
 lang: zh
+tags: [philosophy, workflow]
 series: thesis
 order: 2
 ---

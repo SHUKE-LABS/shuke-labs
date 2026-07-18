@@ -28,6 +28,9 @@ const blog = defineCollection({
     pubDate: z.coerce.date(),
     lang: z.enum(['en', 'zh']).default('en'),
     tags: z.array(z.string()).default([]),
+    // Byline. Agents are permitted (the AI-team is authored by its agents);
+    // unset falls back to the org byline "SHUKE Labs" at render time.
+    author: z.string().optional(),
     // Which project this post belongs to (slug). Optional: meta / blog-level
     // posts (e.g. the opening manifesto) omit it. Hierarchy: project → series → order.
     project: z.string().optional(),

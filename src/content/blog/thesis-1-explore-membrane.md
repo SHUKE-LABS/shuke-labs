@@ -4,6 +4,7 @@ description: "Thesis #1 — explore, and why the ticket is the membrane between 
 pubDate: 2026-07-18
 project: my-ai-team
 lang: en
+tags: [philosophy, agents, workflow]
 series: thesis
 order: 1
 ---

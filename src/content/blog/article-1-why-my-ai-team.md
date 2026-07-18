@@ -4,6 +4,7 @@ description: "从「不想当保姆」到一支有名字的 agent 队伍——my
 pubDate: 2026-07-16
 project: my-ai-team
 lang: zh
+tags: [my-ai-team, agents]
 ---
 
 ## 史前史：一个装 tmuxinator 配置的抽屉

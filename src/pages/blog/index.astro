@@ -3,6 +3,7 @@ import { getCollection } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Nav from '../../components/Nav.astro';
 import Footer from '../../components/Footer.astro';
+import BlogCard from '../../components/BlogCard.astro';
 
 // Every post is listed — publishing is gated by the merge (beta auto-deploys,
 // prod is a manual dispatch), not by a frontmatter flag.
@@ -41,7 +42,6 @@ const projectGroups = [...byProject.entries()]
   })
   .sort((a, b) => b.latest - a.latest);
 
-const dateFmt = new Intl.DateTimeFormat('en', { dateStyle: 'medium' });
 const seriesLabel = (post) =>
   post.data.series
     ? `${post.data.series}${post.data.order != null ? ` · #${post.data.order}` : ''}`
@@ -61,17 +61,7 @@ const seriesLabel = (post) =>
             {metaPosts.length > 0 && (
               <ul class="divide-y divide-line border-t border-line">
                 {metaPosts.map((post) => (
-                  <li class="py-6">
-                    <a href={`/blog/${post.id}`} class="group block">
-                      <h2 class="text-xl font-semibold text-ink group-hover:text-accent transition-colors">
-                        {post.data.title}
-                      </h2>
-                      <p class="mt-2 text-muted">{post.data.description}</p>
-                      <time datetime={post.data.pubDate.toISOString()} class="mt-2 block text-sm text-muted">
-                        {dateFmt.format(post.data.pubDate)}
-                      </time>
-                    </a>
-                  </li>
+                  <BlogCard post={post} heading="h2" />
                 ))}
               </ul>
             )}
@@ -80,22 +70,7 @@ const seriesLabel = (post) =>
                 <h2 class="text-sm font-semibold uppercase tracking-wide text-muted">{group.project}</h2>
                 <ul class="mt-4 divide-y divide-line border-t border-line">
                   {group.posts.map((post) => (
-                    <li class="py-6">
-                      <a href={`/blog/${post.id}`} class="group block">
-                        {seriesLabel(post) && (
-                          <span class="text-xs font-medium uppercase tracking-wide text-accent">
-                            {seriesLabel(post)}
-                          </span>
-                        )}
-                        <h3 class="mt-1 text-xl font-semibold text-ink group-hover:text-accent transition-colors">
-                          {post.data.title}
-                        </h3>
-                        <p class="mt-2 text-muted">{post.data.description}</p>
-                        <time datetime={post.data.pubDate.toISOString()} class="mt-2 block text-sm text-muted">
-                          {dateFmt.format(post.data.pubDate)}
-                        </time>
-                      </a>
-                    </li>
+                    <BlogCard post={post} heading="h3" series={seriesLabel(post)} />
                   ))}
                 </ul>
               </section>

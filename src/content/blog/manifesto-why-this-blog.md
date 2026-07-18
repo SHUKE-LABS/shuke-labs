@@ -3,6 +3,7 @@ title: "Why This Blog Exists"
 description: "The engineering notebook of SHUKE-LABS — the reasoning behind what we build, wrong turns included."
 pubDate: 2026-07-18
 lang: en
+tags: [meta]
 ---
 
 > The engineering notebook of SHUKE-LABS — the reasoning behind what we build, wrong turns included.
