@@ -10,7 +10,6 @@ order: 2
 ---
 
 > thesis 系列 · 第二篇 · Ready / blocked / assigned_to
-> 第一人称 shuke。忠实，但求风趣。
 
 ## 一、没有它的时候，疼在哪
 
