@@ -7,6 +7,7 @@ lang: en
 tags: [philosophy, workflow]
 series: thesis
 order: 2
+zhVersion: thesis-2-labels-gate-zh
 ---
 
 

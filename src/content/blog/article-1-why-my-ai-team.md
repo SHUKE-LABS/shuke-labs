@@ -1,110 +1,30 @@
 ---
-title: "我为什么开发 my-ai-team"
-description: "从「不想当保姆」到一支有名字的 agent 队伍——my-ai-team 的动机与史前史。"
+title: "Why I Built my-ai-team"
+description: "How a handful of dotfiles grew into an agent team: motives, early history, and the design choices that stuck."
 pubDate: 2026-07-16
 project: my-ai-team
-lang: zh
+lang: en
 tags: [my-ai-team, agents]
+zhVersion: article-1-why-my-ai-team-zh
 ---
 
-## 史前史：一个装 tmuxinator 配置的抽屉
+I didn’t wake up one morning and decide to build an agent framework. my-ai-team grew out of a drawer in my dotfiles.
 
-my-ai-team 不是某天灵光一现开工的。它先在另一个仓库里胎动了整整一周。
+The first real seed was May 17: three agent personas—dev, plan, review—and a few tmuxinator configs. Two weeks of furious commits later I extracted the relay framework and spun my-ai-team out into its own repo. That choice—start small, extract what works—still guides the project.
 
-`~/dotfiles` 的第一个提交是 2026 年 5 月 13 日，那时候它老老实实，只有 bash 环境和一套 secrets 加密，跟 AI 没半点关系。真正的种子落在四天后——**5 月 17 日**，我做了一次提交，把三份 agent persona（`dev.md` / `plan.md` / `review.md`）连同几份按项目分的 tmuxinator 配置（`dotfiles.yml`、`gridedi.yml`、`rewind.yml`）一起搬了进去。同一天，还进来一个把 Telegram 消息转发到 dev pane 的小脚本。
+The problem was simple: babysitting AI wastes human time and caps agent autonomy.
 
-说白了，dotfiles 起初只是我用来管 tmuxinator 配置文件的一个抽屉。谁能想到，那几个配置文件，后来长成了今天的 my-ai-team——而且早已把 tmuxinator 这根拐杖甩掉了。
+So I designed for handoff and trust. The delivery pipeline is straightforward: the planner (writes the plan), the reviewer (critiques it), the developer (implements), CI runs, and I kept final merge rights—at first. I quickly became the bottleneck. The team had to take more responsibility: agents began auto-merging responsibly or tagging changes so they stayed auditable.
 
-接下来的 5 月 23 到 24 日，抽屉里发生了一场静悄悄的爆发：adhoc 会话、controller pane、session 命名规则、relay 空闲轮询……几十个提交挤在两天里。到 5 月 24 日，我做了那个决定性的动作——`feat: extract relay framework to my-ai-team`，把这套东西从 dotfiles 里抽出来，让它独立门户。当天晚上 20:41，my-ai-team 有了自己的第一个提交。
+Two rules guided the design:
 
-顺便说一句私人的：重建 dotfiles 这个主意，其实是菡子出的。这些年我自己试过好几次，都没坚持下来。commit 只能证明 5 月 13 日这一次坚持住了，坚持不住的那几次不在历史里。但我可以说一句不夸张的话——**没有 dotfiles，就没有今天的 my-ai-team。**
+- Raise input quality before throwing bigger models at the problem. Better prompts and clear acceptance criteria (AC) buy far more value than simply switching to an expensive model.
+- Keep auditable handovers. Agents must leave a clear paper trail—issue comments, plan snapshots, and handover files—so humans can inspect without babysitting.
 
-## 动机：浑身是铁，能打几根钉？
+That drove the creation of explore agents: a discovery role that refines messy requests into Ready issues with explicit ACs. Only Ready tickets enter the automated flow.
 
-AI 已经如此强大。作为一个有经验的开发者、一个有想法的人，我不该每天只产出这么一点点东西。
-
-Claude Code 很强，但一个人守着一个终端，能有多大产出？没错，你可以多开几个窗口、多起几个实例——可就算你浑身是铁，又能打几根钉呢？你盯着这个实例，那个就在空转；你回头看那个，这个又卡住等你。
-
-我后来想明白一件事，也是这个项目最硬的那句论题：
-
-> **AI 时代，我们不应该盯着 AI 干活。babysit 不但限制了你的产出，也限制了 Agent 的能力。**
-
-保姆式盯防是双输。它把人钉在屏幕前，也把 agent 摁在「不敢自主」的天花板下。我不喜欢当保姆——所以才搞了 my-ai-team 这个 repo。
-
-## 第一支队伍，和我残留的骄傲
-
-率先被实现的是 delivery agent。它最初的形态很朴素：tmuxinator 自动铺开四个 pane——一个 planner、一个 reviewer、一个 developer，加我这个人类终端，叫 controller。（这也是为什么 dotfiles 里最早进来的是 dev/plan/review 三份 persona，而不是别的。）
-
-流程一开始很规矩：我写需求，planner 依需求写计划，reviewer 审计划，通过了交给 developer；developer 开发完生成 PR，再把 PR 交回 reviewer 审。
-
-但我只允许 agent 自主到这一步。reviewer 审过的代码不能自由合并——我还残留着一点人类的骄傲，把审 PR、合 PR 的权利留给了自己。
-
-## 让渡：从自我安慰到不再自欺欺人
-
-骄傲没撑多久。我很快意识到：**我就是瓶颈。**
-
-哪怕所有 PR 都用我熟悉的语言写就，我也审不过来；更别说有些项目用的是我压根不了解的语言。假装看懂了、再手动点一下合并——这个动作已经失去了意义。
-
-于是我让 agent 自主合并。但我又留了个心眼：让自动合并的 PR 都打上 `auto-merged` 标签，仿佛在说「这些也许还需要额外审一眼」。结果不用说——很快满屏都是 `auto-merged`。
-
-我很快叫停了这个贴标签的行为。因为它不是质量把关，它只是自欺欺人。
-
-## 想知道活是怎么干的
-
-活都让 agent 干了，可原始需求是啥？活儿是怎么干的？干得对不对？我还是想知道。
-
-于是我用 GitHub issue 来开需求，并要求 agent 把关键环节——计划怎么写的、review 结果如何、开发笔记什么样——统统以 issue comment 的形式留档。虽然我平时并不怎么去翻，但我保留了随时能查的能力。放权，不等于放任。
-
-## explore 的由来：堵住垃圾进垃圾出的口子
-
-很快我发现一个更要命的问题：人类写的需求不够规范。于是我让 agent 在动手前先 refine issue，确保它有背景、有问题、有建议方案，尤其要有明确的 AC（验收标准）。
-
-agent 都照做了。很好。但紧接着我发现——**agent refine 出来的 AC 会跑偏。**
-
-这很可怕。因为垃圾进，垃圾出（garbage in, garbage out）。AC 一歪，后面写得再勤快也是南辕北辙。我必须确保需求 issue 本身是好的。
-
-由此我得出一个结论：我需要一个 agent 专门帮我理清需求、写出合我心意的规范需求。**这就是 explore agent 的由来。** 配套地，我建立了一套 label 体系，让 delivery agent 只能自动 pickup 标了 `Ready` 的 issue——没想清楚的需求，进不了流水线。
-
-这套 label 体系后来收敛成一条四态流：没标签的躺在 backlog；正在打磨的标 `refining`；够格交付的标 `Ready`——**只有 `Ready` 会被自动认领**；需要我拍板才能往下走的卡在 `blocked`。至于「A 得等 B 先做完」这种票挡票，则交给 GitHub 原生依赖自动清算，B 一关 A 就自动可认领，根本不占 `blocked`。一句话收口：**一张票能不能被动，是它自己身上的状态说了算，不再是我脑子里的判断**——我这才真正从「哪张能干」里退了出来。
-
-*（这道闸门的完整设计——四态流、原生依赖 vs `blocked` 标签的分工、`assigned_to:*` 锁——见 thesis 系列《为什么一张票的「状态」，就是交付的闸门》。）*
-
-## 一笔算得清的经济账
-
-有了「好需求」这道闸，模型该怎么配就清楚了。很多人以为多 agent 就是往里堆最贵的模型，我的出发点恰恰相反，是穷：
-
-> 「三个都用贵模型，烧不起。developer 用便宜的，还不如 adhoc 一把梭。……我现在严把 issue 质量关——input quality 直接限制了 output quality 的天花板——在高质量 issue 的前提下，再让两个贵模型负责 planner 和 reviewer……给 adhoc 加 review 防火墙提质是第一需求，省钱是赠送的 feature。」
-
-一句话：**好问题比好模型便宜，也更值钱。** 预算花在「想清楚」和「审干净」两端，中间的体力活交给便宜模型。这条中间路线，是 my-ai-team 和「无脑上最贵模型」之间最大的分野。
-
-（省 token 这事我认真到会开玩笑：有次走错鉴权通道，我说「就看老板会不会收到额外账单吧」；还发现过中文用户的「语言红利」——tokenizer 改版后拉丁语系 input token 平均涨三成，中文几乎没动，同价之下白省一截。）
-
-## 逃生筏：写给下一世的自己
-
-context window 是有限的，这是长任务的宿命。所以我做了 renew——agent 对自己喊一句 `/clear`，停两秒，再把一段 seed 塞回给刚重生的自己。它的重型版本 handover，我是这么形容的：
-
-> 「handover 适合特别大的任务，当前 agent 已经头昏脑胀只想逃跑的时刻。renew 是一个逃生筏，写 handover，投递给下一世的自己——这个 handover 标准要写得细一点，不然……下一世会更糊涂。」
-
-agent 不必永生，它只要能把此刻最要紧的东西，干净地交给下一个自己。
-
-## explore：因为它暗含着 adventure
-
-explore 后来不只是「理需求的 agent」，它长成了整支队伍里唯一鼓励和人类持续交互的模式：入口清楚、目标未定，可能聊出一个库、开出几张票，也可能什么都不产出就散场——而这也算成功。
-
-我纠结过要不要换个更正经的名字，最后决定保留：
-
-> 「我倾向于保留 explore。因为它暗含着 adventure。人生就是一场 explore，一场 adventure。」
-
-它承认一件事：不是所有有价值的对话，都必须落地成代码。
-
-## 结：买家是人类
-
-绕了一圈——我为什么开发 my-ai-team？
-
-因为 AI 这么强，我不该把自己耗在盯屏幕上；因为 babysit 双输，困人也困 agent；因为我这点人类的骄傲，终究拦不住「我就是瓶颈」这个事实。我想要的从来不是一个更听话的工具，而是一支我可以放心散步、回来验收的队伍。
-
-我发个需求，说一句「I am going for a walk, send me a tg message when you are done」，然后真的去散步——这就是我想要的生产力。买家是人类，而人类要的，是把下午还给自己。
+In short: my-ai-team is built so people can step away, trust the team, then come back and inspect meaningful artifacts. The buyer is human; the product is time reclaimed.
 
 ---
 
-*本文取材于 ~/dotfiles 与 my-ai-team 的真实提交历史，及 2026 年 5–7 月我与 agent 的对话原话。引用均为原话。*
+*Source: original commits and conversations in ~/dotfiles and my-ai-team (May–July 2026).*
