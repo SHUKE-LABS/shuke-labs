@@ -1,10 +1,12 @@
 // @ts-check
 import { defineConfig } from 'astro/config';
 import tailwindcss from '@tailwindcss/vite';
+import sitemap from '@astrojs/sitemap';
 
 // Custom domain (public/CNAME = shukelabs.com) → keep base at '/'.
 export default defineConfig({
   site: 'https://shukelabs.com',
+  integrations: [sitemap()],
   vite: {
     // `tailwindcss()` returns a vite.Plugin typed against @tailwindcss/vite's
     // bundled Vite 8, structurally incompatible with Astro's nested Vite 6
