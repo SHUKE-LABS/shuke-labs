@@ -9,7 +9,7 @@ tags: [my-ai-team, agents]
 
 ## 史前史：一个装 tmuxinator 配置的抽屉
 
-my-ai-team 不是某天灵光一现开工的。它先在另一个仓库里胎动了整整一周。
+my-ai-team 不是某天灵光一现开工的。它先在另一个仓库里酝酿了整整一周。
 
 `~/dotfiles` 的第一个提交是 2026 年 5 月 13 日，那时候它老老实实，只有 bash 环境和一套 secrets 加密，跟 AI 没半点关系。真正的种子落在四天后——**5 月 17 日**，我做了一次提交，把三份 agent persona（`dev.md` / `plan.md` / `review.md`）连同几份按项目分的 tmuxinator 配置（`dotfiles.yml`、`gridedi.yml`、`rewind.yml`）一起搬了进去。同一天，还进来一个把 Telegram 消息转发到 dev pane 的小脚本。
 
