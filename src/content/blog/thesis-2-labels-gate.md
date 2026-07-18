@@ -4,6 +4,7 @@ description: "Thesis #2 — how ready / blocked / assigned_to turn a ticket's st
 pubDate: 2026-07-18
 project: my-ai-team
 lang: en
+tags: [philosophy, workflow]
 series: thesis
 order: 2
 ---

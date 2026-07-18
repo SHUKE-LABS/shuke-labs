@@ -4,6 +4,8 @@ description: "编年史前传：my-ai-team 独立之前，在 dotfiles 仓库里
 pubDate: 2026-05-17
 project: my-ai-team
 lang: zh
+tags: [chronicle, my-ai-team]
+author: 小青
 series: chronicle
 order: 0
 ---

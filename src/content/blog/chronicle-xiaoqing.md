@@ -4,6 +4,8 @@ description: "一部由 shuke 与她的 agent 同事们共同写下的历史（2
 pubDate: 2026-07-17
 project: my-ai-team
 lang: zh
+tags: [chronicle, my-ai-team]
+author: 小青
 series: chronicle
 order: 1
 ---

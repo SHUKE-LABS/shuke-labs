@@ -4,6 +4,7 @@ description: "thesis 系列 · 第一篇 —— explore 与「票是分界膜」
 pubDate: 2026-07-18
 project: my-ai-team
 lang: zh
+tags: [philosophy, agents, workflow]
 series: thesis
 order: 1
 ---

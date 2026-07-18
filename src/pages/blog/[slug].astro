@@ -3,6 +3,7 @@ import { getCollection, render } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Nav from '../../components/Nav.astro';
 import Footer from '../../components/Footer.astro';
+import { readingTime } from '../../lib/readingTime';
 
 export async function getStaticPaths() {
   const posts = await getCollection('blog');
@@ -13,13 +14,20 @@ export async function getStaticPaths() {
 }
 
 const { post } = Astro.props;
-const { title, description, pubDate, lang, tags } = post.data;
+const { title, description, pubDate, lang, tags, author } = post.data;
 const { Content } = await render(post);
 
 const dateFmt = new Intl.DateTimeFormat('en', { dateStyle: 'medium' });
+const byline = author ?? 'SHUKE Labs';
+const { label: readingLabel } = readingTime(post.body ?? '', lang);
 
 const canonical = new URL(Astro.url.pathname, Astro.site).href;
 const publishedTime = pubDate.toISOString();
+
+// A named agent byline is a Person; the org fallback stays an Organization.
+const authorLd = author
+  ? { '@type': 'Person', name: author }
+  : { '@type': 'Organization', name: 'SHUKE Labs', url: Astro.site?.href };
 
 const jsonLd = {
   '@context': 'https://schema.org',
@@ -30,7 +38,7 @@ const jsonLd = {
   inLanguage: lang,
   mainEntityOfPage: { '@type': 'WebPage', '@id': canonical },
   url: canonical,
-  author: { '@type': 'Organization', name: 'SHUKE Labs', url: Astro.site?.href },
+  author: authorLd,
   publisher: { '@type': 'Organization', name: 'SHUKE Labs', url: Astro.site?.href },
   ...(tags.length > 0 && { keywords: tags.join(', ') }),
 };
@@ -52,8 +60,26 @@ const jsonLd = {
       <header class="mt-6 border-b border-line pb-8">
         <h1 class="text-3xl font-bold tracking-tight text-ink">{title}</h1>
         <div class="mt-3 flex flex-wrap items-center gap-3 text-sm text-muted">
+          <span class="text-ink">{byline}</span>
+          <span aria-hidden="true">&middot;</span>
           <time datetime={pubDate.toISOString()}>{dateFmt.format(pubDate)}</time>
+          <span aria-hidden="true">&middot;</span>
+          <span>{readingLabel}</span>
         </div>
+        {tags.length > 0 && (
+          <ul class="mt-4 flex flex-wrap gap-2">
+            {tags.map((tag) => (
+              <li>
+                <a
+                  href={`/blog/tags/${tag}`}
+                  class="inline-block rounded-full border border-line px-3 py-1 text-xs font-medium text-muted hover:border-accent hover:text-accent transition-colors"
+                >
+                  {tag}
+                </a>
+              </li>
+            ))}
+          </ul>
+        )}
       </header>
 
       <div class="prose mt-8">
