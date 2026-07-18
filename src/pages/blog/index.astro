@@ -4,10 +4,12 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import Nav from '../../components/Nav.astro';
 import Footer from '../../components/Footer.astro';
 import BlogCard from '../../components/BlogCard.astro';
+import { visiblePosts } from '../../lib/blog';
 
-// Every post is listed — publishing is gated by the merge (beta auto-deploys,
-// prod is a manual dispatch), not by a frontmatter flag.
-const all = await getCollection('blog');
+// Every post is listed except Chinese companions referenced via zhVersion (those
+// are reachable only from their English parent). Publishing is otherwise gated by
+// the merge (beta auto-deploys, prod is a manual dispatch), not a frontmatter flag.
+const all = visiblePosts(await getCollection('blog'));
 
 // Order posts within a project as a readable set: series, then order, then date.
 const withinProject = (a, b) => {
