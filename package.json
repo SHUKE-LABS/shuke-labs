@@ -10,8 +10,9 @@
     "check": "astro check"
   },
   "dependencies": {
-    "astro": "^5.13.0",
+    "@astrojs/rss": "^4.0.19",
     "@tailwindcss/vite": "^4.1.0",
+    "astro": "^5.13.0",
     "tailwindcss": "^4.1.0"
   }
 }
