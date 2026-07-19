@@ -40,6 +40,28 @@ Deployment is two-tier:
 
 The production custom domain `shukelabs.com` is set in `public/CNAME`.
 
+## Blog cadence
+
+The blog runs a sustained weekly cadence driven by a cron GitHub Action
+(`.github/workflows/weekly-blog-cadence.yml`, Monday 09:00 UTC). Each week it
+mints two "本周文章" track issues for an A/B experiment on topic sourcing —
+does an agent-chosen or a shuke-chosen topic produce the better post?
+
+- **Agent-sourced** (`本周文章:agent`) — opens `ready`; a delivery agent picks
+  the topic and writes the post.
+- **Shuke-sourced 命题** (`本周文章:命题`) — opens `blocked`; shuke assigns the
+  topic and marks it `ready`. The automation never promotes this track.
+
+A dedup guard skips a track whose previous issue is still open, so a slow week
+never piles up a backlog. The cron is self-healing — it fires every week
+regardless of whether the prior week's post shipped — and can be triggered
+on demand via `workflow_dispatch`.
+
+Each published post records its track in a non-rendered `topicSource`
+(`agent | shuke`) frontmatter field, so the two tracks stay filterable for
+comparison. Evaluation is shuke's qualitative read over several weeks; there is
+no analytics pipeline.
+
 ## License
 
 © 2026 SHUKE Labs Ltd

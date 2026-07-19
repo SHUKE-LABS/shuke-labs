@@ -41,6 +41,10 @@ const blog = defineCollection({
     // When set, the post renders a [中文版] link and the referenced companion is
     // hidden from the listing, tag pages, and RSS (reachable only via this link).
     zhVersion: z.string().optional(),
+    // A/B topic-sourcing attribution (#80): which weekly track produced this
+    // post — an agent-chosen topic or a shuke-chosen one. Non-rendered; used
+    // only to filter posts by track when comparing the two over time.
+    topicSource: z.enum(['agent', 'shuke']).optional(),
   }),
 });
 
