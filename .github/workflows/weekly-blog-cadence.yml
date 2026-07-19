@@ -1,0 +1,83 @@
+name: Weekly blog cadence
+
+# Mints the two weekly "本周文章" track issues for the A/B topic-sourcing
+# experiment (#80): an agent-sourced track (opens `ready`) and a shuke-sourced
+# 命题 track (opens `blocked`, awaiting shuke's topic). A dedup guard skips a
+# track whose previous issue is still open, so a slow week never piles up a
+# backlog. The cron is self-healing — it fires every week regardless of whether
+# the prior week's post shipped.
+
+on:
+  schedule:
+    # Monday 09:00 UTC.
+    - cron: '0 9 * * 1'
+  # On-demand runs let the dedup guard be verified without waiting a week.
+  workflow_dispatch:
+
+permissions:
+  issues: write
+
+jobs:
+  mint-issues:
+    runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ github.token }}
+      AGENT_LABEL: '本周文章:agent'
+      MTI_LABEL: '本周文章:命题'
+    steps:
+      - name: Ensure track labels exist
+        run: |
+          gh label create "$AGENT_LABEL" --repo "$GITHUB_REPOSITORY" \
+            --color '1D76DB' --description 'Weekly post — agent-sourced topic (A/B track, #80)' \
+            || true
+          gh label create "$MTI_LABEL" --repo "$GITHUB_REPOSITORY" \
+            --color '5319E7' --description 'Weekly post — shuke-sourced 命题 topic (A/B track, #80)' \
+            || true
+
+      - name: Agent-sourced track (opens ready)
+        run: |
+          open_count=$(gh issue list --repo "$GITHUB_REPOSITORY" \
+            --label "$AGENT_LABEL" --state open --json number --jq 'length')
+          if [ "$open_count" -gt 0 ]; then
+            echo "Agent track already has an open issue; skipping."
+            exit 0
+          fi
+          gh issue create --repo "$GITHUB_REPOSITORY" \
+            --title '本周文章 · agent 选题' \
+            --label "$AGENT_LABEL" --label 'ready' --label 'website' \
+            --body-file - <<'EOF'
+          This week's **agent-sourced** post. You pick the topic and write the post; it publishes to beta on merge.
+
+          **Topic brief — free choice.** Sourcing hint: recent `my-ai-team` development activity for a dogfooding/chronicle angle, or an evergreen thesis idea (one design decision argued per piece).
+
+          **Before writing, read:**
+          - Voice + role: `docs/writing-style-guide.md`
+          - Language policy: #72 (English canonical + optional `[中文版]` via `zhVersion`)
+          - Taxonomy: #71 (byline + tags + reading time)
+
+          **Attribution:** set `topicSource: agent` in the post's frontmatter so this A/B track is filterable later.
+          EOF
+
+      - name: Shuke-sourced 命题 track (opens blocked)
+        run: |
+          open_count=$(gh issue list --repo "$GITHUB_REPOSITORY" \
+            --label "$MTI_LABEL" --state open --json number --jq 'length')
+          if [ "$open_count" -gt 0 ]; then
+            echo "命题 track already has an open issue; skipping."
+            exit 0
+          fi
+          gh issue create --repo "$GITHUB_REPOSITORY" \
+            --title '本周文章 · 命题' \
+            --label "$MTI_LABEL" --label 'blocked' --label 'website' \
+            --body-file - <<'EOF'
+          This week's **shuke-sourced (命题)** post. It stays `blocked` until shuke assigns a topic and marks it `ready` — the automation never promotes this track.
+
+          **Topic brief — awaiting topic.** shuke: edit this body (or comment) with the topic, then swap `blocked` → `ready`.
+
+          **Before writing, read:**
+          - Voice + role: `docs/writing-style-guide.md`
+          - Language policy: #72 (English canonical + optional `[中文版]` via `zhVersion`)
+          - Taxonomy: #71 (byline + tags + reading time)
+
+          **Attribution:** set `topicSource: shuke` in the post's frontmatter so this A/B track is filterable later.
+          EOF
