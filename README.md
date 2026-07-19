@@ -69,6 +69,15 @@ count shared by prod and beta, backed by a standalone Cloudflare Worker + D1
 (`worker/`). Design, API, and deploy steps are in
 [`docs/like-counter.md`](docs/like-counter.md).
 
+## Idea submission
+
+The my-ai-team page carries a flag-gated public "submit an idea" form. It posts
+to a standalone Cloudflare Worker + D1 (`worker-ideas/`) that verifies Turnstile,
+quota-caps, stores the submission `pending`, and serves an honest mechanical
+receipt at `/idea/:id`. It makes no AI value judgement — that is the audit ticket
+(#100). Async UX, receipt fields, and the front-end flag are documented in
+[`docs/idea-intake.md`](docs/idea-intake.md).
+
 ## License
 
 © 2026 SHUKE Labs Ltd
