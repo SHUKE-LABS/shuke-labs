@@ -3,9 +3,10 @@
 A public "submit an idea" path on the my-ai-team page (issue #14): a single
 free-text field → a validated Cloudflare Worker → durable D1 intake → an instant
 mechanical receipt. This is the **front half** of the idea → AI-review pipeline.
-It does **not** make the AI value judgement (that is the audit ticket, #100), so
-its UX is honestly **asynchronous**: you submit, you get a receipt link, and the
-receipt fills in as the review runs later.
+It does **not** make the AI value judgement — that is the audit, the **back
+half**, documented in [`idea-audit.md`](./idea-audit.md) (issue #100). So its UX
+is honestly **asynchronous**: you submit, you get a receipt link, and the receipt
+fills in as the review runs later.
 
 ## Architecture
 

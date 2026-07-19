@@ -36,7 +36,10 @@ receipt fields, and the front-end flag state.
   shape. Audit-owned fields (security verdict, scope reason, decision, authored
   reason) render as `pending` until `/internal/verdict` fills them.
 - **`/internal/*`** require `Authorization: Bearer <INTERNAL_SECRET>`; anything
-  else is `401`. This is the only seam the audit host uses.
+  else is `401`. This is the only seam the audit host uses. `decision` on
+  `/internal/verdict` is `accepted` / `rejected` (both leave the queue) or
+  `deferred` — audit #100's acceptance-quota-full "try later", which writes the
+  authored reason but keeps `status='pending'` for re-judging next run.
 
 ## One-time provisioning + deploy
 

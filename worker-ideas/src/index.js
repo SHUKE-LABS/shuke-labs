@@ -227,8 +227,12 @@ export default {
       }
       const { id, security_verdict, scope_reason, decision, authored_reason } = body || {};
       if (!id || !decision) return json({ error: 'malformed' }, 400);
-      // decision drives status: accepted | rejected leave the queue.
-      const status = decision === 'accepted' ? 'accepted' : 'rejected';
+      // decision drives status: 'accepted' | 'rejected' leave the queue;
+      // 'deferred' (audit #100: accept-worthy but the daily acceptance quota is
+      // full) writes the authored "try later" reason yet keeps status 'pending',
+      // so the row is honestly re-judged on the audit's next run.
+      const status =
+        decision === 'accepted' ? 'accepted' : decision === 'deferred' ? 'pending' : 'rejected';
       const res = await env.DB.prepare(
         'UPDATE submissions SET security_verdict = ?, scope_reason = ?, decision = ?, ' +
           'authored_reason = ?, status = ? WHERE id = ?',
