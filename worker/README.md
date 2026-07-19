@@ -2,8 +2,8 @@
 
 Standalone Cloudflare Worker + D1 backing the blog's anonymous global "like"
 (issue #93, isolated per environment in #97). It is deployed **independently**
-of the Astro site — the site is a static build on GitHub Pages (prod) and
-Cloudflare Pages (beta); both origins hit this one Worker, which routes each
+of the Astro site — the site is a static build on Cloudflare Pages (prod and
+beta environments); both origins hit this one Worker, which routes each
 request to its environment's namespace by request Origin so beta and prod counts
 stay separate.
 
