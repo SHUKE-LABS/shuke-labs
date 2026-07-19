@@ -6,8 +6,8 @@ accounts, no comments, no analytics pipeline.
 
 ## Architecture
 
-The site is a static Astro build served from two hosts (prod on GitHub Pages,
-beta on Cloudflare Pages). The counter lives in a **standalone Cloudflare
+The site is a static Astro build served from two Cloudflare Pages
+environments (prod and beta). The counter lives in a **standalone Cloudflare
 Worker** backed by **D1**, on a stable, host-independent URL
 (`like.shukelabs.com`). Both hosts' pages hit that one Worker, but each count is
 **isolated per environment** (#97): the Worker resolves the environment from the

@@ -3,7 +3,7 @@ import { defineConfig } from 'astro/config';
 import tailwindcss from '@tailwindcss/vite';
 import sitemap from '@astrojs/sitemap';
 
-// Custom domain (public/CNAME = shukelabs.com) → keep base at '/'.
+// Custom domain (shukelabs.com) is attached on Cloudflare Pages → keep base at '/'.
 export default defineConfig({
   site: 'https://shukelabs.com',
   integrations: [sitemap()],

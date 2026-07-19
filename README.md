@@ -33,12 +33,12 @@ npm run preview
 
 ## Deployment
 
-Deployment is two-tier:
+Both tiers are served from **Cloudflare Pages** (one project, two branches):
 
-- **Beta** (`beta.shukelabs.com`, Cloudflare Pages Git integration) auto-deploys on every merge to `main`.
-- **Production** (`shukelabs.com`, GitHub Pages via `.github/workflows/deploy.yml`) is a manual promotion: it runs on `workflow_dispatch` only, after beta is verified — nothing ships to production automatically on push.
+- **Beta** (`beta.shukelabs.com`, the `main` branch) auto-deploys on every merge to `main`.
+- **Production** (`shukelabs.com`, the `prod` branch) is a manual promotion: **merge `main` → `prod`** after beta is verified — nothing ships to production automatically on a merge to `main`.
 
-The production custom domain `shukelabs.com` is set in `public/CNAME`.
+Full model, per-environment D1 bindings, and the one-time cutover runbook are in [`docs/deploy.md`](docs/deploy.md).
 
 ## Blog cadence
 
