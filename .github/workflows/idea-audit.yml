@@ -1,0 +1,57 @@
+name: Idea audit
+
+# Back half of the public idea pipeline (#100; front half #14). A scheduled,
+# autonomous audit: read pending submissions from the intake Worker, run one
+# Claude judgement per item (security -> scope -> value -> acceptance quota),
+# write the verdict back to the receipt store, and on accept mint a
+# delivery-ready public issue. Durable by construction — no local session, no
+# long-lived PAT: issues are created with the built-in GITHUB_TOKEN. The
+# permanent human merge gate is untouched; this only relabels/creates issues.
+
+on:
+  schedule:
+    # Every 6 hours. Acceptance quota is per UTC day, so multiple runs share it.
+    - cron: '0 */6 * * *'
+  # On-demand so the pipeline can be exercised end-to-end without waiting.
+  workflow_dispatch:
+
+permissions:
+  issues: write
+
+# Never run two audits at once — concurrent runs could double-count the daily
+# acceptance quota (which is derived from minted issues).
+concurrency:
+  group: idea-audit
+  cancel-in-progress: false
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ github.token }}
+      IDEAS_ENDPOINT: ${{ vars.IDEAS_ENDPOINT || 'https://ideas.shukelabs.com' }}
+      INTERNAL_SECRET: ${{ secrets.IDEAS_INTERNAL_SECRET }}
+      ACCEPTANCE_QUOTA: ${{ vars.ACCEPTANCE_QUOTA || '3' }}
+      ANTHROPIC_BASE_URL: ${{ secrets.ANTHROPIC_BASE_URL }}
+      ANTHROPIC_AUTH_TOKEN: ${{ secrets.ANTHROPIC_AUTH_TOKEN }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install Claude CLI
+        run: npm install -g @anthropic-ai/claude-code
+
+      - name: Ensure labels exist
+        run: |
+          gh label create 'external-request' --repo "$GITHUB_REPOSITORY" \
+            --color 'D93F0B' --description 'Accepted public idea submission (audit #100)' || true
+          gh label create 'ready' --repo "$GITHUB_REPOSITORY" \
+            --color '0E8A16' --description 'Ready for the team to pick up' || true
+
+      - name: Run audit
+        run: node audit/run.mjs

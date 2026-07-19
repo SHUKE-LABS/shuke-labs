@@ -8,6 +8,8 @@
 -- scope_reason, decision, and authored_reason via /internal/verdict. Those
 -- audit-owned columns stay NULL (rendered as "pending" on the receipt) until it
 -- runs. `id` is an unguessable UUID — the only handle to the public receipt.
+-- A verdict of decision='deferred' (audit #100, acceptance-quota full) writes an
+-- authored reason but leaves status='pending', so the row is re-judged next run.
 CREATE TABLE IF NOT EXISTS submissions (
   id               TEXT    NOT NULL PRIMARY KEY,
   created_at       TEXT    NOT NULL,
