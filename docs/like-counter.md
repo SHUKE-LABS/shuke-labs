@@ -9,14 +9,23 @@ accounts, no comments, no analytics pipeline.
 The site is a static Astro build served from two hosts (prod on GitHub Pages,
 beta on Cloudflare Pages). The counter lives in a **standalone Cloudflare
 Worker** backed by **D1**, on a stable, host-independent URL
-(`like.shukelabs.com`). Both hosts' pages hit that one Worker, so prod and beta
-**share a single counter**.
+(`like.shukelabs.com`). Both hosts' pages hit that one Worker, but each count is
+**isolated per environment** (#97): the Worker resolves the environment from the
+request `Origin` (`prod` for `shukelabs.com`, `beta` for `beta.shukelabs.com`)
+and stores every count under `(env, slug)`. beta is a preview/review host, so
+its test-clicks must not inflate the prod count or #80's A/B signal — only the
+prod namespace counts toward display on `shukelabs.com` and toward #80.
+
+A request with an unrecognised `Origin` — or none (e.g. a bare curl) — is
+rejected with `403`, which is what guarantees the prod namespace only ever
+receives prod-origin likes.
 
 ```
 blog post page (prod or beta)
-        │  GET/POST https://like.shukelabs.com/like/:slug
+        │  GET/POST https://like.shukelabs.com/like/:slug   (browser sends Origin)
         ▼
-  shukelabs-like Worker  ──►  D1 table `likes (slug PRIMARY KEY, count)`
+  shukelabs-like Worker  ── Origin → env ──►  D1 table `likes (env, slug) PK`
+        (prod → env='prod' rows,  beta → env='beta' rows — never collide)
 ```
 
 - **Worker source + deploy**: [`../worker/`](../worker/) (`src/index.js`,
@@ -33,9 +42,10 @@ blog post page (prod or beta)
 | `GET`  | `/like/:slug` | `{ slug, count }` | current count (0 if never liked)    |
 | `POST` | `/like/:slug` | `{ slug, count }` | atomic increment, returns new count |
 
-The increment is a single `INSERT ... ON CONFLICT(slug) DO UPDATE SET count =
-count + 1 RETURNING count`, so concurrent likes never lose a write. CORS allows
-the prod and beta origins only.
+The increment is a single `INSERT ... ON CONFLICT(env, slug) DO UPDATE SET count
+= count + 1 RETURNING count`, so concurrent likes never lose a write. `env` comes
+from the request Origin. CORS allows the prod and beta origins only; any other
+Origin (or none) gets `403`.
 
 ## The slug ↔ post mapping
 
@@ -58,17 +68,19 @@ On load the control fetches the live count and renders it. On click it:
 
 ## Anti-abuse (v1)
 
-localStorage dedup **only**. The endpoint is publicly curl-able and has no
-per-IP or rate limiting — an accepted tradeoff for a small blog. Hardening is
-out of scope for v1; revisit if abuse appears.
+localStorage dedup **only**. The endpoint is still curl-able by anyone who
+passes a recognised `Origin` header (the Origin gate is environment routing, not
+auth) and has no per-IP or rate limiting — an accepted tradeoff for a small blog.
+Hardening is out of scope for v1; revisit if abuse appears.
 
 ## Engagement signal for the #80 A/B
 
 Each published post records its topic-sourcing track in a `topicSource`
 (`agent | shuke`) frontmatter field (see the blog-cadence section of the
 [README](../README.md)). Because the like counter is keyed by the same slug,
-`GET /like/:slug` gives a per-post engagement number that can be correlated with
-`topicSource` when comparing the two tracks. It is a noisy, qualitative signal —
+`GET /like/:slug` from the **prod** origin gives a per-post engagement number
+that can be correlated with `topicSource` when comparing the two tracks — beta
+test-clicks are isolated (#97) and excluded. It is a noisy, qualitative signal —
 there is no analytics pipeline — but it turns #80's otherwise purely qualitative
 read into one with a real (if rough) number attached.
 
