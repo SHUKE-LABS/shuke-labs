@@ -1,0 +1,17 @@
+# Standalone "like" counter Worker (issue #93). Deployed independently of the
+# Astro site — see worker/README.md for the one-time provisioning + deploy.
+name = "shukelabs-like"
+main = "src/index.js"
+compatibility_date = "2026-07-01"
+
+# Serve on the stable, host-independent endpoint the blog client hits.
+routes = [
+  { pattern = "like.shukelabs.com", custom_domain = true },
+]
+
+# D1 counter store. Fill database_id after `wrangler d1 create shukelabs-like`
+# (README step 1); the binding name DB is what src/index.js reads as env.DB.
+[[d1_databases]]
+binding = "DB"
+database_name = "shukelabs-like"
+database_id = "REPLACE_WITH_D1_DATABASE_ID"

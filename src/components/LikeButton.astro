@@ -1,0 +1,106 @@
+---
+// Anonymous global like control (issue #93). Renders a heart + numeric count;
+// the inline script fetches the live count from the standalone Worker on load,
+// increments on click with an optimistic +1, and uses a per-slug localStorage
+// flag to drive the liked state and suppress same-browser re-likes.
+import { LIKE_ENDPOINT } from '../config/site';
+
+interface Props {
+  // The Astro content-collection id of the post — the counter key.
+  slug: string;
+}
+
+const { slug } = Astro.props;
+---
+
+<div class="mt-10 border-t border-line pt-6">
+  <button
+    type="button"
+    class="like-button group inline-flex items-center gap-2 text-muted transition-colors hover:text-accent disabled:cursor-default"
+    data-slug={slug}
+    data-endpoint={LIKE_ENDPOINT}
+    aria-pressed="false"
+    aria-label="Like this post"
+  >
+    <svg
+      class="like-heart h-5 w-5 transition-transform group-active:scale-90"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2"
+      aria-hidden="true"
+    >
+      <path
+        d="M12 21s-6.716-4.35-9.193-8.243C1.07 10.055 1.64 6.7 4.3 5.36c1.99-1.003 4.2-.3 5.7 1.36L12 8l2-1.28c1.5-1.66 3.71-2.363 5.7-1.36 2.66 1.34 3.23 4.695 1.493 7.397C18.716 16.65 12 21 12 21z"
+      ></path>
+    </svg>
+    <span class="like-count text-sm tabular-nums" aria-live="polite">·</span>
+  </button>
+</div>
+
+<script>
+  type LikeResponse = { slug: string; count: number };
+
+  function initLike(button: HTMLButtonElement) {
+    const slug = button.dataset.slug;
+    const endpoint = button.dataset.endpoint;
+    if (!slug || !endpoint) return;
+
+    const countEl = button.querySelector<HTMLElement>('.like-count');
+    const heartEl = button.querySelector<SVGElement>('.like-heart');
+    const url = `${endpoint}/like/${encodeURIComponent(slug)}`;
+    const storageKey = `like:${slug}`;
+
+    const render = (count: number) => {
+      if (countEl) countEl.textContent = String(count);
+    };
+
+    const setLiked = (liked: boolean) => {
+      button.setAttribute('aria-pressed', String(liked));
+      // Fill the heart when liked; outline otherwise.
+      if (heartEl) heartEl.setAttribute('fill', liked ? 'currentColor' : 'none');
+      if (liked) button.classList.add('text-accent');
+    };
+
+    const alreadyLiked = () => {
+      try {
+        return localStorage.getItem(storageKey) === '1';
+      } catch {
+        return false;
+      }
+    };
+
+    setLiked(alreadyLiked());
+
+    // Render the current global count on load.
+    fetch(url)
+      .then((r) => (r.ok ? (r.json() as Promise<LikeResponse>) : null))
+      .then((data) => {
+        if (data) render(data.count);
+      })
+      .catch(() => {});
+
+    button.addEventListener('click', () => {
+      if (alreadyLiked()) return; // same-browser re-like suppressed
+      try {
+        localStorage.setItem(storageKey, '1');
+      } catch {}
+      setLiked(true);
+
+      // Optimistic +1, reconciled to the server's authoritative count.
+      const optimistic = Number(countEl?.textContent) || 0;
+      render(optimistic + 1);
+
+      fetch(url, { method: 'POST' })
+        .then((r) => (r.ok ? (r.json() as Promise<LikeResponse>) : null))
+        .then((data) => {
+          if (data) render(data.count);
+        })
+        .catch(() => {});
+    });
+  }
+
+  document
+    .querySelectorAll<HTMLButtonElement>('.like-button')
+    .forEach(initLike);
+</script>

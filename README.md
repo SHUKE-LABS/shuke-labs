@@ -62,6 +62,13 @@ Each published post records its track in a non-rendered `topicSource`
 comparison. Evaluation is shuke's qualitative read over several weeks; there is
 no analytics pipeline.
 
+## Post likes
+
+Blog posts carry an anonymous, global like counter — a real cross-visitor
+count shared by prod and beta, backed by a standalone Cloudflare Worker + D1
+(`worker/`). Design, API, and deploy steps are in
+[`docs/like-counter.md`](docs/like-counter.md).
+
 ## License
 
 © 2026 SHUKE Labs Ltd
