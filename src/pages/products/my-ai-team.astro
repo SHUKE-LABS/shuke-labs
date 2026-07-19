@@ -3,6 +3,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import Nav from '../../components/Nav.astro';
 import Footer from '../../components/Footer.astro';
 import { bundlePriceSummary } from '../../config/pricing';
+import { IDEAS_ENDPOINT, TURNSTILE_SITE_KEY, IDEA_SUBMISSION_ENABLED } from '../../config/site';
 
 const title = 'My AI Team';
 const description =
@@ -229,6 +230,55 @@ const supportBullets = [
       </div>
     </section>
 
+    <!-- Submit an idea: flag-gated public intake (issue #14). Hidden until the
+         Worker + Turnstile keys are provisioned and the audit ticket is live. -->
+    {
+      IDEA_SUBMISSION_ENABLED && (
+        <section class="mx-auto max-w-5xl px-6 pb-16">
+          <h2 class="text-sm font-semibold uppercase tracking-wider text-muted">Submit an idea</h2>
+          <p class="mt-4 max-w-2xl text-lg text-ink leading-relaxed">
+            Have something the team should build? Drop it in the queue. Review is
+            asynchronous — you get an instant receipt with a link that fills in as the
+            review runs. No account, one field.
+          </p>
+          <form
+            class="idea-form mt-6 rounded-2xl border border-line bg-surface-soft p-6"
+            data-endpoint={IDEAS_ENDPOINT}
+          >
+            <label for="idea-input" class="block text-sm font-medium text-ink">
+              Your idea
+            </label>
+            <textarea
+              id="idea-input"
+              name="idea"
+              rows="4"
+              maxlength="2000"
+              required
+              placeholder="Describe the idea in a sentence or two."
+              class="idea-input mt-2 w-full rounded-lg border border-line bg-surface px-3 py-2 text-sm text-ink focus:border-accent focus:outline-none"
+            />
+            <div
+              class="cf-turnstile mt-4"
+              data-sitekey={TURNSTILE_SITE_KEY}
+            />
+            <button
+              type="submit"
+              class="idea-submit mt-4 inline-flex items-center rounded-lg bg-accent px-5 py-2.5 text-sm font-medium text-white transition-colors hover:bg-accent-hover disabled:cursor-not-allowed disabled:opacity-60"
+            >
+              Send it to the queue
+            </button>
+            <p class="idea-result mt-4 text-sm" role="status" aria-live="polite" />
+          </form>
+          <script
+            is:inline
+            src="https://challenges.cloudflare.com/turnstile/v0/api.js"
+            async
+            defer
+          />
+        </section>
+      )
+    }
+
     <!-- Closing CTA -->
     <section class="mx-auto max-w-5xl px-6 pb-24">
       <div class="rounded-2xl border border-line bg-surface-soft p-8 sm:p-10">
@@ -247,3 +297,83 @@ const supportBullets = [
   </main>
   <Footer />
 </BaseLayout>
+
+<script>
+  // Idea-submission form handler (issue #14). Posts the free text + Turnstile
+  // token to the intake Worker and renders the mechanical outcome: on success a
+  // link to the receipt, on reject the Worker's mechanical reason. This script
+  // is always bundled; it's a no-op when the form isn't rendered (flag off), so
+  // it safely queries a NodeList that may be empty.
+  type SubmitOk = { id: string; receiptUrl: string };
+  type SubmitErr = { error: string; receipt?: string };
+
+  function initIdeaForm(form: HTMLFormElement) {
+    const endpoint = form.dataset.endpoint;
+    if (!endpoint) return;
+
+    const input = form.querySelector<HTMLTextAreaElement>('.idea-input');
+    const button = form.querySelector<HTMLButtonElement>('.idea-submit');
+    const result = form.querySelector<HTMLElement>('.idea-result');
+
+    const show = (message: string, ok: boolean) => {
+      if (!result) return;
+      result.textContent = '';
+      result.classList.toggle('text-accent', ok);
+      result.classList.toggle('text-red-600', !ok);
+      result.append(message);
+    };
+
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      const text = input?.value.trim() ?? '';
+      if (!text) {
+        show('Please enter an idea first.', false);
+        return;
+      }
+
+      // Turnstile injects a hidden input with the token once the widget solves.
+      const token =
+        form.querySelector<HTMLInputElement>('[name="cf-turnstile-response"]')?.value ?? '';
+      if (!token) {
+        show('Please complete the anti-bot check.', false);
+        return;
+      }
+
+      if (button) button.disabled = true;
+      show('Sending…', true);
+
+      try {
+        const res = await fetch(`${endpoint}/submit`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ input: text, turnstileToken: token }),
+        });
+        const data = (await res.json()) as SubmitOk & SubmitErr;
+        if (res.ok && data.receiptUrl) {
+          form.reset();
+          show('', true);
+          if (result) {
+            const link = document.createElement('a');
+            link.href = data.receiptUrl;
+            link.textContent = 'View your receipt →';
+            link.className = 'underline';
+            result.textContent = "Your idea is in the review queue. ";
+            result.append(link);
+          }
+        } else {
+          show(data.receipt || 'Submission failed. Please retry.', false);
+          if (button) button.disabled = false;
+        }
+      } catch {
+        show('Network error. Please retry.', false);
+        if (button) button.disabled = false;
+      }
+
+      // Turnstile tokens are single-use; reset the widget so a retry gets a
+      // fresh one rather than replaying the spent token.
+      (window as unknown as { turnstile?: { reset: () => void } }).turnstile?.reset();
+    });
+  }
+
+  document.querySelectorAll<HTMLFormElement>('.idea-form').forEach(initIdeaForm);
+</script>
