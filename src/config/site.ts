@@ -14,9 +14,9 @@ export const IDEAS_ENDPOINT = 'https://ideas.shukelabs.com';
 // ships in the page); the matching secret lives only in the Worker. Replace
 // this placeholder with the real key once Turnstile is provisioned (see
 // worker-ideas/README.md), then flip IDEA_SUBMISSION_ENABLED to reveal the form.
-export const TURNSTILE_SITE_KEY = 'REPLACE_WITH_TURNSTILE_SITE_KEY';
+export const TURNSTILE_SITE_KEY = '0x4AAAAAAD7iom2Bux_HyhLA';
 
 // Feature flag for the public idea-submission form. Stays false until the
 // Worker + Turnstile keys are provisioned and the audit ticket (#100) is live,
 // so the form never ships in a broken (no-verdict, no-key) state.
-export const IDEA_SUBMISSION_ENABLED = false;
+export const IDEA_SUBMISSION_ENABLED = true;

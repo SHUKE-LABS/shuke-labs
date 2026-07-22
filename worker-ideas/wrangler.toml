@@ -18,7 +18,7 @@ routes = [
 [[d1_databases]]
 binding = "DB"
 database_name = "shukelabs-ideas"
-database_id = "REPLACE_WITH_D1_DATABASE_ID"
+database_id = "247f9fa5-66ae-49ce-bb39-f180a8d1d96a"
 
 # Secrets are NOT set here — provision them with `wrangler secret put` (README):
 #   TURNSTILE_SECRET  Cloudflare Turnstile secret key (server-side verify)
