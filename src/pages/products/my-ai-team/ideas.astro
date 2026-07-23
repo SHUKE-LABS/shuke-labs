@@ -1,0 +1,162 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import Nav from '../../../components/Nav.astro';
+import Footer from '../../../components/Footer.astro';
+
+const title = 'Submit an idea to My AI Team';
+const description =
+  'What the idea inbox is for, which ideas fit, and what happens after you send one — before you reach the form.';
+
+// In/out-of-scope copy mirrors the canonical SCOPE_CONTEXT in audit/lib/prompt.mjs,
+// the same boundary the autonomous audit judges submissions against. Keep these
+// two surfaces consistent — the audit is the source of truth.
+const inScope = [
+  'Improvements or extensions to the My AI Team product itself.',
+  'Changes to how the agents work — the pipeline, the modes, the guardrails.',
+  'Anything on the public site or blog: a page, a post, a fix, a rough idea.',
+  'The idea pipeline itself — how submissions are taken in, judged, and delivered.',
+];
+
+const outOfScope = [
+  'Requests unrelated to My AI Team.',
+  'Generic consulting or open-ended advice.',
+  'Anything that needs credentials, accounts, or data the team does not have.',
+  'One-off personal favours that only make sense for a single person.',
+];
+
+// The submission journey, from the field to a merged change. Buyer-facing framing;
+// the underlying loop is the same one described on how-it-works.
+const steps = [
+  {
+    who: 'You send it',
+    note: 'One field, no account. You get an instant receipt with a link that fills in as the review runs.',
+  },
+  {
+    who: 'The audit judges it',
+    note: 'An autonomous auditor checks each idea for safety, scope, and value, then accepts or declines — with a plain reason either way.',
+  },
+  {
+    who: 'It becomes a ticket',
+    note: 'An accepted idea is written up as a queued ticket for the team — a concrete goal, not just your raw note.',
+  },
+  {
+    who: 'The team builds it',
+    note: 'Agents plan, build, and independently review the change on the same loop every ticket runs through.',
+  },
+  {
+    who: 'A human merges it',
+    note: 'Nothing ships automatically. A person reviews and merges every change — the permanent gate that stays in place no matter how autonomous the work is.',
+  },
+];
+---
+
+<BaseLayout title={title} description={description}>
+  <Nav />
+  <main class="flex-1">
+    <!-- Hero -->
+    <section class="mx-auto max-w-5xl px-6 pt-6 pb-12">
+      <a
+        href="/products/my-ai-team"
+        class="text-sm text-muted hover:text-ink transition-colors">&larr; My AI Team</a
+      >
+      <h1 class="mt-3 text-4xl sm:text-5xl font-bold tracking-tight text-ink">Submit an idea</h1>
+      <p class="mt-4 max-w-2xl text-lg text-muted leading-relaxed">
+        The idea inbox is an open door to the team's queue. Drop in something you'd like My AI Team
+        to build or fix, and it goes through the same pipeline every ticket does. Here's what fits
+        and what happens next — then send yours.
+      </p>
+      <a
+        href="/products/my-ai-team#submit-idea"
+        class="mt-6 inline-flex items-center rounded-lg bg-accent px-5 py-2.5 text-sm font-medium text-white transition-colors hover:bg-accent-hover"
+      >
+        Go to the form
+      </a>
+    </section>
+
+    <!-- What fits -->
+    <section class="mx-auto max-w-5xl px-6 pb-16">
+      <h2 class="text-sm font-semibold uppercase tracking-wider text-muted">
+        What kinds of ideas fit
+      </h2>
+      <div class="mt-6 grid gap-4 sm:grid-cols-2">
+        <div class="rounded-xl border border-line bg-surface p-6">
+          <h3 class="text-base font-semibold text-ink">In scope</h3>
+          <ul class="mt-3 space-y-2 text-sm text-muted leading-relaxed">
+            {
+              inScope.map((item) => (
+                <li class="flex gap-2">
+                  <span class="text-accent" aria-hidden="true">
+                    +
+                  </span>
+                  <span>{item}</span>
+                </li>
+              ))
+            }
+          </ul>
+        </div>
+        <div class="rounded-xl border border-line bg-surface p-6">
+          <h3 class="text-base font-semibold text-ink">Out of scope</h3>
+          <ul class="mt-3 space-y-2 text-sm text-muted leading-relaxed">
+            {
+              outOfScope.map((item) => (
+                <li class="flex gap-2">
+                  <span class="text-muted" aria-hidden="true">
+                    −
+                  </span>
+                  <span>{item}</span>
+                </li>
+              ))
+            }
+          </ul>
+        </div>
+      </div>
+      <p class="mt-4 max-w-2xl text-sm text-muted leading-relaxed">
+        Out-of-scope ideas are declined automatically, with a reason — no hard feelings, and nothing
+        is lost by trying. When in doubt, send it.
+      </p>
+    </section>
+
+    <!-- What happens after -->
+    <section class="mx-auto max-w-5xl px-6 pb-16">
+      <h2 class="text-sm font-semibold uppercase tracking-wider text-muted">
+        What happens after you submit
+      </h2>
+      <div class="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        {
+          steps.map((step, i) => (
+            <div class="rounded-xl border border-line bg-surface p-5">
+              <span class="font-mono text-sm font-semibold text-accent">{i + 1}</span>
+              <h3 class="mt-2 text-base font-semibold text-ink">{step.who}</h3>
+              <p class="mt-2 text-sm text-muted leading-relaxed">{step.note}</p>
+            </div>
+          ))
+        }
+      </div>
+      <p class="mt-4 max-w-2xl text-sm text-muted leading-relaxed">
+        Review is asynchronous — you don't wait on the page. The receipt link is yours to check back
+        on as the idea moves through the queue. See
+        <a href="/products/my-ai-team/how-it-works" class="text-accent hover:underline"
+          >how it works</a
+        > for the loop the team runs every ticket through.
+      </p>
+    </section>
+
+    <!-- CTA back to the form -->
+    <section class="mx-auto max-w-5xl px-6 pb-24">
+      <div class="rounded-2xl border border-line bg-surface-soft p-8 sm:p-10">
+        <h2 class="text-2xl font-bold text-ink">Got one? Send it to the queue.</h2>
+        <p class="mt-3 max-w-2xl text-muted leading-relaxed">
+          One field, no account, an instant receipt. Describe the idea in a sentence or two and the
+          pipeline takes it from there.
+        </p>
+        <a
+          href="/products/my-ai-team#submit-idea"
+          class="mt-6 inline-flex items-center rounded-lg bg-accent px-5 py-2.5 text-sm font-medium text-white transition-colors hover:bg-accent-hover"
+        >
+          Submit an idea
+        </a>
+      </div>
+    </section>
+  </main>
+  <Footer />
+</BaseLayout>
