@@ -12,15 +12,36 @@ Every other branch (feature/PR branches) is also a Preview deployment and
 shares the beta (non-prod) environment — harmless, since nothing but `prod`
 touches the apex.
 
-## Ongoing model — beta auto, prod manual-promote
+## Ongoing model — beta auto, prod gated-promote
 
 - **Beta** auto-deploys on every merge to `main` → `beta.shukelabs.com`.
-- **Production** is a deliberate promotion: **merge `main` → `prod`**. That
-  merge is the only push that publishes to the apex. A merge to `main` never
-  publishes to production.
+- **Production** is a deliberate, gated promotion: run the **"Release to
+  production"** GitHub Actions workflow (`.github/workflows/release-to-production.yml`).
+  A push to `prod` is the only push that publishes to the apex; a merge to
+  `main` never publishes to production.
 
 So the flow is: PR → `main` (CI + beta preview) → verify on beta → promote by
-merging `main` into `prod` (publishes the apex).
+dispatching the release workflow (publishes the apex).
+
+### Promoting via the release workflow
+
+Actions → **Release to production** → **Run workflow**. One input:
+
+- `ref` — the ref to promote: a branch name (default `main`), a tag, or a
+  commit SHA. The workflow resolves it to a SHA and **force-sets** `prod` to it
+  (`git push --force origin <sha>:refs/heads/prod`); CF Pages then deploys the
+  apex to that tree.
+
+Because `prod` is force-set (not fast-forward merged), it is a **deploy
+pointer** rather than merge-accumulated history — it can move to any ref,
+including **backward for rollback** (dispatch with an older tag or SHA). The
+`prod` git history is not load-bearing: CF Pages deploys the tree at HEAD.
+
+**Approval gate.** The job runs under the `production` GitHub Environment,
+configured with a required reviewer. Every dispatch **waits on one
+approve-click** before it publishes the apex. The run name reflects the ref and
+the run summary records the promoted SHA — the audit trail of what was released
+when and by whom now lives in the repo's Actions history.
 
 CF Pages differentiates deployments by **branch**, not by an env-var switch, so
 this branch split is what enforces the gate. Env vars and bindings (including

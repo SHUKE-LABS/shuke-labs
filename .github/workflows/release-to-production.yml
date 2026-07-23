@@ -1,0 +1,77 @@
+name: Release to production
+
+# Push-button, audited, gated promote of a chosen ref to the `prod` branch
+# (#121). Cloudflare Pages' GitHub App receives the push to `prod` and deploys
+# the apex (shukelabs.com) automatically — no CF-side change needed. This
+# replaces the local `git push origin main:prod` promote (docs/deploy.md).
+#
+# `prod` is a force-set *deploy pointer*, not merge-accumulated history: the ref
+# can move to a branch head, a tag, or backward for rollback. CF Pages deploys
+# the tree at HEAD, so `prod` git history is not load-bearing.
+
+run-name: Release ${{ inputs.ref }} to production
+
+on:
+  workflow_dispatch:
+    inputs:
+      ref:
+        description: 'Ref to promote — a branch name, tag, or commit SHA'
+        required: true
+        default: main
+
+# Default workflow token permission is read; the force-push to `prod` needs
+# write. `prod` is not branch-protected, so the built-in GITHUB_TOKEN suffices.
+permissions:
+  contents: write
+
+# Never let two releases race — a later dispatch waits rather than cancelling
+# an in-flight publish.
+concurrency:
+  group: release-to-production
+  cancel-in-progress: false
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    # Required-reviewer gate: every dispatch waits on one approve-click before
+    # it publishes the apex. Configured on the `production` Environment in repo
+    # settings (not a committed file).
+    environment: production
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          # Full history + tags so branch heads and tags resolve locally.
+          fetch-depth: 0
+
+      - name: Promote ref to prod
+        env:
+          REF: ${{ inputs.ref }}
+        run: |
+          set -euo pipefail
+
+          # fetch-depth:0 only guarantees the run branch's history + tags; an
+          # arbitrary branch/tag/SHA on another ref may be absent. Fetch it
+          # explicitly. A named branch or tag lands in FETCH_HEAD (no local
+          # ref is created), so resolve that. If the fetch fails (e.g. a bare
+          # SHA already reachable in the checked-out history), fall back to
+          # resolving REF against what the checkout already has.
+          if git fetch --no-tags origin "$REF"; then
+            SHA=$(git rev-parse --verify "FETCH_HEAD^{commit}")
+          else
+            SHA=$(git rev-parse --verify "${REF}^{commit}")
+          fi
+          echo "Resolved ${REF} -> ${SHA}"
+
+          git push --force origin "${SHA}:refs/heads/prod"
+
+          {
+            echo "### Released to production"
+            echo ""
+            echo "- **Ref:** \`${REF}\`"
+            echo "- **Promoted SHA:** \`${SHA}\`"
+            echo ""
+            echo '```'
+            git log -1 --format='%h %s (%an, %ad)' --date=short "${SHA}"
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
