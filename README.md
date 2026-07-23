@@ -36,7 +36,7 @@ npm run preview
 Both tiers are served from **Cloudflare Pages** (one project, two branches):
 
 - **Beta** (`beta.shukelabs.com`, the `main` branch) auto-deploys on every merge to `main`.
-- **Production** (`shukelabs.com`, the `prod` branch) is a manual promotion: **merge `main` → `prod`** after beta is verified — nothing ships to production automatically on a merge to `main`.
+- **Production** (`shukelabs.com`, the `prod` branch) is a gated promotion: dispatch the **"Release to production"** workflow (a chosen ref → `prod`, behind a required-reviewer approval) after beta is verified — nothing ships to production automatically on a merge to `main`.
 
 Full model, per-environment D1 bindings, and the one-time cutover runbook are in [`docs/deploy.md`](docs/deploy.md).
 
