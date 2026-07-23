@@ -41,9 +41,18 @@ a. **Create / confirm the CF Pages project** for this repo. Build command
    the output is pure static `dist/` (Functions, if later added for likes, live
    in `/functions` and still need no adapter).
 
-b. **Configure the two environments.** Set the **production branch to `prod`**
-   and bind D1-prod to Production. Leave `main` as a preview branch, attach the
-   custom domain `beta.shukelabs.com` to it, and bind D1-beta to Preview.
+b. **Configure the two environments.** Set the **production branch to `prod`**.
+   Leave `main` as a preview branch and attach the custom domain
+   `beta.shukelabs.com` to it. Pinning a custom domain to a *non-production*
+   branch is done by DNS, not the Pages "custom domains" UI alone: register
+   `beta.shukelabs.com` on the project, then point its DNS CNAME at the **branch
+   alias** `main.shuke-labs-beta.pages.dev` (not the root `shuke-labs-beta.pages.dev`,
+   which always tracks production) and keep the record **proxied** — an
+   unproxied/external record silently falls back to production. The `main.*`
+   branch alias only exists once `main` is a preview branch *and* has a preview
+   deployment, so flip the production branch and trigger a `main` build before
+   repointing beta. D1-prod/D1-beta bindings belong to the like-counter work
+   (#93/#97) and are not configured yet.
 
 c. **Create the `prod` branch** from `main`'s tip and push it, so CF Pages has a
    production deployment to publish:
@@ -58,8 +67,17 @@ d. **Attach the apex and cut DNS — the last, irreversible step.** Only after t
    `*.pages.dev` production URL and confirm the site loads): attach the custom
    domain `shukelabs.com` (and `www.shukelabs.com` if used) to the production
    deployment, then cut the apex DNS to Cloudflare Pages. The DNS zone is
-   already on Cloudflare, so this is a zone-internal record change. This is the
-   moment the apex stops serving from GitHub Pages.
+   already on Cloudflare, so this is a zone-internal record change (apex A
+   record → proxied CNAME to `shuke-labs-beta.pages.dev`, the production alias).
+   This is the moment the apex stops serving from GitHub Pages.
+
+   **Gotcha — purge the cache to break the validation chicken-and-egg.** The
+   apex Pages custom domain uses HTTP validation. Right after the DNS cut the
+   edge may keep serving the *stale cached GitHub Pages response* (headers still
+   carry `x-github-request-id` / Fastly `age`), so the validation challenge
+   never reaches CF Pages and the domain sticks at `status: pending`. Purge the
+   zone cache (`purge_everything`) once — the edge re-fetches from Pages, the
+   challenge resolves, and the domain flips to `active` within seconds.
 
 e. **Verify on the live apex (post-cutover).** With `shukelabs.com` now served
    by CF Pages, confirm TLS is valid and the apex + `www` resolve, then check
