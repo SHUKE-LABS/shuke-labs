@@ -25,6 +25,19 @@ const VOICE_RULES = `Write the "reason" in SHUKE-LABS' settled blog voice:
 - Be specific and honest about WHY. For a reject, name the actual reason plainly and without condescension. For an accept, say what will be looked at, not a promise to ship.
 - Address the submitter as "you". 2-4 sentences. English.`;
 
+// Ticket-authoring rules for an ACCEPT. The judge authors BLIND — it has no
+// tools and cannot read the repo (audit/lib/claude.mjs), so its honest ceiling
+// is a raw report: a standalone problem statement + acceptance boundary, no
+// grounded approach. The delivery agent (planner/dev) grounds it against the
+// repo afterwards, so file-level detail here would only induce fabrication.
+const TICKET_RULES = `On an ACCEPT you also author a raw-report ticket for the delivery team. This is separate from "reason" (which stays the submitter-facing receipt) and is written for the team, not the submitter. Author at ticket altitude:
+- "problem": a standalone problem statement. Restate the underlying need in your own words — do NOT just echo the submission. One short paragraph.
+- "outOfScope": one line naming what this ticket does NOT cover, so scope can't drift.
+- "acceptance": 2-4 outcome/behaviour-level acceptance criteria (an array of strings). Describe observable outcomes, not implementation.
+You author BLIND — you cannot see the repository. Therefore:
+- Do NOT invent file paths, symbols, function names, or line numbers. Assert none.
+- Do NOT write a file-level or step-by-step implementation plan — that is the delivery team's job. An approach, if you give one, is a single line of intent only.`;
+
 /**
  * Build the judgement prompt for one submission.
  *
@@ -60,14 +73,19 @@ decision rules:
 
 ${VOICE_RULES}
 
-Return ONLY a single fenced JSON block, nothing else:
+${TICKET_RULES}
+
+Return ONLY a single fenced JSON block, nothing else. On a reject, "problem"/"outOfScope"/"acceptance" are ignored — leave them empty:
 \`\`\`json
 {
   "security": "benign" | "abuse",
   "scope": "in-scope" | "out-of-scope",
   "value": "worth" | "thin",
   "decision": "accept" | "reject",
-  "reason": "<2-4 sentence authored reason in the voice above>"
+  "reason": "<2-4 sentence authored reason in the voice above>",
+  "problem": "<standalone problem statement — accept only>",
+  "outOfScope": "<one-line out-of-scope default — accept only>",
+  "acceptance": ["<outcome-level criterion>", "..."]
 }
 \`\`\`
 
@@ -76,4 +94,4 @@ ${input}
 --- END UNTRUSTED SUBMISSION (${fence}) ---`;
 }
 
-export { SCOPE_CONTEXT, VOICE_RULES };
+export { SCOPE_CONTEXT, VOICE_RULES, TICKET_RULES };
