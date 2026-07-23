@@ -12,13 +12,13 @@ Every other branch (feature/PR branches) is also a Preview deployment and
 shares the beta (non-prod) environment — harmless, since nothing but `prod`
 touches the apex.
 
-## Ongoing model — beta auto, prod gated-promote
+## Ongoing model — beta auto, prod manual-dispatch
 
 - **Beta** auto-deploys on every merge to `main` → `beta.shukelabs.com`.
-- **Production** is a deliberate, gated promotion: run the **"Release to
-  production"** GitHub Actions workflow (`.github/workflows/release-to-production.yml`).
-  A push to `prod` is the only push that publishes to the apex; a merge to
-  `main` never publishes to production.
+- **Production** is a deliberate, manual promotion: dispatch the **"Release to
+  production"** GitHub Actions workflow (`.github/workflows/release-to-production.yml`)
+  when you choose to publish. A push to `prod` is the only push that publishes
+  to the apex; a merge to `main` never publishes to production.
 
 So the flow is: PR → `main` (CI + beta preview) → verify on beta → promote by
 dispatching the release workflow (publishes the apex).
@@ -37,14 +37,13 @@ pointer** rather than merge-accumulated history — it can move to any ref,
 including **backward for rollback** (dispatch with an older tag or SHA). The
 `prod` git history is not load-bearing: CF Pages deploys the tree at HEAD.
 
-**Approval gate.** The job runs under the `production` GitHub Environment,
-configured with a required reviewer. Every dispatch **waits on one
-approve-click** before it publishes the apex. The run name reflects the ref and
-the run summary records the promoted SHA — the audit trail of what was released
-when and by whom now lives in the repo's Actions history.
+**Audit trail.** The run name reflects the ref and the run summary records the
+promoted SHA — the record of what was released when and by whom lives in the
+repo's Actions history. The dispatch itself is the deliberate gate: you pick the
+ref and click Run.
 
 CF Pages differentiates deployments by **branch**, not by an env-var switch, so
-this branch split is what enforces the gate. Env vars and bindings (including
+this branch split is what keeps prod-only pushes on the apex. Env vars and bindings (including
 the per-environment D1 namespace) are set separately for Production vs Preview
 in the Pages project settings — that is what keeps the like counter's prod and
 beta counts isolated (#97).

@@ -1,6 +1,6 @@
 name: Release to production
 
-# Push-button, audited, gated promote of a chosen ref to the `prod` branch
+# Push-button, audited, manual-dispatch promote of a chosen ref to the `prod` branch
 # (#121). Cloudflare Pages' GitHub App receives the push to `prod` and deploys
 # the apex (shukelabs.com) automatically — no CF-side change needed. This
 # replaces the local `git push origin main:prod` promote (docs/deploy.md).
@@ -33,10 +33,6 @@ concurrency:
 jobs:
   release:
     runs-on: ubuntu-latest
-    # Required-reviewer gate: every dispatch waits on one approve-click before
-    # it publishes the apex. Configured on the `production` Environment in repo
-    # settings (not a committed file).
-    environment: production
     steps:
       - name: Checkout
         uses: actions/checkout@v4
