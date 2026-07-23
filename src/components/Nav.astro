@@ -1,5 +1,6 @@
 ---
 // Wordmark + primary links.
+import { IDEA_SUBMISSION_ENABLED } from '../config/site';
 ---
 
 <header class="border-b border-line bg-surface/90 backdrop-blur sticky top-0 z-10">
@@ -11,6 +12,15 @@
     <div class="flex items-center gap-6 text-sm">
       <a href="/#products" class="text-muted hover:text-ink transition-colors">Products</a>
       <a href="/pricing" class="text-muted hover:text-ink transition-colors">Pricing</a>
+      {
+        IDEA_SUBMISSION_ENABLED && (
+          <a
+            href="/products/my-ai-team#submit-idea"
+            class="text-muted hover:text-ink transition-colors">
+            Submit an idea
+          </a>
+        )
+      }
       <a href="/blog" class="text-muted hover:text-ink transition-colors">Blog</a>
       <a
         href="https://github.com/SHUKE-LABS"
