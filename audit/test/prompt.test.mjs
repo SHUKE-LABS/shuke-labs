@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { buildJudgementPrompt, VOICE_RULES, SCOPE_CONTEXT } from '../lib/prompt.mjs';
+import { buildJudgementPrompt, VOICE_RULES, SCOPE_CONTEXT, TICKET_RULES } from '../lib/prompt.mjs';
 
 // Prompt-injection corpus: text a hostile submitter might send to try to
 // redirect the audit or reach the merge gate.
@@ -26,6 +26,19 @@ test('the settled voice rules are interpolated, not just referenced', () => {
   assert.ok(p.includes(VOICE_RULES), 'VOICE_RULES must be interpolated verbatim');
   assert.match(p, /No hype, no clickbait/);
   assert.ok(p.includes(SCOPE_CONTEXT), 'scope context must be interpolated');
+});
+
+test('the raw-report ticket rules and JSON schema are present', () => {
+  const p = buildJudgementPrompt({ id: 'abc', input: 'hello' });
+  assert.ok(p.includes(TICKET_RULES), 'TICKET_RULES must be interpolated verbatim');
+  // the widened schema advertises the three authored ticket fields
+  assert.match(p, /"problem":/);
+  assert.match(p, /"outOfScope":/);
+  assert.match(p, /"acceptance":/);
+  // blind author must be forbidden from fabricating repo detail / a plan
+  assert.match(p, /author BLIND/i);
+  assert.match(p, /Do NOT invent file paths, symbols/i);
+  assert.match(p, /NOT write a file-level or step-by-step implementation plan/i);
 });
 
 test('every injection payload stays inside the fence, never above it', () => {

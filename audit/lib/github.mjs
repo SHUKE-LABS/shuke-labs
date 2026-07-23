@@ -3,13 +3,17 @@
 // authed by the Action's built-in GITHUB_TOKEN — no long-lived PAT anywhere.
 //
 // Two calls: count today's accepts (the durable acceptance-quota state — the
-// minted issues ARE the state, no extra store), and mint one delivery-ready
-// issue on accept.
+// minted issues ARE the state, no extra store), and mint one raw-report issue
+// on accept. The audit authors BLIND (no repo access), so an accept is an
+// honest raw report — problem + acceptance boundary, no grounded approach — not
+// a delivery-ready ticket. It is minted `external-request` + `raw-report` and
+// deliberately NOT `ready`: the delivery agent refines it, then promotes to
+// `ready` and implements. See docs/idea-audit.md.
 
 import { execFile } from 'node:child_process';
 
 const ACCEPT_LABEL = 'external-request';
-const READY_LABEL = 'ready';
+const RAW_REPORT_LABEL = 'raw-report';
 
 function gh(args, { input } = {}) {
   return new Promise((resolve, reject) => {
@@ -53,9 +57,26 @@ function titleFrom(input) {
 }
 
 function issueBody(item, verdict, receiptUrl) {
-  return `An accepted submission from the public idea inbox. Audited autonomously; **queued for the team, not merged** — the permanent human merge gate still applies.
+  const acceptance = Array.isArray(verdict.acceptance) ? verdict.acceptance : [];
+  const criteria = acceptance.length
+    ? acceptance.map((c) => `- [ ] ${c}`).join('\n')
+    : '- [ ] _(none authored — the delivery agent sets these when grounding)_';
 
-**Audit reason**
+  return `A **raw report** from the public idea inbox, accepted by the autonomous audit. Authored blind (the audit cannot read the repo), so this states the *what* and *why*, not a grounded plan — the delivery agent refines it, promotes it to \`ready\`, and implements. **Queued, not merged** — the permanent human merge gate still applies.
+
+**Problem**
+
+${verdict.problem || verdict.reason}
+
+**Out of scope**
+
+${verdict.outOfScope || '_(not specified)_'}
+
+**Acceptance criteria**
+
+${criteria}
+
+**Audit reason** (submitter-facing receipt)
 
 ${verdict.reason}
 
@@ -73,7 +94,9 @@ ${verdict.reason}
 }
 
 /**
- * Mint a delivery-ready public issue for an accepted idea.
+ * Mint a raw-report public issue for an accepted idea. Labelled
+ * `external-request` + `raw-report`, deliberately NOT `ready` — the audit
+ * authors blind, so the delivery agent grounds and promotes it.
  * @param {object} item    - the pending submission row
  * @param {object} verdict - the parsed verdict
  * @param {string} receiptUrl - the public /idea/:id URL
@@ -84,10 +107,10 @@ export async function mintIssue(item, verdict, receiptUrl) {
     'issue', 'create',
     '--title', titleFrom(item.input),
     '--label', ACCEPT_LABEL,
-    '--label', READY_LABEL,
+    '--label', RAW_REPORT_LABEL,
     '--body', issueBody(item, verdict, receiptUrl),
   ]);
   return { url };
 }
 
-export { ACCEPT_LABEL, READY_LABEL, titleFrom, issueBody };
+export { ACCEPT_LABEL, RAW_REPORT_LABEL, titleFrom, issueBody };

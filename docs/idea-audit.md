@@ -4,8 +4,10 @@ The **back half** of the public idea pipeline (front half: [`idea-intake.md`](./
 issue #14). An autonomous audit consumes `pending` submissions from the intake
 Worker, makes a security + scope + value judgement, enforces a daily acceptance
 quota, and writes an authored accept/reject/defer receipt back. Accepted ideas
-become delivery-ready GitHub issues; rejected ones get an authored reason served
-from the receipt. This is the "the AI reviewed my idea and told me why" moment.
+become **raw-report** GitHub issues — an honest problem statement + acceptance
+boundary, authored blind — that the delivery agent refines, promotes to `ready`,
+and implements; rejected ones get an authored reason served from the receipt.
+This is the "the AI reviewed my idea and told me why" moment.
 
 ## Host — scheduled GitHub Action
 
@@ -20,7 +22,7 @@ cron (every 6h) ─► node audit/run.mjs
         │  GET  /internal/pending      (bearer INTERNAL_SECRET)   read the queue
         │  claude -p  per item          (ANTHROPIC_BASE_URL/_AUTH_TOKEN)  judge
         │  POST /internal/verdict      (bearer INTERNAL_SECRET)   write the verdict
-        └─ on accept (within quota): gh issue create  external-request + ready
+        └─ on accept (within quota): gh issue create  external-request + raw-report
 ```
 
 - **Cron:** every 6 hours + `workflow_dispatch` (to exercise it on demand).
@@ -71,6 +73,30 @@ The authored `reason` is written in the settled blog voice
 rules are **interpolated verbatim** into the prompt, not merely referenced,
 because the reason is public-facing brand surface (the shareable artefact).
 
+## Accept authors a raw report, not a delivery-ready ticket
+
+The judge runs **blind**: `claude -p` with the submission on stdin and **no
+tools** (`lib/claude.mjs`), so it cannot read the repo. Its honest ceiling is a
+**raw report** — the *what* and *why*, never a grounded *how*. On accept it
+authors three ticket fields alongside the submitter-facing `reason`:
+
+- `problem` — a standalone problem statement (restates the need; does not echo the submission);
+- `outOfScope` — a one-line scope boundary;
+- `acceptance` — outcome/behaviour-level criteria (array).
+
+The prompt (`prompt.mjs`, `TICKET_RULES`) forbids inventing file paths, symbols,
+or line numbers and forbids a file-level plan — that grounding is the delivery
+agent's job. These fields are **secondary to the accept/reject gate**:
+`parseVerdict` derives the decision from the three enums only, so a
+missing/garbled ticket field falls back safely (`problem`→`reason`,
+`outOfScope`/`acceptance`→generic lines) but can never flip the decision. A
+malformed reply still fails closed to reject and cannot mint.
+
+The minted issue carries `external-request` + **`raw-report`** and is
+deliberately **not** `ready`. The delivery agent (planner/dev) refines it
+against the repo, promotes to `ready`, and implements — the audit never promotes
+to `ready` itself.
+
 ## Acceptance quota
 
 `ACCEPTANCE_QUOTA` accepts per **UTC day** (default **3**, tunable via repo
@@ -91,7 +117,7 @@ remainder (never a silent truncation).
 
 | Verdict | Public issue? | Worker status | Receipt shows |
 | ------- | ------------- | ------------- | ------------- |
-| accept (within quota) | `external-request` + `ready`, carries the receipt trail | `accepted` | authored accept reason |
+| accept (within quota) | `external-request` + `raw-report` (not `ready`), carries the raw report + receipt trail | `accepted` | authored accept reason |
 | accept-worthy, quota full | none | `pending` (re-judged next run) | authored "try later" reason |
 | reject (abuse / out-of-scope / thin) | none | `rejected` | authored reject reason |
 

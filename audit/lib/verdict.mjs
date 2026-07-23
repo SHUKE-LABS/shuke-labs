@@ -14,6 +14,29 @@ const DECISION = new Set(['accept', 'reject']);
 const FALLBACK_REASON =
   'The review could not reach a clear decision on this one, so it did not go through. You are welcome to resubmit with a bit more detail.';
 
+// Safe raw-report fallbacks for an accept whose ticket fields came back
+// missing/garbled. The accept decision itself is still valid (the enums
+// passed), so we mint anyway — but with honest placeholder spec text rather
+// than trusting broken output. The delivery agent grounds and sharpens it.
+const FALLBACK_OUT_OF_SCOPE =
+  'Anything beyond what advances my-ai-team; the delivery agent sets the concrete boundary when grounding this.';
+const FALLBACK_ACCEPTANCE = [
+  'The accepted idea is delivered in a way the delivery agent verifies against the grounded plan.',
+];
+
+/**
+ * Coerce a model-supplied acceptance list into clean non-empty strings.
+ * @param {unknown} value
+ * @returns {string[]}
+ */
+function cleanAcceptance(value) {
+  if (!Array.isArray(value)) return [];
+  return value
+    .filter((s) => typeof s === 'string')
+    .map((s) => s.trim())
+    .filter(Boolean);
+}
+
 /**
  * Extract the last fenced ```json block, else the last {...} object.
  * @param {string} text
@@ -41,6 +64,9 @@ export function parseVerdict(modelOutput) {
     value: 'thin',
     decision: 'reject',
     reason: reason || FALLBACK_REASON,
+    problem: '',
+    outOfScope: '',
+    acceptance: [],
     valid: false,
   });
 
@@ -57,7 +83,7 @@ export function parseVerdict(modelOutput) {
   }
   if (!obj || typeof obj !== 'object') return reject();
 
-  const { security, scope, value, decision, reason } = obj;
+  const { security, scope, value, decision, reason, problem, outOfScope, acceptance } = obj;
 
   // Every enum must be present and known, and the decision must be internally
   // consistent with the axes — otherwise we don't trust it enough to accept.
@@ -69,14 +95,28 @@ export function parseVerdict(modelOutput) {
   const cleanReason =
     typeof reason === 'string' && reason.trim() ? reason.trim() : FALLBACK_REASON;
 
+  // Raw-report ticket fields are SECONDARY to the gate: they never affect the
+  // accept/reject decision above, so a garbled ticket field cannot flip a
+  // reject to an accept (or vice versa). Each falls back safely so a valid
+  // accept still mints an honest raw report. The submitter-facing `reason`
+  // seeds `problem` if the model gave none, keeping the ticket non-empty.
+  const cleanProblem =
+    typeof problem === 'string' && problem.trim() ? problem.trim() : cleanReason;
+  const cleanOutOfScope =
+    typeof outOfScope === 'string' && outOfScope.trim() ? outOfScope.trim() : FALLBACK_OUT_OF_SCOPE;
+  const cleanCriteria = cleanAcceptance(acceptance);
+
   return {
     security,
     scope,
     value,
     decision: consistentDecision,
     reason: cleanReason,
+    problem: cleanProblem,
+    outOfScope: cleanOutOfScope,
+    acceptance: cleanCriteria.length ? cleanCriteria : FALLBACK_ACCEPTANCE,
     valid: true,
   };
 }
 
-export { FALLBACK_REASON };
+export { FALLBACK_REASON, FALLBACK_OUT_OF_SCOPE, FALLBACK_ACCEPTANCE };
