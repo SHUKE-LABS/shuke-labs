@@ -7,7 +7,9 @@ verdict back to the receipt store, and on accept mints a **raw-report** public
 issue (`external-request` + `raw-report`, not `ready`) — an honest problem +
 acceptance boundary authored blind, which the delivery agent then refines,
 promotes to `ready`, and implements. Durable by construction — no long-lived
-credential, no autonomous merge.
+credential, and no path from submission text to a merge (the audit only
+relabels/creates issues; merges downstream are gated by an independent review +
+a green test suite).
 
 Plain ESM, **zero dependencies** (Node's built-in test runner).
 

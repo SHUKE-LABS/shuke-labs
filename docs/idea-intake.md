@@ -61,10 +61,13 @@ a bare yes/no — so the shareable artefact carries *why*:
 | Decision         | at audit    | `pending` until #100 writes it                    |
 | Reason           | at audit    | the authored accept/reject reason                 |
 
-The receipt always states that the pipeline stops at a **human merge gate**:
-even an accepted idea is only ever merged by a person — nothing is applied
-autonomously. An unknown id and a malformed path return an **identical** `404`,
-so the id cannot be probed by shape.
+The receipt always states that **merges are autonomous** — gated by an
+independent review and a green test suite, not a human sign-off — and that
+acceptance only queues an idea for consideration, not a commitment to ship;
+whether it endures is decided jointly by humans and agents. It also states that
+nothing in a submission can steer the pipeline or reach a merge on its own text.
+An unknown id and a malformed path return an **identical** `404`, so the id
+cannot be probed by shape.
 
 ## Anti-abuse
 

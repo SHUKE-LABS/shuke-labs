@@ -5,7 +5,7 @@
 // The mint/relabel decision is driven SOLELY by the parsed verdict + the quota
 // counter here — never by the raw submission text. That is the structural half
 // of the injection guarantee: a submission cannot talk its way to a public
-// issue, and there is no path from submission text to the human merge gate.
+// issue, and there is no path from submission text to a merge.
 
 // On-voice deferral reason. Deferred submissions keep status='pending' on the
 // Worker (see worker-ideas/src/index.js), so they are honestly re-judged on the
