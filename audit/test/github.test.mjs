@@ -15,11 +15,12 @@ test('titleFrom degrades to a placeholder on empty input', () => {
   assert.equal(titleFrom('   '), '[idea] submission');
 });
 
-test('issueBody carries the receipt trail and the human-gate note', () => {
+test('issueBody carries the receipt trail and the queued-for-consideration note', () => {
   const item = { id: 'abc', input: 'let agents pick topics', input_hash: 'deadbeef', created_at: '2026-07-19T00:00:00Z' };
   const verdict = { security: 'benign', scope: 'in-scope', value: 'worth', reason: 'Good fit for the team.' };
   const body = issueBody(item, verdict, 'https://ideas.shukelabs.com/idea/abc');
-  assert.match(body, /human merge gate/);
+  assert.match(body, /Queued for consideration, not a commitment to ship/);
+  assert.doesNotMatch(body, /human merge gate/);
   assert.match(body, /Good fit for the team\./);
   assert.match(body, /https:\/\/ideas\.shukelabs\.com\/idea\/abc/);
   assert.match(body, /deadbeef/);

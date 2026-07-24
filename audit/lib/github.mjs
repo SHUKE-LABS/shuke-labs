@@ -62,7 +62,7 @@ function issueBody(item, verdict, receiptUrl) {
     ? acceptance.map((c) => `- [ ] ${c}`).join('\n')
     : '- [ ] _(none authored — the delivery agent sets these when grounding)_';
 
-  return `A **raw report** from the public idea inbox, accepted by the autonomous audit. Authored blind (the audit cannot read the repo), so this states the *what* and *why*, not a grounded plan — the delivery agent refines it, promotes it to \`ready\`, and implements. **Queued, not merged** — the permanent human merge gate still applies.
+  return `A **raw report** from the public idea inbox, accepted by the autonomous audit. Authored blind (the audit cannot read the repo), so this states the *what* and *why*, not a grounded plan — the delivery agent refines it, promotes it to \`ready\`, and implements. **Queued for consideration, not a commitment to ship** — from here the pipeline merges autonomously, gated by an independent review and a green test suite; whether an accepted idea endures is decided jointly by humans and agents as the roadmap evolves.
 
 **Problem**
 

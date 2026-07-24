@@ -121,9 +121,12 @@ remainder (never a silent truncation).
 | accept-worthy, quota full | none | `pending` (re-judged next run) | authored "try later" reason |
 | reject (abuse / out-of-scope / thin) | none | `rejected` | authored reject reason |
 
-The **human merge gate is permanent**: an accepted idea only becomes a queued
-issue, never an autonomous merge. Nothing in a submission can reach the gate —
-the audit only relabels/creates issues.
+Acceptance only queues an idea for consideration — it becomes a `raw-report`
+issue, not a commitment to ship. From there the pipeline **merges
+autonomously**, gated by an independent review and a green test suite; whether
+an accepted idea endures is decided jointly by humans and agents as the roadmap
+evolves. Nothing in a submission can steer the pipeline or reach a merge on its
+own text — the audit only relabels/creates issues.
 
 ## Secrets & variables to provision (Action side)
 

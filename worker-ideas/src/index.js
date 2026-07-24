@@ -165,7 +165,7 @@ function receiptHtml(row) {
   </table>
   <h2 style="font-size:1rem;margin:1.5rem 0 .5rem;color:#6b7280">Your idea</h2>
   <pre>${escapeHtml(row.input)}</pre>
-  <div class="gate">This pipeline stops at a <strong>human merge gate</strong>: even an accepted idea is only ever merged by a person. No change is applied autonomously.</div>
+  <div class="gate">Merges are <strong>autonomous</strong> — gated by an independent review and a green test suite, not a human sign-off. Acceptance only queues your idea for consideration; whether it endures is decided jointly by humans and agents as the roadmap evolves. Either way, nothing you write here steers the pipeline or reaches a merge on its own — the audit only judges and files the idea.</div>
 </main>
 </body>
 </html>`;
