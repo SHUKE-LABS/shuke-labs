@@ -26,7 +26,9 @@ concurrency:
 
 jobs:
   audit:
-    runs-on: ubuntu-latest
+    # Self-hosted ci-light pool (org "self-hosted-ci" runner group) — the
+    # every-6h schedule was burning ~90 hosted minutes/month.
+    runs-on: [self-hosted, Linux, ci-light]
     env:
       GH_TOKEN: ${{ github.token }}
       IDEAS_ENDPOINT: ${{ vars.IDEAS_ENDPOINT || 'https://ideas.shukelabs.com' }}
@@ -43,8 +45,13 @@ jobs:
         with:
           node-version: 22
 
+      # Install under --prefix (not -g): self-hosted runner users can't write
+      # the global npm prefix, and a bare local install would mutate the site's
+      # package.json. `claude.mjs` spawns `claude` from PATH.
       - name: Install Claude CLI
-        run: npm install -g @anthropic-ai/claude-code
+        run: |
+          npm install --prefix "$RUNNER_TEMP/claude-cli" @anthropic-ai/claude-code
+          echo "$RUNNER_TEMP/claude-cli/node_modules/.bin" >> "$GITHUB_PATH"
 
       - name: Ensure labels exist
         run: |
