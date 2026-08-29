@@ -1,0 +1,72 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import Nav from '../../../components/Nav.astro';
+
+const candidates = [
+  {
+    id: 'A',
+    name: 'Relay nodes',
+    description: 'Three agent nodes orbit a central delivery point.',
+    file: '/images/my-ai-team-logo-candidate-a.svg',
+  },
+  {
+    id: 'B',
+    name: 'Delivery loop',
+    description: 'A continuous pipeline loop with three checkpoints.',
+    file: '/images/my-ai-team-logo-candidate-b.svg',
+  },
+  {
+    id: 'C',
+    name: 'Stacked agents',
+    description: 'Three teammates rise together into one mark.',
+    file: '/images/my-ai-team-logo-candidate-c.svg',
+  },
+];
+---
+
+<BaseLayout title="My AI Team logo candidates" description="Compare the My AI Team logo candidates at display and favicon sizes.">
+  <Nav />
+  <main class="flex-1">
+    <section class="mx-auto max-w-6xl px-6 py-12 sm:py-16">
+      <a href="/products/my-ai-team" class="text-sm text-muted hover:text-ink transition-colors">&larr; My AI Team</a>
+      <p class="mt-8 text-sm font-semibold uppercase tracking-wider text-muted">Design review</p>
+      <h1 class="mt-2 text-4xl font-bold tracking-tight text-ink">Choose the My AI Team mark</h1>
+      <p class="mt-4 max-w-2xl text-lg text-muted leading-relaxed">
+        Compare each candidate at a large display size and at the exact 16px size used by a favicon.
+        Select one mark for the landing-page hero.
+      </p>
+
+      <div class="mt-10 grid gap-6 lg:grid-cols-3">
+        {
+          candidates.map((candidate) => (
+            <article class="rounded-2xl border border-line bg-surface p-6">
+              <div class="flex items-baseline justify-between gap-4">
+                <h2 class="text-xl font-semibold text-ink">
+                  <span class="mr-2 font-mono text-accent">{candidate.id}</span>{candidate.name}
+                </h2>
+                <a href={candidate.file} class="text-sm text-accent hover:underline" target="_blank" rel="noopener">
+                  Open SVG
+                </a>
+              </div>
+              <p class="mt-2 min-h-12 text-sm text-muted leading-relaxed">{candidate.description}</p>
+
+              <div class="mt-6 flex min-h-64 items-center justify-center rounded-xl border border-line bg-surface-soft p-8">
+                <img src={candidate.file} alt={`${candidate.name} candidate`} width="256" height="256" />
+              </div>
+
+              <div class="mt-6 flex items-center gap-5 rounded-xl border border-dashed border-line bg-surface-soft p-4">
+                <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-surface">
+                  <img src={candidate.file} alt="" width="16" height="16" />
+                </div>
+                <div>
+                  <p class="text-sm font-semibold text-ink">16px preview</p>
+                  <p class="mt-1 text-xs text-muted">Exact favicon-like rendering</p>
+                </div>
+              </div>
+            </article>
+          ))
+        }
+      </div>
+    </section>
+  </main>
+</BaseLayout>

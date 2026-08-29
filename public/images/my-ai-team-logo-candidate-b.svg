@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" role="img" aria-labelledby="title-b desc-b">
+  <title id="title-b">My AI Team delivery loop</title>
+  <desc id="desc-b">A continuous indigo loop with three checkpoints and a forward arrow.</desc>
+  <path d="M128 30a98 98 0 1 0 94 126" fill="none" stroke="#4f46e5" stroke-width="28" stroke-linecap="round"/>
+  <path d="M222 76v80h-80" fill="none" stroke="#4f46e5" stroke-width="28" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="m92 128 28-24 28 24-28 24Z" fill="#4f46e5"/>
+  <circle cx="128" cy="30" r="13" fill="#c4b5fd"/>
+  <circle cx="30" cy="128" r="13" fill="#818cf8"/>
+  <circle cx="128" cy="226" r="13" fill="#312e81"/>
+</svg>

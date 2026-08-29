@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" role="img" aria-labelledby="title-a desc-a">
+  <title id="title-a">My AI Team relay nodes</title>
+  <desc id="desc-a">Three connected agent nodes orbit a central delivery point.</desc>
+  <rect width="256" height="256" rx="56" fill="#312e81"/>
+  <path d="M74 73 128 48l54 25v61l-54 29-54-29Z" fill="none" stroke="#a5b4fc" stroke-width="14" stroke-linejoin="round"/>
+  <path d="m128 91 24 14v28l-24 14-24-14v-28Z" fill="#fff"/>
+  <circle cx="74" cy="73" r="18" fill="#818cf8"/>
+  <circle cx="182" cy="73" r="18" fill="#c4b5fd"/>
+  <circle cx="128" cy="163" r="18" fill="#e0e7ff"/>
+</svg>
