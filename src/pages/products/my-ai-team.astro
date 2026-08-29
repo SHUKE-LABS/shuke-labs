@@ -2,230 +2,81 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Nav from '../../components/Nav.astro';
 import Footer from '../../components/Footer.astro';
-import { bundlePriceSummary } from '../../config/pricing';
+import { plans } from '../../config/pricing';
 import { IDEAS_ENDPOINT, TURNSTILE_SITE_KEY, IDEA_SUBMISSION_ENABLED } from '../../config/site';
 
 const title = 'My AI Team';
 const description =
-  'Your backlog, delivered — while you sleep. A fleet of AI agents that plan, build, review, and merge real code.';
-
-// The real bottleneck for a buyer who already trusts AI to auto-merge: decision
-// context evaporates once agents work autonomously at volume.
-const frictions = [
-  {
-    heading: 'Context dies with the session',
-    body: 'An agent plans, builds, and merges — then its reasoning evaporates. The why behind the change is gone the moment the session ends.',
-  },
-  {
-    heading: 'The next bug is archaeology',
-    body: 'When something breaks weeks later, the agent sent to fix it has no idea how the original was designed or why. It rebuilds understanding from scratch — or breaks something else.',
-  },
-  {
-    heading: 'Autonomy without a record doesn’t scale',
-    body: 'The more AI ships on its own, the more untraceable decisions pile up. Volume you can’t trace is volume you can’t maintain.',
-  },
-];
-
-// The autonomous loop, compressed to the five buyer-facing stages. The full
-// topology (gates, CI, Auditor, Deploy) lives on the how-it-works detail page.
-const loop = [
-  { who: 'Ticket', note: 'A goal enters the queue.' },
-  { who: 'Plan', note: 'An agent drafts the approach.' },
-  { who: 'Build', note: 'An agent implements on a branch.' },
-  { who: 'Review', note: 'An independent agent signs off.' },
-  { who: 'Merge', note: 'The change lands; the queue re-arms.' },
-];
-
-// Capability map — the deck's Deliverers vs Producers split. Each mode deep-links
-// to its anchor on the session-modes detail page.
-const deliverers = [
-  { name: 'team', line: 'Three agents — plan, build, and an independent reviewer. Highest assurance.' },
-  { name: 'duo', line: 'Two agents; the reviewer authored neither plan nor code. A genuine second pair of eyes, lighter.' },
-  { name: 'adhoc', line: 'One agent owns the full cycle. Fastest path for small, low-risk changes.' },
-];
-
-const producers = [
-  { name: 'explore', line: 'Open-ended investigation that crystallises fuzzy ideas into ready tickets.' },
-  { name: 'audit', line: 'A quality auditor that files structured tickets about merged work.' },
-  { name: 'caucus', line: 'Two peers deliberate a hard question and converge — resolving locally, not escalating.' },
-  { name: 'live', line: 'A bare single agent in the current directory — the hands-on outlier, no queue or PR flow.' },
-];
-
-// The differentiators that survive from the old page, folded in as short support
-// bullets under the capability map.
-const supportBullets = [
-  {
-    heading: 'Repo-specific protocols',
-    body: 'Layer your project’s conventions and boundaries on top of the standard agent constitutions.',
-  },
-  {
-    heading: 'Fresh context per ticket',
-    body: 'Context clears between tickets, so a reviewer reads the next diff cold and review stays honest.',
-  },
-  {
-    heading: 'Async queue flow',
-    body: 'Finish one ticket, pick up the next — the queue re-arms itself without being re-invoked.',
-  },
-];
+  'A fleet of AI agents that plan, build, review, and merge real code for solo builders and small teams.';
 ---
 
 <BaseLayout title={title} description={description}>
   <Nav />
   <main class="flex-1">
-    <!-- Hero: the value promise -->
-    <section class="mx-auto max-w-5xl px-6 pt-6 pb-16 sm:pt-8 sm:pb-20">
+    <!-- Hero -->
+    <section class="mx-auto max-w-5xl px-6 pt-6 pb-12 sm:pt-8 sm:pb-16">
       <a href="/" aria-label="Back to home" class="text-sm text-muted hover:text-ink transition-colors">&larr;</a>
       <p class="mt-3 text-sm font-semibold uppercase tracking-wider text-muted">My AI Team</p>
       <h1 class="mt-2 text-4xl sm:text-5xl font-bold tracking-tight text-ink">
-        Your backlog, delivered — while you sleep.
+        Ship real code while you sleep.
       </h1>
       <p class="mt-4 max-w-2xl text-xl sm:text-2xl font-medium text-accent">
-        A fleet of AI agents that plan, build, review, and merge real code. You set the direction. They run the pipeline.
+        Plan, build, review, and merge your backlog with a fleet of AI agents.
+      </p>
+      <p class="mt-4 max-w-2xl text-lg text-muted leading-relaxed">
+        Built for solo builders and small teams who want more shipped without losing the decisions behind the work.
       </p>
     </section>
 
-    <!-- Bottleneck: decision context evaporates once AI works autonomously -->
-    <section class="mx-auto max-w-5xl px-6 pb-16">
-      <h2 class="text-sm font-semibold uppercase tracking-wider text-muted">The bottleneck today</h2>
-      <p class="mt-4 max-w-2xl text-lg text-ink leading-relaxed">
-        If you trust AI to write and merge your code, throughput was never the problem. What happens <em>after</em> is.
-      </p>
+    <!-- Plans -->
+    <section id="plans" class="mx-auto max-w-5xl px-6 pb-16">
+      <h2 class="text-sm font-semibold uppercase tracking-wider text-muted">Choose your plan</h2>
       <div class="mt-6 grid gap-4 sm:grid-cols-3">
         {
-          frictions.map((f) => (
-            <div class="rounded-xl border border-line bg-surface p-5">
-              <h3 class="text-base font-semibold text-ink">{f.heading}</h3>
-              <p class="mt-2 text-sm text-muted leading-relaxed">{f.body}</p>
+          plans.map((plan) => (
+            <div class="flex flex-col rounded-2xl border border-line bg-surface-soft p-6 sm:p-8">
+              <span class="text-sm font-semibold uppercase tracking-wider text-accent">{plan.label}</span>
+              <p class="mt-3">
+                <span class="text-4xl font-bold text-ink">{plan.price}</span>
+                <span class="ml-1 text-muted">{plan.period}</span>
+              </p>
+              <p class="mt-3 text-sm font-medium text-ink">Up to {plan.deviceLimit} devices</p>
+              <p class="mt-2 text-sm text-muted">Annual access to My AI Team.</p>
+              <a
+                href={plan.checkoutUrl}
+                class="mt-6 inline-flex items-center justify-center rounded-lg bg-accent px-5 py-2.5 text-sm font-medium text-white transition-colors hover:bg-accent-hover"
+              >
+                Choose {plan.label}
+              </a>
             </div>
           ))
         }
       </div>
-      <p class="mt-6 text-lg font-medium text-ink">Auto-merge was never the risk. Forgetting how you got here is.</p>
-    </section>
-
-    <!-- Payoff: the durable decision trail — first reader is the next agent -->
-    <section class="mx-auto max-w-5xl px-6 pb-16">
-      <h2 class="text-sm font-semibold uppercase tracking-wider text-muted">Every decision, on the record</h2>
-      <p class="mt-4 max-w-3xl text-lg text-ink leading-relaxed">
-        My AI Team binds every change to a durable trail. The plan, the design calls, the tradeoffs, the
-        sign-off — all recorded as issue comments, matched to a PR. When a later agent picks up a bug, it
-        reads exactly how the original was designed and built, and fixes it with full context — not guesswork.
-      </p>
-      <div class="mt-6 rounded-2xl border border-line bg-surface-soft p-6">
-        <div class="flex flex-col gap-2 font-mono text-sm text-muted">
-          <span><span class="text-accent">issue #142</span> · the goal and its constraints</span>
-          <span class="pl-4">↳ comment · the plan and approach</span>
-          <span class="pl-4">↳ comment · design calls and tradeoffs</span>
-          <span class="pl-4">↳ comment · review sign-off</span>
-          <span><span class="text-accent">PR #143</span> · matched to the trail, merged</span>
-          <span class="pt-1 text-ink">↑ months later, the next agent reads all of it</span>
-        </div>
-      </div>
-      <p class="mt-6 text-muted leading-relaxed">
-        The trail’s first reader is the next agent, not you.
-        <a href="/products/my-ai-team/how-it-works" class="text-accent hover:underline">See how the loop records it &rarr;</a>
-      </p>
-      <p class="mt-4 text-lg font-medium text-ink">Trust AI to run autonomously. Keep the trail that makes it debuggable.</p>
-    </section>
-
-    <!-- The autonomous loop — compressed concept row -->
-    <section class="mx-auto max-w-5xl px-6 pb-16">
-      <h2 class="text-sm font-semibold uppercase tracking-wider text-muted">The autonomous loop</h2>
-      <div class="mt-6 flex flex-col sm:flex-row sm:flex-wrap sm:items-stretch sm:gap-y-3">
-        {
-          loop.map((stage, i) => (
-            <>
-              {i > 0 && (
-                <div
-                  class="flex items-center justify-center py-2 text-2xl text-muted sm:px-3 sm:py-0"
-                  aria-hidden="true"
-                >
-                  <span class="sm:hidden">↓</span>
-                  <span class="hidden sm:inline">→</span>
-                </div>
-              )}
-              <div class="rounded-2xl border border-line bg-surface p-6 sm:min-w-[9rem] sm:flex-1">
-                <span class="text-lg font-semibold text-ink">{stage.who}</span>
-                <p class="mt-2 text-sm text-muted leading-relaxed">{stage.note}</p>
-              </div>
-            </>
-          ))
-        }
-      </div>
-      <p class="mt-6 text-muted leading-relaxed">
-        You step in only at genuine decisions.
-        <a href="/products/my-ai-team/how-it-works" class="text-accent hover:underline">See how it works &rarr;</a>
+      <p class="mt-5 text-sm text-muted">
+        Payments are handled securely by LemonSqueezy. The checkout page confirms the plan before purchase.
       </p>
     </section>
 
-    <!-- Capability map: Deliverers vs Producers -->
+    <!-- Detail links -->
     <section class="mx-auto max-w-5xl px-6 pb-16">
-      <h2 class="text-sm font-semibold uppercase tracking-wider text-muted">What the team can do</h2>
-
-      <div class="mt-6">
-        <h3 class="text-base font-semibold text-ink">Deliverers <span class="font-normal text-muted">— output is a merged PR</span></h3>
-        <div class="mt-4 grid gap-4 sm:grid-cols-3">
-          {
-            deliverers.map((mode) => (
-              <a
-                href={`/products/my-ai-team/session-modes#${mode.name}`}
-                class="block rounded-xl border border-line bg-surface p-5 transition-colors hover:border-accent"
-              >
-                <span class="font-mono text-sm font-semibold text-accent">{mode.name}</span>
-                <p class="mt-2 text-sm text-muted leading-relaxed">{mode.line}</p>
-              </a>
-            ))
-          }
-        </div>
-      </div>
-
-      <div class="mt-8">
-        <h3 class="text-base font-semibold text-ink">Producers <span class="font-normal text-muted">— keep the queue full</span></h3>
-        <div class="mt-4 grid gap-4 sm:grid-cols-2">
-          {
-            producers.map((mode) => (
-              <a
-                href={`/products/my-ai-team/session-modes#${mode.name}`}
-                class="block rounded-xl border border-line bg-surface p-5 transition-colors hover:border-accent"
-              >
-                <span class="font-mono text-sm font-semibold text-accent">{mode.name}</span>
-                <p class="mt-2 text-sm text-muted leading-relaxed">{mode.line}</p>
-              </a>
-            ))
-          }
-        </div>
-      </div>
-
-      <div class="mt-8 grid gap-4 sm:grid-cols-3">
-        {
-          supportBullets.map((b) => (
-            <div class="rounded-xl border border-dashed border-line bg-surface-soft p-5">
-              <h4 class="text-sm font-semibold text-ink">{b.heading}</h4>
-              <p class="mt-2 text-sm text-muted leading-relaxed">{b.body}</p>
-            </div>
-          ))
-        }
-      </div>
-    </section>
-
-    <!-- Stay in the loop: async by design -->
-    <section class="mx-auto max-w-5xl px-6 pb-16">
-      <h2 class="text-sm font-semibold uppercase tracking-wider text-muted">Stay in the loop</h2>
-      <div class="mt-6 grid items-center gap-6 sm:grid-cols-2">
-        <div>
-          <h3 class="text-xl font-semibold text-ink">Decisions, not chores</h3>
-          <p class="mt-3 text-muted leading-relaxed">
-            The team reaches you on Telegram the moment it needs a real call — a scope question, a
-            tradeoff, a direction to confirm. Everything else runs without you. You approve direction from
-            your phone; the pipeline keeps moving whether you’re at the desk or not.
-          </p>
-        </div>
-        <div class="rounded-xl border border-line bg-surface-soft p-5">
-          <div class="flex flex-col gap-1.5 font-mono text-sm text-muted">
-            <span>opened PR #143 · notified you</span>
-            <span>blocked #146 · awaiting your call</span>
-            <span class="text-accent">async by design — reply when you’re free</span>
-          </div>
+      <div class="rounded-2xl border border-line bg-surface-soft p-6 sm:p-8">
+        <h2 class="text-2xl font-bold text-ink">See the team in action</h2>
+        <p class="mt-3 max-w-2xl text-muted leading-relaxed">
+          Every change gets a plan, an independent review, and a durable trail. Explore the pipeline and choose the session mode that fits your work.
+        </p>
+        <div class="mt-5 flex flex-wrap gap-3">
+          <a
+            href="/products/my-ai-team/how-it-works"
+            class="inline-flex items-center rounded-lg border border-line px-4 py-2 text-sm font-medium text-ink hover:border-accent hover:text-accent transition-colors"
+          >
+            How it works &rarr;
+          </a>
+          <a
+            href="/products/my-ai-team/session-modes"
+            class="inline-flex items-center rounded-lg border border-line px-4 py-2 text-sm font-medium text-ink hover:border-accent hover:text-accent transition-colors"
+          >
+            Session modes &rarr;
+          </a>
         </div>
       </div>
     </section>
@@ -294,21 +145,6 @@ const supportBullets = [
       )
     }
 
-    <!-- Closing CTA -->
-    <section class="mx-auto max-w-5xl px-6 pb-24">
-      <div class="rounded-2xl border border-line bg-surface-soft p-8 sm:p-10">
-        <h2 class="text-2xl font-bold text-ink">Ready to hand off the busywork?</h2>
-        <p class="mt-2 max-w-2xl text-muted">
-          My AI Team ships as part of the bundle — {bundlePriceSummary} (USD).
-        </p>
-        <a
-          href="/pricing"
-          class="mt-6 inline-flex items-center rounded-lg bg-accent px-5 py-2.5 text-sm font-medium text-white transition-colors hover:bg-accent-hover"
-        >
-          See pricing &amp; get the bundle
-        </a>
-      </div>
-    </section>
   </main>
   <Footer />
 </BaseLayout>
