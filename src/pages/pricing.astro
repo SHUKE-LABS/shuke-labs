@@ -5,7 +5,8 @@ import Footer from '../components/Footer.astro';
 import { plans } from '../config/pricing';
 
 const title = 'Pricing';
-const description = 'Annual plans for My AI Team, with access for up to 25 devices.';
+const maxDevices = Math.max(...plans.map((plan) => plan.deviceLimit));
+const description = `Annual plans for My AI Team, with access for up to ${maxDevices} devices.`;
 ---
 
 <BaseLayout title={title} description={description}>

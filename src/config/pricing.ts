@@ -36,6 +36,3 @@ export const plans: Plan[] = [
     checkoutUrl: LEMONSQUEEZY_CHECKOUT,
   },
 ];
-
-// The pricing surface product pages route to.
-export const pricingPath = '/pricing';
