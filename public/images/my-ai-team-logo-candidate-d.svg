@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" role="img" aria-labelledby="title-d desc-d">
+  <title id="title-d">My AI Team ticket to loop</title>
+  <desc id="desc-d">A human input ticket feeds a three-agent autonomous delivery loop.</desc>
+  <rect width="256" height="256" rx="56" fill="#312e81"/>
+  <path d="M24 58a16 16 0 0 1 16-16h49a16 16 0 0 1 16 16v31a14 14 0 0 0 0 28v31a16 16 0 0 1-16 16H40a16 16 0 0 1-16-16Z" fill="#fff"/>
+  <circle cx="50" cy="80" r="8" fill="#4f46e5"/>
+  <path d="M66 76h22M66 88h15" stroke="#818cf8" stroke-width="6" stroke-linecap="round"/>
+  <path d="M105 103h26" fill="none" stroke="#c4b5fd" stroke-width="12" stroke-linecap="round"/>
+  <path d="m124 89 18 14-18 14" fill="none" stroke="#c4b5fd" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M184 46a67 67 0 1 0 57 69" fill="none" stroke="#818cf8" stroke-width="16" stroke-linecap="round"/>
+  <path d="M241 55v60h-60" fill="none" stroke="#a5b4fc" stroke-width="16" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="184" cy="46" r="13" fill="#fff"/>
+  <circle cx="122" cy="166" r="13" fill="#c4b5fd"/>
+  <circle cx="184" cy="221" r="13" fill="#e0e7ff"/>
+</svg>

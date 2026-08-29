@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" role="img" aria-labelledby="title-f desc-f">
+  <title id="title-f">My AI Team delivery constellation</title>
+  <desc id="desc-f">A human ticket becomes a looping team of agents and exits as a delivered spark.</desc>
+  <rect width="256" height="256" rx="56" fill="#eef2ff"/>
+  <path d="M28 104h49l18 20-18 20H28l-13-20Z" fill="#312e81"/>
+  <circle cx="38" cy="124" r="7" fill="#e0e7ff"/>
+  <path d="M52 117h18" stroke="#a5b4fc" stroke-width="7" stroke-linecap="round"/>
+  <path d="M94 124h26" fill="none" stroke="#4f46e5" stroke-width="12" stroke-linecap="round"/>
+  <path d="m113 110 18 14-18 14" fill="none" stroke="#4f46e5" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M168 51 207 89 168 128 207 167 168 206 129 167 168 128 129 89Z" fill="none" stroke="#4f46e5" stroke-width="14" stroke-linejoin="round"/>
+  <circle cx="168" cy="51" r="14" fill="#312e81"/>
+  <circle cx="207" cy="89" r="14" fill="#6366f1"/>
+  <circle cx="207" cy="167" r="14" fill="#818cf8"/>
+  <path d="m229 36 5 13 13 5-13 5-5 13-5-13-13-5 13-5Z" fill="#312e81"/>
+</svg>

@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" role="img" aria-labelledby="title-e desc-e">
+  <title id="title-e">My AI Team one plus many</title>
+  <desc id="desc-e">One human node sends a mission into an orbiting team of autonomous agents.</desc>
+  <rect width="256" height="256" rx="56" fill="#4f46e5"/>
+  <path d="M72 184a84 84 0 1 1 91 9" fill="none" stroke="#c4b5fd" stroke-width="15" stroke-linecap="round"/>
+  <path d="m160 191 31 2-15 27" fill="#e0e7ff"/>
+  <circle cx="70" cy="184" r="28" fill="#fff"/>
+  <circle cx="70" cy="175" r="8" fill="#312e81"/>
+  <path d="M53 198c4-12 30-12 34 0" fill="none" stroke="#312e81" stroke-width="7" stroke-linecap="round"/>
+  <circle cx="72" cy="45" r="17" fill="#e0e7ff"/>
+  <circle cx="189" cy="91" r="17" fill="#a5b4fc"/>
+  <circle cx="171" cy="178" r="17" fill="#818cf8"/>
+  <path d="M72 45v23M189 91l-20 17M171 178l-23-12" stroke="#fff" stroke-width="8" stroke-linecap="round"/>
+</svg>
