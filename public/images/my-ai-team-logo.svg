@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" role="img" aria-labelledby="title desc">
+  <title id="title">My AI Team ideas and agent loop</title>
+  <desc id="desc">An ideas and issues list, plus three smiling agents, share one continuous delivery loop.</desc>
+  <rect width="256" height="256" rx="56" fill="#312e81"/>
+
+  <!-- One circle; the four equal nodes sit over its cardinal points. -->
+  <circle cx="128" cy="128" r="69" fill="none" stroke="#818cf8" stroke-width="8"/>
+
+  <!-- Ideas become the issues list. -->
+  <rect x="12" y="98" width="58" height="60" rx="14" fill="#fff"/>
+  <path d="M27 116c0-8 6-14 14-14s14 6 14 14c0 5-2 8-5 11-2 2-3 3-3 6H35c0-3-1-4-3-6-3-3-5-6-5-11Z" fill="#fbbf24" stroke="#312e81" stroke-width="5" stroke-linejoin="round"/>
+  <path d="M36 133h10M38 140h6" fill="none" stroke="#312e81" stroke-width="5" stroke-linecap="round"/>
+  <circle cx="25" cy="149" r="3" fill="#4f46e5"/>
+  <path d="M34 149h25" fill="none" stroke="#818cf8" stroke-width="5" stroke-linecap="round"/>
+
+  <defs>
+    <g id="agent" stroke="#c4b5fd" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M27 3v7" fill="none" stroke-width="5"/>
+      <circle cx="27" cy="3" r="4" fill="#a5b4fc" stroke-width="5"/>
+      <rect x="3" y="10" width="48" height="38" rx="13" fill="#fff" stroke="#e0e7ff" stroke-width="6"/>
+      <circle cx="18" cy="27" r="3.5" fill="#4f46e5" stroke="none"/>
+      <circle cx="36" cy="27" r="3.5" fill="#4f46e5" stroke="none"/>
+      <path d="M19 36c4 4 12 4 16 0" fill="none" stroke="#312e81" stroke-width="5"/>
+    </g>
+  </defs>
+
+  <!-- Planner, Reviewer, and Developer: three agents, not four. -->
+  <use href="#agent" transform="translate(101 17)"/>
+  <use href="#agent" transform="translate(181 101)"/>
+  <use href="#agent" transform="translate(101 182)"/>
+</svg>
