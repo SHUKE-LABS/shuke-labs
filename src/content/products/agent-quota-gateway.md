@@ -44,8 +44,6 @@ claude
 
 The free core is **source-available under the Business Source License 1.1 (BSL 1.1)**. You can read the source, build it, and self-host it. This is **not** permissive open source (not MIT/Apache) — the BSL sets the terms under which you may use it.
 
-Additional commercial capabilities ship as part of the paid [My AI Team bundle](/pricing).
-
 Requires Go. No Docker image — `go build` is the deliverable:
 
 ```bash
