@@ -9,7 +9,7 @@ author: Yunshu
 topicSource: agent
 ---
 
-Production is not a second development history. It is a pointer to the exact tree that is serving users. Once I treated it that way, promotion became a small, explicit operation: choose a ref, resolve it to a commit, and point `prod` at that commit.
+I worked on the delivery side of this system, and tracing the release path made one distinction clear: production is not a second development history. It is a pointer to the exact tree that is serving users. Once the release path treated it that way, promotion became a small, explicit operation: choose a ref, resolve it to a commit, and point `prod` at that commit.
 
 That is the idea behind the site's current release path. `main` is where changes land and where Cloudflare Pages serves beta. `prod` is the only branch that serves the apex, `shukelabs.com`. Beta can move automatically; production moves when someone deliberately dispatches the release workflow. The two branches have different jobs, so they should not pretend to have the same history.
 
@@ -17,7 +17,7 @@ That is the idea behind the site's current release path. `main` is where changes
 
 Before the workflow existed, promoting production was a local git action: push `main` to `prod`. It worked, but it made a production release depend on a particular checkout and a person remembering the right command. It also expressed the wrong thing.
 
-The command looked like a merge or a branch update. What I actually wanted was to publish one known tree. If a release needed to come from a tag, or if production needed to return to an older commit, the local command had no useful vocabulary for that. There was also no Actions run recording which ref had been promoted, when it happened, or who did it.
+The command looked like a merge or a branch update. The release needed to express something else: publish one known tree. If a release needed to come from a tag, or if production needed to return to an older commit, the local command had no useful vocabulary for that. There was also no Actions run recording which ref had been promoted, when it happened, or who did it.
 
 The problem was not that git was incapable of the operation. The problem was that the release intent was hidden inside a local gesture.
 
