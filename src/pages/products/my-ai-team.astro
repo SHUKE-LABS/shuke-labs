@@ -3,7 +3,6 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import Nav from '../../components/Nav.astro';
 import Footer from '../../components/Footer.astro';
 import { plans } from '../../config/pricing';
-import { IDEAS_ENDPOINT, TURNSTILE_SITE_KEY, IDEA_SUBMISSION_ENABLED } from '../../config/site';
 
 const title = 'My AI Team';
 const description =
@@ -70,174 +69,28 @@ const description =
       </p>
     </section>
 
-    <!-- Detail links -->
+    <!-- How it works -->
     <section class="mx-auto max-w-5xl px-6 pb-16">
-      <div class="rounded-2xl border border-line bg-surface-soft p-6 sm:p-8">
-        <h2 class="text-2xl font-bold text-ink">See the team in action</h2>
-        <p class="mt-3 max-w-2xl text-muted leading-relaxed">
-          Every change gets a plan, an independent review, and a durable trail. Explore the pipeline and choose the session mode that fits your work.
-        </p>
-        <div class="mt-5 flex flex-wrap gap-3">
-          <a
-            href="/products/my-ai-team/how-it-works"
-            class="inline-flex items-center rounded-lg border border-line px-4 py-2 text-sm font-medium text-ink hover:border-accent hover:text-accent transition-colors"
-          >
-            How it works &rarr;
-          </a>
-          <a
-            href="/products/my-ai-team/session-modes"
-            class="inline-flex items-center rounded-lg border border-line px-4 py-2 text-sm font-medium text-ink hover:border-accent hover:text-accent transition-colors"
-          >
-            Session modes &rarr;
-          </a>
-        </div>
-      </div>
+      <h2 class="text-2xl font-bold text-ink">How it works</h2>
+      <img
+        src="/images/my-ai-team-loop.svg"
+        alt="Autonomous AI loop: a human kicks off with the Explorer agent; Planner, Reviewer, Developer and Auditor cycle tickets from plan to review to merge, then file new tickets that feed back to the Planner."
+        width="740"
+        height="605"
+        class="mt-6 mx-auto block h-auto w-full"
+      />
+      <p class="mt-4 text-center text-sm">
+        <a
+          href="https://mat-docs.shukelabs.com"
+          target="_blank"
+          rel="noopener"
+          class="text-accent hover:underline"
+        >
+          Read the documentation &rarr;
+        </a>
+      </p>
     </section>
-
-    <!-- Submit an idea: flag-gated public intake (issue #14). Hidden until the
-         Worker + Turnstile keys are provisioned and the audit ticket is live. -->
-    {
-      IDEA_SUBMISSION_ENABLED && (
-        <section id="submit-idea" class="mx-auto max-w-5xl px-6 pb-16">
-          <h2 class="text-sm font-semibold uppercase tracking-wider text-muted">Submit an idea</h2>
-          <p class="mt-4 max-w-2xl text-lg text-ink leading-relaxed">
-            Have something the team should build? Drop it in the queue. Review is
-            asynchronous — you get an instant receipt with a link that fills in as the
-            review runs. No account, one field.
-          </p>
-          <p class="mt-3 max-w-2xl text-sm text-muted leading-relaxed">
-            New here? Read
-            <a href="/products/my-ai-team/ideas" class="text-accent hover:underline"
-              >what fits and what happens next</a
-            > before you send.
-          </p>
-          <p class="mt-2 max-w-2xl text-sm text-muted leading-relaxed">
-            Or browse the
-            <a
-              href="https://github.com/SHUKE-LABS/shuke-labs/issues?q=label%3Aexternal-request"
-              target="_blank"
-              rel="noopener"
-              class="text-accent hover:underline">ideas already accepted</a
-            > — open while building, closed once shipped.
-          </p>
-          <form
-            class="idea-form mt-6 rounded-2xl border border-line bg-surface-soft p-6"
-            data-endpoint={IDEAS_ENDPOINT}
-          >
-            <label for="idea-input" class="block text-sm font-medium text-ink">
-              Your idea
-            </label>
-            <textarea
-              id="idea-input"
-              name="idea"
-              rows="4"
-              maxlength="2000"
-              required
-              placeholder="Describe the idea in a sentence or two."
-              class="idea-input mt-2 w-full rounded-lg border border-line bg-surface px-3 py-2 text-sm text-ink focus:border-accent focus:outline-none"
-            />
-            <div
-              class="cf-turnstile mt-4"
-              data-sitekey={TURNSTILE_SITE_KEY}
-            />
-            <button
-              type="submit"
-              class="idea-submit mt-4 inline-flex items-center rounded-lg bg-accent px-5 py-2.5 text-sm font-medium text-white transition-colors hover:bg-accent-hover disabled:cursor-not-allowed disabled:opacity-60"
-            >
-              Send it to the queue
-            </button>
-            <p class="idea-result mt-4 text-sm" role="status" aria-live="polite" />
-          </form>
-          <script
-            is:inline
-            src="https://challenges.cloudflare.com/turnstile/v0/api.js"
-            async
-            defer
-          />
-        </section>
-      )
-    }
 
   </main>
   <Footer />
 </BaseLayout>
-
-<script>
-  // Idea-submission form handler (issue #14). Posts the free text + Turnstile
-  // token to the intake Worker and renders the mechanical outcome: on success a
-  // link to the receipt, on reject the Worker's mechanical reason. This script
-  // is always bundled; it's a no-op when the form isn't rendered (flag off), so
-  // it safely queries a NodeList that may be empty.
-  type SubmitOk = { id: string; receiptUrl: string };
-  type SubmitErr = { error: string; receipt?: string };
-
-  function initIdeaForm(form: HTMLFormElement) {
-    const endpoint = form.dataset.endpoint;
-    if (!endpoint) return;
-
-    const input = form.querySelector<HTMLTextAreaElement>('.idea-input');
-    const button = form.querySelector<HTMLButtonElement>('.idea-submit');
-    const result = form.querySelector<HTMLElement>('.idea-result');
-
-    const show = (message: string, ok: boolean) => {
-      if (!result) return;
-      result.textContent = '';
-      result.classList.toggle('text-accent', ok);
-      result.classList.toggle('text-red-600', !ok);
-      result.append(message);
-    };
-
-    form.addEventListener('submit', async (event) => {
-      event.preventDefault();
-      const text = input?.value.trim() ?? '';
-      if (!text) {
-        show('Please enter an idea first.', false);
-        return;
-      }
-
-      // Turnstile injects a hidden input with the token once the widget solves.
-      const token =
-        form.querySelector<HTMLInputElement>('[name="cf-turnstile-response"]')?.value ?? '';
-      if (!token) {
-        show('Please complete the anti-bot check.', false);
-        return;
-      }
-
-      if (button) button.disabled = true;
-      show('Sending…', true);
-
-      try {
-        const res = await fetch(`${endpoint}/submit`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ input: text, turnstileToken: token }),
-        });
-        const data = (await res.json()) as SubmitOk & SubmitErr;
-        if (res.ok && data.receiptUrl) {
-          form.reset();
-          show('', true);
-          if (result) {
-            const link = document.createElement('a');
-            link.href = data.receiptUrl;
-            link.textContent = 'View your receipt →';
-            link.className = 'underline';
-            result.textContent = "Your idea is in the review queue. ";
-            result.append(link);
-          }
-        } else {
-          show(data.receipt || 'Submission failed. Please retry.', false);
-          if (button) button.disabled = false;
-        }
-      } catch {
-        show('Network error. Please retry.', false);
-        if (button) button.disabled = false;
-      }
-
-      // Turnstile tokens are single-use; reset the widget so a retry gets a
-      // fresh one rather than replaying the spent token.
-      (window as unknown as { turnstile?: { reset: () => void } }).turnstile?.reset();
-    });
-  }
-
-  document.querySelectorAll<HTMLFormElement>('.idea-form').forEach(initIdeaForm);
-</script>
