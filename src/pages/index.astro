@@ -10,8 +10,7 @@ import { visiblePosts } from '../lib/blog';
 const products = (await getCollection('products')).sort(
   (a, b) => a.data.weight - b.data.weight,
 );
-// My AI Team is the flagship — shown once in its own block above the grid.
-const devTools = products.filter((p) => p.data.group === 'dev' && p.id !== 'my-ai-team');
+const devTools = products.filter((p) => p.data.group === 'dev');
 const apps = products.filter((p) => p.data.group === 'app');
 
 // Latest-writing teaser: the 3 newest posts across all projects, newest first.
@@ -19,56 +18,79 @@ const latestPosts = visiblePosts(await getCollection('blog'))
   .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
   .slice(0, 3);
 
-const featuredBullets = [
-  'Agents claim tickets, implement changes, open PRs, and notify you — no terminal babysitting.',
-  'Seven session modes, from a read-only explore to a pipelined three-agent relay.',
-  'Turns your GitHub issue backlog into an async delivery pipeline.',
+const cloudFeatures = [
+  {
+    heading: 'Browser onboarding',
+    body: 'A first-run wizard instead of a terminal session: GitHub sign-in, credential provisioning, license activation, and an environment check before anything runs.',
+  },
+  {
+    heading: 'Fleet dashboard',
+    body: 'A sessions rail with per-role transcripts, and pause/resume/stop/restart controls for every agent session.',
+  },
+  {
+    heading: 'Repository management',
+    body: 'Add the repositories the fleet works on from a page — discovery through your GitHub installations, no git cloning by hand.',
+  },
+  {
+    heading: 'Hosted runtime',
+    body: 'The agents run on our infrastructure. No tmux, no VM to keep alive — the same delivery pipeline, without operating it yourself.',
+  },
 ];
 ---
 
 <BaseLayout>
   <Nav />
   <main class="flex-1">
-    <!-- Flagship: My AI Team owns the first screen -->
-    <section class="mx-auto max-w-5xl px-6 pt-12 pb-16 sm:pb-20">
-      <div class="grid gap-8 lg:grid-cols-2 lg:items-center">
-        <div>
-          <p class="text-sm font-semibold uppercase tracking-wider text-accent">MY AI TEAM</p>
-          <h1 class="mt-3 text-4xl sm:text-5xl font-bold tracking-tight text-ink">
-            Agents as teammates, not tools.
-          </h1>
-          <p class="mt-4 text-xl sm:text-2xl font-medium text-accent">You decide. Agent delivers.</p>
-          <ul class="mt-6 space-y-2">
-            {featuredBullets.map((bullet) => (
-              <li class="flex gap-3 text-ink">
-                <span class="mt-1 text-accent" aria-hidden="true">
-                  &rarr;
-                </span>
-                <span>{bullet}</span>
-              </li>
-            ))}
-          </ul>
+    <!-- Company hero -->
+    <section class="mx-auto max-w-5xl px-6 pt-14 pb-16 sm:pb-20">
+      <p class="text-sm font-semibold uppercase tracking-wider text-accent">SHUKE LABS</p>
+      <h1 class="mt-3 text-4xl sm:text-5xl font-bold tracking-tight text-ink">
+        Build more, struggle less.
+      </h1>
+      <p class="mt-5 max-w-2xl text-xl text-muted leading-relaxed">
+        SHUKE Labs is a New Zealand software company. We build tools on one thesis: software
+        should treat AI agents as teammates, not tools — and we ship what our own agents build.
+      </p>
+    </section>
+
+    <!-- Lead product: My AI Team Cloud (hosted My AI Team, in development) -->
+    <section id="cloud" class="border-y border-line bg-surface-soft">
+      <div class="mx-auto max-w-5xl px-6 py-16">
+        <div class="flex flex-wrap items-center gap-3">
+          <h2 class="text-2xl sm:text-3xl font-bold text-ink">My AI Team Cloud</h2>
+          <span class="rounded-full bg-accent-soft px-3 py-1 text-xs font-semibold uppercase tracking-wide text-accent">
+            In development
+          </span>
+        </div>
+        <p class="mt-1 text-muted">Hosted My AI Team.</p>
+        <p class="mt-4 max-w-2xl text-lg text-muted leading-relaxed">
+          My AI Team turns your issue backlog into an async delivery pipeline: agents claim
+          tickets, implement on a branch, open PRs, and merge them themselves while you set
+          direction. My AI Team Cloud is the same fleet, hosted — no terminal, no VM to keep
+          alive.
+        </p>
+        <div class="mt-8 grid gap-4 sm:grid-cols-2">
+          {
+            cloudFeatures.map((f) => (
+              <div class="rounded-xl border border-line bg-surface p-6">
+                <h3 class="font-semibold text-ink">{f.heading}</h3>
+                <p class="mt-2 text-sm leading-relaxed text-muted">{f.body}</p>
+              </div>
+            ))
+          }
+        </div>
+        <p class="mt-8 text-sm text-muted">
+          Available today as a self-hosted product:
           <a
-            href="/products/my-ai-team"
-            class="mt-6 inline-flex items-center gap-1 text-sm font-medium text-accent hover:text-accent-hover"
+            href="https://mat.shukelabs.com"
+            class="font-medium text-accent hover:text-accent-hover hover:underline underline-offset-2">mat.shukelabs.com &rarr;</a
           >
-            Read more about My AI Team &rarr;
-          </a>
-        </div>
-        <div class="rounded-2xl border border-line bg-surface p-4 sm:p-6">
-          <img
-            src="/images/my-ai-team-loop.svg"
-            alt="Autonomous AI loop: a human kicks off with the Explorer agent; Planner, Reviewer, Developer and Auditor cycle tickets from plan to review to merge, then file new tickets that feed back to the Planner."
-            class="w-full h-auto"
-            width="740"
-            height="605"
-          />
-        </div>
+        </p>
       </div>
     </section>
 
     <!-- Product grid -->
-    <section id="products" class="mx-auto max-w-5xl px-6 pb-16 scroll-mt-20">
+    <section id="products" class="mx-auto max-w-5xl px-6 py-16 scroll-mt-20">
       <div>
         <h2 class="text-sm font-semibold uppercase tracking-wider text-muted">Developer tools</h2>
         <div class="mt-4 grid gap-4 sm:grid-cols-2">
@@ -106,9 +128,10 @@ const featuredBullets = [
     <!-- Closing CTA -->
     <section class="mx-auto max-w-5xl px-6 pb-24">
       <div class="rounded-2xl border border-line bg-surface-soft p-8 text-center sm:p-10">
-        <h2 class="text-2xl font-bold text-ink">Ready to build more, struggle less?</h2>
+        <h2 class="text-2xl font-bold text-ink">Build more, struggle less.</h2>
         <p class="mx-auto mt-2 max-w-xl text-muted">
-          Read the docs, browse the source, and put it to work.
+          Browse what we build, follow the writing, and watch this space — the hosted product is
+          on its way.
         </p>
         <a
           href="https://github.com/SHUKE-LABS"

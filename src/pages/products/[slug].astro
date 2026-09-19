@@ -5,7 +5,8 @@ import Nav from '../../components/Nav.astro';
 import Footer from '../../components/Footer.astro';
 
 export async function getStaticPaths() {
-  // my-ai-team has a dedicated hand-composed page at products/my-ai-team.astro.
+  // my-ai-team has its own marketing site (mat.shukelabs.com); its card links
+  // there via the schema's `site` field, so it has no detail route.
   const products = (await getCollection('products')).filter((p) => p.id !== 'my-ai-team');
   return products.map((product) => ({
     params: { slug: product.id },

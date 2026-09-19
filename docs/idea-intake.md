@@ -32,7 +32,7 @@ my-ai-team page (form, flag-gated)
 - **Worker source + deploy:** [`../worker-ideas/`](../worker-ideas/)
   (`src/index.js`, `wrangler.toml`, `schema.sql`, `README.md`).
 - **Form:** the flag-gated section in
-  [`../src/pages/products/my-ai-team.astro`](../src/pages/products/my-ai-team.astro).
+  [`../src/pages/ideas.astro`](../src/pages/ideas.astro).
 - **Config constants:** `IDEAS_ENDPOINT`, `TURNSTILE_SITE_KEY`,
   `IDEA_SUBMISSION_ENABLED` in [`../src/config/site.ts`](../src/config/site.ts).
 

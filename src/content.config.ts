@@ -16,6 +16,9 @@ const products = defineCollection({
     icon_emoji: z.string().optional(),
     icon_image: z.string().optional(),
     github: z.string().url().optional(),
+    // The product's own marketing site. When set, cards link there instead of
+    // the local /products/<slug> detail page.
+    site: z.string().url().optional(),
     free: z.boolean().optional(),
   }),
 });

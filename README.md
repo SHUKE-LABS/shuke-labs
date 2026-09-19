@@ -6,7 +6,8 @@ Live at [shukelabs.com](https://shukelabs.com).
 
 ## Products
 
-- My AI Team — Structured AI agent sessions in your terminal (commercial; contact weizhong2004@gmail.com)
+- My AI Team — Structured AI agent sessions in your terminal (commercial; [mat.shukelabs.com](https://mat.shukelabs.com))
+- My AI Team Cloud — Hosted My AI Team (in development)
 - Rewind — Navigate and explore your AI coding sessions (commercial; contact weizhong2004@gmail.com)
 - [Agent Quota Gateway](https://github.com/SHUKE-LABS/agent-quota-gateway) — Auto-rotate accounts, keep shipping
 - [Credential Gateway](https://github.com/SHUKE-LABS/credential-gateway) — Credentials outside your worktree, injected at runtime
@@ -71,7 +72,8 @@ count shared by prod and beta, backed by a standalone Cloudflare Worker + D1
 
 ## Idea submission
 
-The my-ai-team page carries a flag-gated public "submit an idea" form. It posts
+The [`/ideas`](src/pages/ideas.astro) page carries a flag-gated public "submit an
+idea" form for any SHUKE Labs product. It posts
 to a standalone Cloudflare Worker + D1 (`worker-ideas/`) that verifies Turnstile,
 quota-caps, stores the submission `pending`, and serves an honest mechanical
 receipt at `/idea/:id`. It makes no AI value judgement — that is the audit ticket
