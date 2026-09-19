@@ -1,10 +1,10 @@
 ---
-import BaseLayout from '../../../layouts/BaseLayout.astro';
-import Nav from '../../../components/Nav.astro';
-import Footer from '../../../components/Footer.astro';
-import { IDEAS_ENDPOINT, TURNSTILE_SITE_KEY, IDEA_SUBMISSION_ENABLED } from '../../../config/site';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+import { IDEAS_ENDPOINT, TURNSTILE_SITE_KEY, IDEA_SUBMISSION_ENABLED } from '../config/site';
 
-const title = 'Submit an idea to My AI Team';
+const title = 'Submit an idea';
 const description =
   'What the idea inbox is for, which ideas fit, and what happens after you send one — before you reach the form.';
 
@@ -12,21 +12,21 @@ const description =
 // the same boundary the autonomous audit judges submissions against. Keep these
 // two surfaces consistent — the audit is the source of truth.
 const inScope = [
-  'Improvements or extensions to the My AI Team product itself.',
+  'Improvements or extensions to any SHUKE Labs product.',
   'Changes to how the agents work — the pipeline, the modes, the guardrails.',
   'Anything on the public site or blog: a page, a post, a fix, a rough idea.',
   'The idea pipeline itself — how submissions are taken in, judged, and delivered.',
 ];
 
 const outOfScope = [
-  'Requests unrelated to My AI Team.',
+  'Requests unrelated to SHUKE Labs and its products.',
   'Generic consulting or open-ended advice.',
   'Anything that needs credentials, accounts, or data the team does not have.',
   'One-off personal favours that only make sense for a single person.',
 ];
 
 // The submission journey, from the field to a merged change. Buyer-facing framing;
-// the underlying loop is the same one described on how-it-works.
+// the underlying loop is the one described in the idea-pipeline blog post.
 const steps = [
   {
     who: 'You send it',
@@ -57,14 +57,14 @@ const steps = [
     <!-- Hero -->
     <section class="mx-auto max-w-5xl px-6 pt-6 pb-12">
       <a
-        href="/products/my-ai-team"
-        class="text-sm text-muted hover:text-ink transition-colors">&larr; My AI Team</a
+        href="/"
+        class="text-sm text-muted hover:text-ink transition-colors">&larr; SHUKE Labs</a
       >
       <h1 class="mt-3 text-4xl sm:text-5xl font-bold tracking-tight text-ink">Submit an idea</h1>
       <p class="mt-4 max-w-2xl text-lg text-muted leading-relaxed">
-        The idea inbox is an open door to the team's queue. Drop in something you'd like My AI Team
-        to build or fix, and it goes through the same pipeline every ticket does. Here's what fits
-        and what happens next — then send yours.
+        The idea inbox is an open door to the team's queue. Drop in something you'd like any SHUKE
+        Labs product to build or fix, and it goes through the same pipeline every ticket does.
+        Here's what fits and what happens next — then send yours.
       </p>
       <a
         href="#submit-idea"
@@ -136,7 +136,7 @@ const steps = [
       <p class="mt-4 max-w-2xl text-sm text-muted leading-relaxed">
         Review is asynchronous — you don't wait on the page. The receipt link is yours to check back
         on as the idea moves through the queue. See
-        <a href="/products/my-ai-team/how-it-works" class="text-accent hover:underline"
+        <a href="/blog/article-3-idea-pipeline/" class="text-accent hover:underline"
           >how it works</a
         > for the loop the team runs every ticket through.
       </p>

@@ -6,12 +6,16 @@ interface Props {
 }
 
 const { product } = Astro.props;
-const { title, description, commercial, icon_emoji, icon_image } = product.data;
-const href = `/products/${product.id}`;
+const { title, description, commercial, icon_emoji, icon_image, site } = product.data;
+// Products with their own marketing site link there; the rest keep the local
+// detail page.
+const external = Boolean(site);
+const href = site ?? `/products/${product.id}`;
 ---
 
 <a
   href={href}
+  rel={external ? 'noopener' : undefined}
   class="group flex flex-col gap-3 rounded-xl border border-line bg-surface p-5 transition-all hover:border-accent hover:shadow-sm"
 >
   <div class="flex items-center gap-3">

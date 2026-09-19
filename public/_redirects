@@ -1,0 +1,7 @@
+# 301s for the removed My AI Team sales surface (issue #146). My AI Team
+# marketing, pricing, and checkout now live at mat.shukelabs.com.
+/pricing                           https://mat.shukelabs.com/#plans    301
+/products/my-ai-team               https://mat.shukelabs.com/          301
+/products/my-ai-team/how-it-works  https://mat.shukelabs.com/          301
+/products/my-ai-team/session-modes https://mat.shukelabs.com/#modes    301
+/products/my-ai-team/ideas         /ideas                              301
