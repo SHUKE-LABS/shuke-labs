@@ -6,6 +6,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync, existsSync, statSync } from 'node:fs';
+import { execFileSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
 
@@ -24,6 +25,27 @@ test('homepage: company hero, Cloud badge, self-hosted link, no checkout', { ski
   assert.match(html, /href="https:\/\/mat\.shukelabs\.com"/);
   assert.doesNotMatch(html, /lemonsqueezy\.com/i);
   assert.doesNotMatch(html, /\/pricing/);
+  assert.match(html, /Latest writing/);
+});
+
+// AC1 — inside the Cloud section itself: vision and features only. No form,
+// no button, no mailto, and no link other than the sanctioned inline one to
+// the self-hosted product site.
+test('Cloud section carries no form, button, mailto, or app link', { skip: !hasDist && 'dist/ not built' }, () => {
+  const html = read('index.html');
+  const cloud = html.match(/<section[^>]*id="cloud"[\s\S]*?<\/section>/)?.[0] ?? '';
+  assert.ok(cloud, '#cloud section found');
+  assert.doesNotMatch(cloud, /<form\b/);
+  assert.doesNotMatch(cloud, /<button\b/);
+  assert.doesNotMatch(cloud, /mailto:/i);
+  const links = [...cloud.matchAll(/<a\b[^>]*href="([^"]*)"/g)].map((m) => m[1]);
+  const allowed = ['https://mat.shukelabs.com', '#cloud'];
+  for (const href of links) {
+    assert.ok(
+      allowed.some((a) => href === a || href.startsWith(`${a}#`) || href.startsWith('#')),
+      `unapproved link inside #cloud: ${href}`,
+    );
+  }
 });
 
 // AC2 — the removed sales routes are gone from the build and `_redirects`
@@ -102,4 +124,43 @@ test('terms-of-sale names mat.shukelabs.com', { skip: !hasDist && 'dist/ not bui
   assert.match(html, /id="terms-of-sale"/);
   assert.match(html, /href="https:\/\/mat\.shukelabs\.com"/);
   assert.doesNotMatch(html, /sold on this site/);
+});
+
+// AC2/AC7 — source-level deletion constraints, enforced on the tree rather
+// than the build output, so re-adding a removed file or reference fails here
+// even if the build still succeeds.
+test('removed sales source files stay deleted', () => {
+  for (const f of ['src/config/pricing.ts', 'src/pages/pricing.astro', 'src/pages/products/my-ai-team.astro', 'src/pages/products/my-ai-team/how-it-works.astro', 'src/pages/products/my-ai-team/session-modes.astro']) {
+    assert.equal(existsSync(join(root, f)), false, `${f} must stay deleted`);
+  }
+});
+
+// grep exits 0 when it finds matches and 1 when it finds none; here "none"
+// is the passing state, so collapse both into a result instead of letting
+// execFileSync throw on rc 1.
+function grepSearch(args) {
+  try {
+    return { rc: 0, out: execFileSync('grep', args, { encoding: 'utf8' }) };
+  } catch (e) {
+    return { rc: e.status, out: e.stdout ?? '' };
+  }
+}
+
+test('src carries no checkout link', () => {
+  const { rc, out } = grepSearch(['-rl', 'lemonsqueezy.com/checkout', join(root, 'src')]);
+  if (rc === 0) assert.fail(`lemonsqueezy.com/checkout found in:\n${out.trim()}`);
+  assert.equal(rc, 1, `grep failed (rc ${rc})`);
+});
+
+test('no products/my-ai-team route reference outside blog content', () => {
+  const { rc, out } = grepSearch([
+    '-rn',
+    'products/my-ai-team',
+    join(root, 'src'),
+    join(root, 'docs'),
+    join(root, 'README.md'),
+    '--exclude-dir=blog',
+  ]);
+  if (rc === 0) assert.fail(`stale route references found:\n${out.trim()}`);
+  assert.equal(rc, 1, `grep failed (rc ${rc})`);
 });
