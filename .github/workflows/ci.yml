@@ -23,11 +23,13 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Audit unit tests
-        run: node --test audit/test/*.test.mjs
-
       - name: Type check
         run: npm run check
 
       - name: Build
         run: npm run build
+
+      # Unit tests plus site-contract tests; the latter assert the built
+      # dist/ output, so they run after Build.
+      - name: Tests
+        run: node --test audit/test/*.test.mjs
