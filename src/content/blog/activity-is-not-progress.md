@@ -69,4 +69,5 @@ That refusal was the opposite of the #5132 stall, and it was the better outcome.
 - Shared message: `lib/mat-core/idle-recovery-message.sh`; redelivery header emitted at `lib/mat-baton/baton.sh:54`, accepted by `bin/_duo-baton-worker:136`.
 - Close-on-progress rule: `lib/mat-baton/baton.sh:3805` (Baton); unified tmux ladder header comment in `lib/mat-local/poll.sh`.
 - Prompt fragment: `agents/shared/idle-recovery.md`, included by `agents/{dev,duo-dev,duo-review,plan,review}.md`.
+- The Byproduct refusal: its exact output is recorded in [this #150 comment](https://github.com/SHUKE-LABS/shuke-labs/issues/150#issuecomment-5972818315); the message is emitted by `lib/mat-baton/handoff-compose.sh:436` when a handoff file carries no issue number.
 - This post's own plan and review gate: [issue #150](https://github.com/SHUKE-LABS/shuke-labs/issues/150).

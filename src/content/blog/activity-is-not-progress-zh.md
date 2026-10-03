@@ -68,4 +68,5 @@ Baton 上，欠回复催促（#4038）会把收件方没回的交接重发两次
 - 共享消息：`lib/mat-core/idle-recovery-message.sh`；重投头在 `lib/mat-baton/baton.sh:54` 生成，由 `bin/_duo-baton-worker:136` 接受。
 - 只认进展的收口规则：`lib/mat-baton/baton.sh:3805`（Baton）；tmux 统一阶梯见 `lib/mat-local/poll.sh` 的段首注释。
 - 提示词片段：`agents/shared/idle-recovery.md`，由 `agents/{dev,duo-dev,duo-review,plan,review}.md` 引用。
+- 副产品里那次拒绝：原样输出记录在 [#150 的这条评论](https://github.com/SHUKE-LABS/shuke-labs/issues/150#issuecomment-5972818315)；该消息由 `lib/mat-baton/handoff-compose.sh:436` 在交接文件缺少 issue 编号时发出。
 - 本文自己的计划与审查关口：[issue #150](https://github.com/SHUKE-LABS/shuke-labs/issues/150)。
