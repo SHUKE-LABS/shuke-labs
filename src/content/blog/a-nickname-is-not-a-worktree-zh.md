@@ -38,13 +38,13 @@ singleton 本身没有错。同一个昵称不应该悄悄运行两个互不相�
 
 选中的昵称随后贯穿整个启动过程。新 session、supervisor、agent home、环境和 claim 都指向同一个已登记身份。local driver 通过 state file 遵循同一套可用性规则；tmux driver 还会额外检查 session 属于哪个工作区。
 
-这样，两个 worktree 之间就有了稳定契约。A 可以拥有 `N`，并重连 `N`；B 请求 `N` 时拿到第一个空闲的等价昵称 `X`，以后重连 `X`。即使 `N` 后来空出来，B 也不会突然抢走它，或凭空再开第三个 session。如果所有等价昵称都被占用，命令会拒绝，并说明如何登记新的等价昵称。
+这样，两个 worktree 之间就有了稳定契约。A 可以拥有 `N`，并重连 `N`；B 请求仍被 A 占用的 `N` 时拿到第一个空闲的等价昵称 `X`，以后重连 `X`，不会再分配第三个昵称。如果所有等价昵称都被占用，命令会拒绝，并说明如何登记新的等价昵称。
 
 ## 副产品
 
 第一版实现选对了回退昵称，却漏了一个状态机边界。它先把已有 session 判定为“在别处”，再运行原有的健康检查。因此，另一个工作区里的 stale-disposable session 不会被清理，反而会让昵称继续保持假忙碌。
 
-Reviewer 因为验收标准同时覆盖健康 session 和 stale session，抓到了这个问题。修正后的顺序是：先对每个候选执行健康状态转换，再判断工作区；stale-disposable 被回收，stale-blocked 继续拒绝，只有健康的外部 session 才算忙碌。这个教训不只适用于 launcher：资源虽然在别处，也不能因此跳过它本来应有的生命周期检查。
+Reviewer 因为票据方案同时覆盖健康 session 和 stale session，抓到了这个问题。修正后的顺序是：先对每个候选执行健康状态转换，再判断工作区；stale-disposable 被回收，stale-blocked 继续拒绝，只有健康的外部 session 才算忙碌。这个教训不只适用于 launcher：资源虽然在别处，也不能因此跳过它本来应有的生命周期检查。
 
 ## 规则
 

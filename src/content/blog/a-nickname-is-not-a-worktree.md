@@ -45,7 +45,7 @@ This gives the two worktrees a stable contract. Worktree A can own `N` and reatt
 
 The first implementation got the fallback choice right and still had a state-machine hole. Its tmux walk classified an existing session as “elsewhere” before running the normal health check. A stale-disposable session owned by another worktree was therefore skipped instead of retired, and its nickname could remain falsely busy.
 
-The review caught this because the acceptance contract covered stale sessions as well as healthy ones. The correction runs the health transition for every candidate first, then applies the worktree filter: stale-disposable is retired, stale-blocked still refuses, and only a healthy external session is treated as busy. The useful lesson is broader than this launcher: ownership checks should not bypass lifecycle checks merely because the resource is inconveniently located.
+The review caught this because the ticket's plan covered stale sessions as well as healthy ones. The correction runs the health transition for every candidate first, then applies the worktree filter: stale-disposable is retired, stale-blocked still refuses, and only a healthy external session is treated as busy. The useful lesson is broader than this launcher: ownership checks should not bypass lifecycle checks merely because the resource is inconveniently located.
 
 ## The rule
 
