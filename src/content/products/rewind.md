@@ -27,6 +27,6 @@ icon_emoji: "⏪"
 
 ## See it in action
 
-![Rewind sessions view showing a populated synthetic coding session beside its prompt timeline and conversation](/images/products/rewind-slimmed.jpg)
+[![Rewind sessions view showing a populated synthetic coding session beside its prompt timeline and conversation](/images/products/rewind-slimmed.jpg)](/images/products/rewind-slimmed.jpg)
 
-![Rewind full conversation view showing Markdown and a JSON code block in a populated synthetic session](/images/products/rewind-full.jpg)
+[![Rewind full conversation view showing Markdown and a JSON code block in a populated synthetic session](/images/products/rewind-full.jpg)](/images/products/rewind-full.jpg)
