@@ -35,6 +35,14 @@ The free versions have too many limits. The paid versions lock your notes behind
 - Telegram: sync all notes, or filter by visibility or tag, to any channel you own
 - Mastodon: publish public notes as toots; notes over 500 characters become long images automatically
 
+## See it in action
+
+![HappyNotes notes timeline showing three dated demo notes with inline tags](/images/products/happynotes-timeline.jpg)
+
+![HappyNotes note editor with a populated reading note and hashtags](/images/products/happynotes-editor.jpg)
+
+![HappyNotes tags view grouping demo notes by ideas, focus, morning, reading, and craft](/images/products/happynotes-tags.jpg)
+
 ## Platforms
 
 Android (APK) · Web
