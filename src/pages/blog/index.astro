@@ -14,15 +14,15 @@ type Post = CollectionEntry<'blog'>;
 // the merge (beta auto-deploys, prod is a manual dispatch), not a frontmatter flag.
 const all = visiblePosts(await getCollection('blog'));
 
-// Order posts within a project as a readable set: series, then order, then date.
+// Order posts within a project newest first. Posts published the same day keep
+// their series reading order (e.g. thesis #1 before #2); the card still shows
+// the series label.
 const withinProject = (a: Post, b: Post) => {
-  const sa = a.data.series ?? '';
-  const sb = b.data.series ?? '';
-  if (sa !== sb) return sa.localeCompare(sb);
+  const byDate = b.data.pubDate.valueOf() - a.data.pubDate.valueOf();
+  if (byDate !== 0) return byDate;
   const oa = a.data.order ?? Number.POSITIVE_INFINITY;
   const ob = b.data.order ?? Number.POSITIVE_INFINITY;
-  if (oa !== ob) return oa - ob;
-  return a.data.pubDate.valueOf() - b.data.pubDate.valueOf();
+  return oa - ob;
 };
 
 // Meta / blog-level posts (no project) surface at the top, newest first.

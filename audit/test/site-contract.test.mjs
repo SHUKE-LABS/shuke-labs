@@ -164,3 +164,16 @@ test('no products/my-ai-team route reference outside blog content', () => {
   if (rc === 0) assert.fail(`stale route references found:\n${out.trim()}`);
   assert.equal(rc, 1, `grep failed (rc ${rc})`);
 });
+
+// The blog index lists each project's posts newest first.
+test('blog index: posts within each project group are newest first', { skip: !hasDist && 'dist/ not built' }, () => {
+  const html = read('blog', 'index.html');
+  const groups = html.split('<section>').slice(1);
+  assert.ok(groups.length > 0, 'expected at least one project group');
+  for (const group of groups) {
+    const dates = [...group.matchAll(/<time datetime="([^"]+)"/g)].map((m) => Date.parse(m[1]));
+    for (let i = 1; i < dates.length; i++) {
+      assert.ok(dates[i] <= dates[i - 1], `post ${i} (${new Date(dates[i]).toISOString()}) is newer than the one above it`);
+    }
+  }
+});
