@@ -31,7 +31,7 @@ Plain truth: the subscription didn't sell. Developer tools don't need upgrades u
 ## What five dollars buys
 
 An Explorer agent that works out requirements with you and writes the tickets.
-A delivery team that works efficiently around the clock and needs no babysitting. Delivery stops being your headache: you open the tickets, the delivery team closes them.
+A delivery team that works efficiently around the clock and needs no babysitting. No more abandoned side projects: you open the tickets, the delivery team closes them.
 You just talk to the Explorer to open tickets; the delivery team completes them automatically, to a high standard.
 Most important: what `mat` delivers is still your product. You never lose control.
 
