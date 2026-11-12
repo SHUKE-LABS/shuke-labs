@@ -22,7 +22,7 @@ My AI Team (`mat`) no longer rents by the year. It sells a Personal Copy: pay on
 
 ## The price schedule
 
-The price climbs one dollar a month, on the 12th, and stops at the old full price of $99.99:
+The price climbs one dollar a month, on the 12th, and stops at the list price of $99.99:
 
 | Date | Price |
 | --- | --- |
