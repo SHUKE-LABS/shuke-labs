@@ -1,4 +1,4 @@
-name: Idea audit
+name: Idea audit (scheduled)
 
 # Back half of the public idea pipeline (#100; front half #14). A scheduled,
 # autonomous audit: read pending submissions from the intake Worker, run one

@@ -1,4 +1,4 @@
-name: Weekly blog cadence
+name: Weekly blog cadence (scheduled)
 
 # Mints the two weekly "本周文章" track issues for the A/B topic-sourcing
 # experiment (#80): an agent-sourced track (opens `ready`) and a shuke-sourced
