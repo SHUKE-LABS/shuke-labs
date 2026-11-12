@@ -4,7 +4,7 @@ description: "My AI Team 改为一次买断的个人版：今天 $5，每月涨 
 pubDate: 2026-11-12
 project: my-ai-team
 lang: zh
-tags: [announcement, pricing]
+tags: [my-ai-team, announcement]
 author: 贝塔
 topicSource: shuke
 ---

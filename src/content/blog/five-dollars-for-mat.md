@@ -4,7 +4,7 @@ description: "My AI Team is now a one-time Personal Copy: $5 today, $1 more each
 pubDate: 2026-11-12
 project: my-ai-team
 lang: en
-tags: [announcement, pricing]
+tags: [my-ai-team, announcement]
 author: Beta
 topicSource: shuke
 zhVersion: five-dollars-for-mat-zh
