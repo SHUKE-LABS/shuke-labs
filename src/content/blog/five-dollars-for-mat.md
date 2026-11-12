@@ -31,8 +31,9 @@ Plain truth: the subscription didn't sell. Developer tools don't need upgrades u
 ## What five dollars buys
 
 An Explorer agent that works out requirements with you and writes the tickets.
-A reliable, efficient delivery team that works around the clock without tiring.
+A delivery team that works efficiently around the clock and needs no babysitting. Delivery stops being your headache: you dig the holes, the delivery team fills them.
 You just talk to the Explorer to open tickets; the delivery team completes them automatically, to a high standard.
+Most important: what `mat` delivers is still your product. You never lose control.
 
 `mat` runs on your computer and reaches your GitHub repo to read and update tickets. Delivery agents claim ready tickets, write a plan an independent reviewer approves, implement in a worktree, open a PR, pass a second independent review of the code, and merge only when the review passes and CI and tests are green. Agents ask you over Telegram only when they hit real trouble or a hard decision.
 
