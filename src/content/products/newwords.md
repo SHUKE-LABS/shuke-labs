@@ -38,9 +38,9 @@ Stories
 
 ## See it in action
 
-![NewWords vocabulary list showing two saved Spanish words with generated meanings](/images/products/newwords-list.jpg)
+[![NewWords vocabulary list showing two saved Spanish words with generated meanings](/images/products/newwords-list.jpg)](/images/products/newwords-list.jpg)
 
-![NewWords word detail showing the generated explanation and example sentences for madrugada](/images/products/newwords-detail.jpg)
+[![NewWords word detail showing the generated explanation and example sentences for madrugada](/images/products/newwords-detail.jpg)](/images/products/newwords-detail.jpg)
 
 ## Platforms
 

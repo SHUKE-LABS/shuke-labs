@@ -37,11 +37,11 @@ The free versions have too many limits. The paid versions lock your notes behind
 
 ## See it in action
 
-![HappyNotes notes timeline showing three dated demo notes with inline tags](/images/products/happynotes-timeline.jpg)
+[![HappyNotes notes timeline showing three dated demo notes with inline tags](/images/products/happynotes-timeline.jpg)](/images/products/happynotes-timeline.jpg)
 
-![HappyNotes note editor with a populated reading note and hashtags](/images/products/happynotes-editor.jpg)
+[![HappyNotes note editor showing the public note "A calmer morning" with the hashtags #focus and #morning](/images/products/happynotes-editor.jpg)](/images/products/happynotes-editor.jpg)
 
-![HappyNotes tags view grouping demo notes by ideas, focus, morning, reading, and craft](/images/products/happynotes-tags.jpg)
+[![HappyNotes tags view grouping demo notes by ideas, focus, morning, reading, and craft](/images/products/happynotes-tags.jpg)](/images/products/happynotes-tags.jpg)
 
 ## Platforms
 
