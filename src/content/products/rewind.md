@@ -24,3 +24,9 @@ icon_emoji: "⏪"
 - Fork any session into a new `claude --resume`-compatible JSONL file
 - Infinite scroll through long sessions
 - Special rendering for tools: TodoWrite, ExitPlanMode, thinking blocks
+
+## See it in action
+
+![Rewind sessions view showing a populated synthetic coding session beside its prompt timeline and conversation](/images/products/rewind-slimmed.jpg)
+
+![Rewind full conversation view showing Markdown and a JSON code block in a populated synthetic session](/images/products/rewind-full.jpg)

@@ -102,4 +102,14 @@
     font-size: inherit;
     color: inherit;
   }
+  .prose img {
+    display: block;
+    width: 100%;
+    height: auto;
+    margin: 1.5rem 0;
+    border: 1px solid var(--color-line);
+    border-radius: 0.75rem;
+    background: var(--color-surface-soft);
+    box-shadow: 0 12px 30px rgb(15 23 42 / 0.08);
+  }
 }
