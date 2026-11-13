@@ -5,16 +5,20 @@ import Nav from '../../components/Nav.astro';
 import Footer from '../../components/Footer.astro';
 import { readingTime } from '../../lib/readingTime';
 import LikeButton from '../../components/LikeButton.astro';
+import { neighbors } from '../../lib/blog';
 
 export async function getStaticPaths() {
   const posts = await getCollection('blog');
   return posts.map((post) => ({
     params: { slug: post.id },
-    props: { post },
+    props: { post, ...neighbors(posts, post) },
   }));
 }
 
-const { post } = Astro.props;
+const { post, prev, next } = Astro.props;
+const navLabels = post.data.lang === 'zh'
+  ? { nav: '文章导航', prev: '上一篇', next: '下一篇' }
+  : { nav: 'More posts', prev: 'Previous', next: 'Next' };
 const { title, description, pubDate, lang, tags, author, zhVersion } = post.data;
 const { Content } = await render(post);
 
@@ -102,6 +106,23 @@ const jsonLd = {
       </div>
 
       <LikeButton slug={post.id} />
+
+      {(prev || next) && (
+        <nav aria-label={navLabels.nav} class="mt-12 grid gap-4 border-t border-line pt-8 sm:grid-cols-2">
+          {prev ? (
+            <a href={`/blog/${prev.id}`} class="group block">
+              <span class="text-xs font-medium uppercase tracking-wide text-muted">&larr; {navLabels.prev}</span>
+              <span class="mt-1 block text-ink group-hover:text-accent transition-colors">{prev.data.title}</span>
+            </a>
+          ) : <span class="hidden sm:block" />}
+          {next && (
+            <a href={`/blog/${next.id}`} class="group block sm:text-right">
+              <span class="text-xs font-medium uppercase tracking-wide text-muted">{navLabels.next} &rarr;</span>
+              <span class="mt-1 block text-ink group-hover:text-accent transition-colors">{next.data.title}</span>
+            </a>
+          )}
+        </nav>
+      )}
     </article>
   </main>
   <Footer />
