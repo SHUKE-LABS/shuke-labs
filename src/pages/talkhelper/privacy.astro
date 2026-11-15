@@ -1,0 +1,60 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Nav from '../../components/Nav.astro';
+import Footer from '../../components/Footer.astro';
+
+const title = 'TalkHelper Privacy Policy';
+const description = 'TalkHelper privacy policy in Chinese and English.';
+const contactEmail = 'weizhong2004@gmail.com';
+const lastUpdated = '15 November 2026';
+---
+
+<BaseLayout title={title} description={description}>
+  <Nav />
+  <main class="flex-1">
+    <article class="mx-auto max-w-3xl px-6 pt-6 pb-12">
+      <h1 class="text-3xl sm:text-4xl font-bold tracking-tight text-ink">隐私政策</h1>
+      <p class="mt-2 text-sm text-muted">Last updated: {lastUpdated}</p>
+      <div class="prose mt-8">
+        <section lang="zh">
+          <p>
+            TalkHelper 不收集、不出售、不分享个人信息，也不包含广告或分析服务。麦克风音频只在本设备上交给离线识别模型处理；音频不会通过网络发送，也不会默认写入持久化存储。字幕只在应用运行期间用于显示和查看。
+          </p>
+
+          <p>应用请求的权限及用途如下：</p>
+
+          <ul>
+            <li><code>RECORD_AUDIO</code>：听取身边对话并生成字幕。</li>
+            <li><code>RECEIVE_BOOT_COMPLETED</code>：在用户开启专用设备模式后，于设备启动完成时尝试打开字幕页面。</li>
+            <li><code>SYSTEM_ALERT_WINDOW</code>：在专用设备模式下支持后台启动和悬浮显示；用户可在系统设置中单独授权或撤销。</li>
+          </ul>
+
+          <p>
+            TalkHelper 不声明 <code>INTERNET</code> 权限，因此不会直接联网发送音频、字幕或设备标识。卸载应用会移除应用数据。隐私问题可通过<a href={`mailto:${contactEmail}`}>电子邮件联系维护者</a>。
+          </p>
+        </section>
+
+        <section lang="en">
+          <h2>Privacy policy</h2>
+
+          <p>
+            TalkHelper does not collect, sell, or share personal information and contains no advertising or analytics service. Microphone audio is processed only on this device by the offline recognition model. Audio is not sent over the network and is not written to persistent storage by default. Captions are kept for display and review only while the app is running.
+          </p>
+
+          <p>The permissions requested by the app are used as follows:</p>
+
+          <ul>
+            <li><code>RECORD_AUDIO</code>: capture nearby speech for captions.</li>
+            <li><code>RECEIVE_BOOT_COMPLETED</code>: when dedicated-device mode is enabled, try to open the caption screen after boot completes.</li>
+            <li><code>SYSTEM_ALERT_WINDOW</code>: support background startup and overlay display in dedicated-device mode; the user can grant or revoke it in system settings.</li>
+          </ul>
+
+          <p>
+            TalkHelper does not declare the <code>INTERNET</code> permission, so it does not directly send audio, captions, or device identifiers over the network. Uninstalling the app removes its app data. For privacy questions, contact the maintainer through <a href={`mailto:${contactEmail}`}>email</a>.
+          </p>
+        </section>
+      </div>
+    </article>
+  </main>
+  <Footer />
+</BaseLayout>
