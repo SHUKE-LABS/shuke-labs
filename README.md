@@ -8,7 +8,7 @@ Live at [shukelabs.com](https://shukelabs.com).
 
 - My AI Team — Structured AI agent sessions in your terminal (commercial; [mat.shukelabs.com](https://mat.shukelabs.com))
 - My AI Team Cloud — Hosted My AI Team (in development)
-- Rewind — Navigate and explore your AI coding sessions (commercial; contact weizhong2004@gmail.com)
+- Rewind — Navigate and explore your AI coding sessions (commercial; contact contact@shukelabs.com)
 - [Agent Quota Gateway](https://github.com/SHUKE-LABS/agent-quota-gateway) — Auto-rotate accounts, keep shipping
 - [Credential Gateway](https://github.com/SHUKE-LABS/credential-gateway) — Credentials outside your worktree, injected at runtime
 - [HappyNotes](https://happynotes.shukebeta.com) — Fast, durable note-taking
