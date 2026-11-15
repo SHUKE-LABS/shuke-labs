@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="18 18 72 72">
+  <!-- TalkHelper launcher icon (talk-helper app/src/main/res/drawable/ic_launcher_foreground.xml) -->
+  <rect x="18" y="18" width="72" height="72" rx="16" fill="#17324D"/>
+  <path d="M53,24L56,32" fill="none" stroke="#F5B83D" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M29,50L29,42Q35,34 41,42T53,42T65,42T77,42L77,50" fill="none" stroke="#F5B83D" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+  <path fill="#FFFFFF" d="M51.2,60.48V65.92H35.68V71.76H51.2V79.96C51.2,80.64 50.92,80.84 50.04,80.84C49.16,80.88 45.96,80.88 43.4,80.72C44.36,82.32 45.52,85 45.88,86.72C49.44,86.76 52.32,86.6 54.48,85.68C56.64,84.8 57.32,83.2 57.32,80.12V71.76H72.44V65.92H57.32V63.52C61.92,60.92 66.56,57.36 69.96,54L65.52,50.56L64.2,50.88H39.64V56.6H57.68C55.68,58.08 53.36,59.48 51.2,60.48Z"/>
+</svg>
