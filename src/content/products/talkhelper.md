@@ -27,4 +27,4 @@ Audio never leaves the device and is not stored by default. See the [privacy pol
 
 ## Availability
 
-Coming soon to Google Play.
+[Get it on Google Play](https://play.google.com/store/apps/details?id=com.shukelabs.talkhelper).
